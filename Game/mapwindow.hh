@@ -12,6 +12,7 @@
 
 #include "interfaces/igameeventhandler.h"
 #include "graphics/simplegamescene.h"
+#include "startdialog.hh"
 
 namespace Ui {
 class MapWindow;
@@ -27,6 +28,8 @@ public:
                        );
     ~MapWindow();
 
+    void showStartDialog();
+
     void setGEHandler(std::shared_ptr<Course::iGameEventHandler> nHandler);
 
     void setSize(int width, int height);
@@ -39,6 +42,8 @@ public:
 
 
 private:
+    std::shared_ptr<StartDialog> dialog_ = nullptr;
+
     Ui::MapWindow* m_ui;
     std::shared_ptr<Course::iGameEventHandler> m_GEHandler = nullptr;
     std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;

@@ -4,6 +4,7 @@
 #include "graphics/simplemapitem.h"
 
 #include <math.h>
+#include <memory>
 
 MapWindow::MapWindow(QWidget *parent,
                      std::shared_ptr<Course::iGameEventHandler> handler):
@@ -14,6 +15,11 @@ MapWindow::MapWindow(QWidget *parent,
 {
     m_ui->setupUi(this);
 
+    // Startdialog
+
+    dialog_ = std::make_shared<StartDialog>(this);
+
+
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
@@ -22,6 +28,11 @@ MapWindow::MapWindow(QWidget *parent,
 MapWindow::~MapWindow()
 {
     delete m_ui;
+}
+
+void MapWindow::showStartDialog()
+{
+    dialog_->open();
 }
 
 void MapWindow::setGEHandler(
