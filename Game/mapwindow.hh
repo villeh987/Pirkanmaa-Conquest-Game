@@ -18,6 +18,8 @@
 #include "core/worldgenerator.h"
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
+#include "gamescene.hh"
+#include "graphics/simplemapitem.h"
 
 namespace Ui {
 class MapWindow;
@@ -57,7 +59,8 @@ private:
     std::shared_ptr<Game::ObjectManager> m_GManager = nullptr;
 
 
-    std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
+    //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
+    std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
 
 };
 

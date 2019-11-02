@@ -3,6 +3,7 @@
 
 
 #include "graphics/simplemapitem.h"
+#include "gamescene.hh"
 
 #include <math.h>
 #include <memory>
@@ -10,7 +11,8 @@
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
-    m_simplescene(new Course::SimpleGameScene(this))
+    //m_simplescene(new Course::SimpleGameScene(this)) //tänne
+    m_simplescene(new Game::GameScene(this))
 {
     m_ui->setupUi(this);
 
@@ -25,7 +27,8 @@ MapWindow::MapWindow(QWidget *parent):
     generateMap();
 
 
-    Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
+    //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
+    Game::GameScene* sgs_rawptr = m_simplescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 }
@@ -71,7 +74,7 @@ void MapWindow::generateMap()
     Course::WorldGenerator& worldGen = Course::WorldGenerator::getInstance();
     worldGen.addConstructor<Course::Forest>(1);
     worldGen.addConstructor<Course::Grassland>(5);
-    worldGen.generateMap(5, 5, 1, m_GManager, m_GEHandler);
+    worldGen.generateMap(15, 15, 1, m_GManager, m_GEHandler);
     drawMap();
 
 }

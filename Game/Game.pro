@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     gameeventhandler.cpp \
+    gamescene.cpp \
     main.cpp \
     mapwindow.cc \
     objectmanager.cpp \
@@ -14,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     gameeventhandler.hh \
+    gamescene.hh \
     mapwindow.hh \
     objectmanager.hh \
     startdialog.hh
