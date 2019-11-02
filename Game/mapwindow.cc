@@ -1,16 +1,15 @@
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
 
+
 #include "graphics/simplemapitem.h"
 
 #include <math.h>
 #include <memory>
 
-MapWindow::MapWindow(QWidget *parent,
-                     std::shared_ptr<Course::iGameEventHandler> handler):
+MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
-    m_GEHandler(handler),
     m_simplescene(new Course::SimpleGameScene(this))
 {
     m_ui->setupUi(this);
@@ -18,6 +17,12 @@ MapWindow::MapWindow(QWidget *parent,
     // Startdialog
 
     dialog_ = std::make_shared<StartDialog>(this);
+
+    // Manager and handler
+    m_GEHandler = std::make_shared<Game::GameEventHandler>();
+    m_GManager = std::make_shared<Game::ObjectManager>();
+
+    generateMap();
 
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -35,11 +40,11 @@ void MapWindow::showStartDialog()
     dialog_->open();
 }
 
-void MapWindow::setGEHandler(
+/*void MapWindow::setGEHandler(
         std::shared_ptr<Course::iGameEventHandler> nHandler)
 {
     m_GEHandler = nHandler;
-}
+} */
 
 void MapWindow::setSize(int width, int height)
 {
@@ -59,6 +64,23 @@ void MapWindow::resize()
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_simplescene->updateItem(obj);
+}
+
+void MapWindow::generateMap()
+{
+    Course::WorldGenerator& worldGen = Course::WorldGenerator::getInstance();
+    worldGen.addConstructor<Course::Forest>(1);
+    worldGen.addConstructor<Course::Grassland>(5);
+    worldGen.generateMap(5, 5, 1, m_GManager, m_GEHandler);
+    drawMap();
+
+}
+
+void MapWindow::drawMap()
+{
+    for (auto i : m_GManager->returnTiles()) {
+        drawItem(i);
+    }
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

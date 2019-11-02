@@ -6,12 +6,16 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    gameeventhandler.cpp \
     main.cpp \
     mapwindow.cc \
+    objectmanager.cpp \
     startdialog.cpp
 
 HEADERS += \
+    gameeventhandler.hh \
     mapwindow.hh \
+    objectmanager.hh \
     startdialog.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
