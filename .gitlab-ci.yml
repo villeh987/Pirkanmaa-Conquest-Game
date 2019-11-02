@@ -8,10 +8,41 @@
 
 image: pervasivetut/alpine_qt_5.9.6:latest
 
-
 stages:
   - build
   - test
+
+
+# Build job for Course
+build_course:
+  # The runner must be able to run and compile Qt projects
+  tags:
+    - qt
+  # Build jobs naturally go to the build stage
+  # We could also have multi-stage builds if needed
+  stage: build
+  # The command line commands we want the CI environment to execute
+  # When the script section starts, the working directory is the repository's root
+  script: 
+    # Go to the correct directory
+    - cd ../courselibrary/CourseLib
+    # Run qmake to produce the makefile
+    - qmake
+    # Compile the project using the generated Makefile
+    - make
+    # Clean up the build
+    - make clean
+  # In a distributed CI system we need a way to pass the generated binary between jobs.
+  # GitLab CI provides artifacts to achieve this.
+  artifacts:
+    # Paths to the artifacts we want to pass
+  paths:
+      - ../courselibrary/CourseLib/libCourseLib.a
+    # How long we store the artifacts in GitLab
+    expire_in: 2d
+
+
+
 
 # Build job to see that the Game project is compiled
 build_Game:
@@ -25,8 +56,11 @@ build_Game:
     - make clean
   allow_failure: true
 
+  dependencies:
+    - build_course
 
-  
+
+
 
 # Build job for Morottaja's unit test
 #Morottaja:
