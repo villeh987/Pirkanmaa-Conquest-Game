@@ -1,4 +1,4 @@
-# This GitLab CI configuration is used for the weekly exercies of
+# This GitLab CI configuration is used for course project of
 # the course Ohjelmointi 3/Programming 3
 
 # For more information refer to: https://course-gitlab.tut.fi/help/ci/yaml/README.md
@@ -13,13 +13,13 @@ stages:
   - build
   - test
 
-# Build job to see that the course project Course library is compiled.
+# Build job to see that the course is compiled.
 Course:
   stage: build
   tags:
     - qt
   script: 
-    - cd ../courselibrary/CourseLib
+    - cd Course/CourseLib
     - qmake
     - make
     - make clean
