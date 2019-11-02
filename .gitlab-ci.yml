@@ -1,4 +1,4 @@
-# This GitLab CI configuration is used for the course project on
+# This GitLab CI configuration is used for the weekly exercies of
 # the course Ohjelmointi 3/Programming 3
 
 # For more information refer to: https://course-gitlab.tut.fi/help/ci/yaml/README.md
@@ -8,140 +8,24 @@
 
 image: pervasivetut/alpine_qt_5.9.6:latest
 
+# We currently only need the build stage
 stages:
   - build
   - test
 
-
-# Build job for Course
-build_course:
-  # The runner must be able to run and compile Qt projects
+# Build job to see that the course project Course library is compiled.
+Course:
+  stage: build
   tags:
     - qt
-  # Build jobs naturally go to the build stage
-  # We could also have multi-stage builds if needed
-  stage: build
-  # The command line commands we want the CI environment to execute
-  # When the script section starts, the working directory is the repository's root
   script: 
-    # Go to the correct directory
     - cd ../courselibrary/CourseLib
-    # Run qmake to produce the makefile
-    - qmake
-    # Compile the project using the generated Makefile
-    - make
-    # Clean up the build
-    - make clean
-  # In a distributed CI system we need a way to pass the generated binary between jobs.
-  # GitLab CI provides artifacts to achieve this.
-  artifacts:
-    # Paths to the artifacts we want to pass
-  paths:
-      - ../courselibrary/CourseLib/libCourseLib.a
-    # How long we store the artifacts in GitLab
-    expire_in: 2d
-
-
-
-
-# Build job to see that the Game project is compiled
-build_Game:
-  stage: build
-  tags:
-    - qt
-  script: 
-    - cd Game
     - qmake
     - make
     - make clean
+    - cd ../../Game
+    - qmake
+    - make
+    - make clean
+
   allow_failure: true
-
-  dependencies:
-    - build_course
-
-
-
-
-# Build job for Morottaja's unit test
-#Morottaja:
-  # The runner must be able to run and compile Qt projects
-# tags:
-#    - qt
-  # Build jobs naturally go to the build stage
-  # We could also have multi-stage builds if needed
-#  stage: build
-  # The command line commands we want the CI environment to execute
-  # When the script section starts, the working directory is the repository's root
-#  script: 
-    # Go to the correct directory
-#    - cd EX3/UnitTests/Morottaja
-    # Run qmake to produce the makefile
-#    - qmake
-    # Compile the project using the generated Makefile
-#    - make
-    # Clean up the build
-#    - make clean
-  # In a distributed CI system we need a way to pass the generated binary between jobs.
-  # GitLab CI provides artifacts to achieve this.
-#  artifacts:
-    # Paths to the artifacts we want to pass
-#    paths:
-#      - EX3/UnitTests/Morottaja/morottajatest
-    # How long we store the artifacts in GitLab
-#    expire_in: 2d
-
-# Test job for Morottaja's unit test
-#MorottajaTest:
-#  tags:
-#    - qt
-#  stage: test
-#  script:
-    # Go to the correct directory
-#    - cd EX3/UnitTests/Morottaja
-    # Run the test binary
-#    - ./morottajatest
-  # On what jobs this dependes on, which artifacts we download for this job
-#  dependencies:
-#    - Morottaja
-
-# Build job for Date's unit test
-#Date:
-
-#  tags:
-#    - qt
-  # Build jobs naturally go to the build stage
-  # We could also have multi-stage builds if needed
-#  stage: build
-  # The command line commands we want the CI environment to execute
-  # When the script section starts, the working directory is the repository's root
-#  script: 
-    # Go to the correct directory
-#    - cd EX3/UnitTests/Date
-    # Run qmake to produce the makefile
-#    - qmake
-    # Compile the project using the generated Makefile
-#    - make
-    # Clean up the build
-#    - make clean
-  # In a distributed CI system we need a way to pass the generated binary between jobs.
-  # GitLab CI provides artifacts to achieve this.
-#  artifacts:
-    # Paths to the artifacts we want to pass
-#    paths:
-#      - EX3/UnitTests/Date/Date
-    # How long we store the artifacts in GitLab
-#    expire_in: 2d
-
-# Test job for Date's unit test
-#DateTest:
-#  tags:
-#    - qt
-#  stage: test
-#  script:
-    # Go to the correct directory
-#    - cd EX3/UnitTests/Date
-    # Run the test binary
-#    - ./Date
-  # On what jobs this dependes on, which artifacts we download for this job
-#  dependencies:
-#    - Date
