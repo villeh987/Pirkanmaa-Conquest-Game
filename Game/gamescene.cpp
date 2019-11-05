@@ -1,6 +1,5 @@
 #include "gamescene.hh"
 
-
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
 
@@ -10,10 +9,10 @@ namespace Game {
 
 GameScene::GameScene(QWidget* parent, int width, int height, int scale):
     QGraphicsScene(parent),
-    m_mapBoundRect(nullptr),
-    m_width(15),
-    m_height(15),
-    m_scale(75)
+    m_mapBoundRect(nullptr)
+    //m_width(15),
+    //m_height(15),
+    //m_scale(75)
 {
     setSize(width, height);
     setScale(scale);
@@ -47,12 +46,8 @@ void GameScene::resize()
         QGraphicsScene::removeItem(m_mapBoundRect);
     }
 
-    // Calculates rect with middle at (0,0). <- tähän täytyy puuttua
-    // Basically left upper corner coords and then width and height
-    //QRect rect = QRect( m_width * m_scale / - 2, m_height * m_scale / -2,
-      //                  m_width * m_scale - 1, m_height * m_scale - 1 );
-
-    QRect rect = QRect(m_width, m_height, m_width * m_scale - 1, m_height * m_scale - 1);
+    // päätetään että tiedetään mapin koko aina, eli ei lasketa sitä turhaan.
+    QRect rect = QRect(m_width-11, m_height-11, (m_width * m_scale)+2, (m_height * m_scale)+2);
 
     addRect(rect, QPen(Qt::black));
     setSceneRect(rect);

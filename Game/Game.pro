@@ -9,6 +9,7 @@ SOURCES += \
     gameeventhandler.cpp \
     gamescene.cpp \
     main.cpp \
+    mapitem.cpp \
     mapwindow.cc \
     objectmanager.cpp \
     startdialog.cpp
@@ -16,6 +17,7 @@ SOURCES += \
 HEADERS += \
     gameeventhandler.hh \
     gamescene.hh \
+    mapitem.hh \
     mapwindow.hh \
     objectmanager.hh \
     startdialog.hh

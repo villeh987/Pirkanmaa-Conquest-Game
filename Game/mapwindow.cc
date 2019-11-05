@@ -29,7 +29,7 @@ MapWindow::MapWindow(QWidget *parent):
     // Catch emitted signals from startdialog
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
-    connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
+    //connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
 
 
     //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -79,7 +79,7 @@ void MapWindow::generateMap()
     Course::WorldGenerator& worldGen = Course::WorldGenerator::getInstance();
     worldGen.addConstructor<Course::Forest>(1);
     worldGen.addConstructor<Course::Grassland>(5);
-    worldGen.generateMap(15, 15, 1, m_GManager, m_GEHandler);
+    worldGen.generateMap(10, 10, 1, m_GManager, m_GEHandler);
     drawMap();
 
 }
@@ -89,6 +89,11 @@ void MapWindow::drawMap()
     for (auto i : m_GManager->returnTiles()) {
         drawItem(i);
     }
+}
+
+void MapWindow::addFarm()
+{
+
 }
 
 void MapWindow::printData(QString data)

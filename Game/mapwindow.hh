@@ -20,6 +20,7 @@
 #include "tiles/grassland.h"
 #include "gamescene.hh"
 #include "graphics/simplemapitem.h"
+#include "mapitem.hh"
 
 namespace Ui {
 class MapWindow;
@@ -49,6 +50,7 @@ public:
 
     void drawMap();
 
+    void addFarm();
 
 private:
     StartDialog* dialog_ = nullptr;
