@@ -78,6 +78,61 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLineEdit" name="startDialogNameEntry1">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>150</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="startDialogNameEntry2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>180</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="startDialogPlayer1Label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>150</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Player 1:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="startDialogPlayer2Label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>180</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Player 2:</string>
+   </property>
+  </widget>
+  <zorder>startDialogPlayer2Label</zorder>
+  <zorder>startDialogPlayer1Label</zorder>
+  <zorder>startDialogNameEntry2</zorder>
+  <zorder>startDialogNameEntry1</zorder>
+  <zorder>startDialogWelcomeLabel</zorder>
+  <zorder>startDialogInfoLabel</zorder>
+  <zorder>startDialogNewButton</zorder>
+  <zorder>startDialogLoadButton</zorder>
+  <zorder>loadFileEntry</zorder>
  </widget>
  <resources/>
  <connections/>

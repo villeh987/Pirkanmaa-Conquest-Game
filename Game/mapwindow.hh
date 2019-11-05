@@ -51,7 +51,7 @@ public:
 
 
 private:
-    std::shared_ptr<StartDialog> dialog_ = nullptr;
+    StartDialog* dialog_ = nullptr;
 
     Ui::MapWindow* m_ui;
 
@@ -61,6 +61,11 @@ private:
 
     //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
     std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
+
+private slots:
+    void printData(QString data);
+    void printNames(QList<QString> names);
+
 
 };
 

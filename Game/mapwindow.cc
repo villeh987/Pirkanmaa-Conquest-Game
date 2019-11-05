@@ -18,13 +18,18 @@ MapWindow::MapWindow(QWidget *parent):
 
     // Startdialog
 
-    dialog_ = std::make_shared<StartDialog>(this);
+    dialog_ = new StartDialog(this);
 
     // Manager and handler
     m_GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
 
     generateMap();
+
+    // Catch emitted signals from startdialog
+    connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
+    connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
+    connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
 
 
     //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -84,6 +89,16 @@ void MapWindow::drawMap()
     for (auto i : m_GManager->returnTiles()) {
         drawItem(i);
     }
+}
+
+void MapWindow::printData(QString data)
+{
+    qDebug() << data;
+}
+
+void MapWindow::printNames(QList<QString> names)
+{
+    qDebug() << names;
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
