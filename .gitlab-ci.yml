@@ -18,12 +18,12 @@ Course:
   stage: build
   tags:
     - qt
-  before_script:
-    - git submodule update --remote
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   script: 
     - ls -l
     - pwd
-    - cd ../CourseLibrary/CourseLib
+    - cd Course/CourseLib
     - qmake
     - make
     - make clean
