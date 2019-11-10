@@ -18,10 +18,12 @@ Course:
   stage: build
   tags:
     - qt
+  before_script:
+    - git submodule update --remote
   script: 
     - ls -l
     - pwd
-    - cd Course/CourseLib
+    - cd ../CourseLibrary/CourseLib
     - qmake
     - make
     - make clean
