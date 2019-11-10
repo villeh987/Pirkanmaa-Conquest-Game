@@ -19,6 +19,8 @@ Course:
   tags:
     - qt
   script: 
+    - ls -l
+    - pwd
     - cd CourseLibrary/CourseLib
     - qmake
     - make
