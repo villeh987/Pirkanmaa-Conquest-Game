@@ -64,9 +64,20 @@ private:
     //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
     std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
 
+
+
 private slots:
     void printData(QString data);
     void printNames(QList<QString> names);
+
+    // Init brand new game
+    void initNewGame(QList<QString> names);
+
+    void changeTurn();
+
+    // Init loaded game
+    //void initLoadedGame(QString data);
+
 
 
 };

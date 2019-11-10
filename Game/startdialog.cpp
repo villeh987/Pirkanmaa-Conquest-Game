@@ -69,7 +69,7 @@ void StartDialog::startGame()
         ui->startDialogLoadButton->setGeometry(235, 230, 100, 40);
 
 
-        ui->startDialogInfoLabel->setText("Enter player names:");
+        ui->startDialogInfoLabel->setText("Enter player names (max 10 chars):");
 
         ui->startDialogNameEntry1->setVisible(true);
         ui->startDialogNameEntry2->setVisible(true);

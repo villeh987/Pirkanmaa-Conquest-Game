@@ -24,12 +24,17 @@ MapWindow::MapWindow(QWidget *parent):
     m_GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
 
+    // Generate map
     generateMap();
+
+
 
     // Catch emitted signals from startdialog
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
     //connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
+    connect(dialog_, &StartDialog::sendNames, this, &MapWindow::initNewGame);
+    connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
 
     //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -104,6 +109,21 @@ void MapWindow::printData(QString data)
 void MapWindow::printNames(QList<QString> names)
 {
     qDebug() << names;
+}
+
+void MapWindow::initNewGame(QList<QString> names)
+{
+    m_GEHandler->initNewGame(names);
+    m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
+
+}
+
+void MapWindow::changeTurn()
+{
+    m_GEHandler->changeTurn();
+    m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
+    m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
+
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

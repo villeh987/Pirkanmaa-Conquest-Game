@@ -87,6 +87,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>10</number>
+   </property>
   </widget>
   <widget class="QLineEdit" name="startDialogNameEntry2">
    <property name="geometry">
@@ -96,6 +99,9 @@
      <width>113</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>10</number>
    </property>
   </widget>
   <widget class="QLabel" name="startDialogPlayer1Label">
