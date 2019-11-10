@@ -19,7 +19,7 @@ Course:
   tags:
     - qt
   script: 
-    - cd Course/CourseLib
+    - cd CourseLibrary/CourseLib
     - qmake
     - make
     - make clean
