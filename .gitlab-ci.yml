@@ -21,7 +21,7 @@ Course:
   script: 
     - ls -l
     - pwd
-    - cd CourseLibrary/CourseLib
+    - cd Course/CourseLib
     - qmake
     - make
     - make clean
