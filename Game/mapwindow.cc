@@ -5,6 +5,7 @@
 #include "graphics/simplemapitem.h"
 #include "gamescene.hh"
 
+
 #include <math.h>
 #include <memory>
 
@@ -101,6 +102,11 @@ void MapWindow::addFarm()
 
 }
 
+void MapWindow::updateResourceLabels()
+{
+    m_ui->moneyValLabel->setText( QString::fromStdString( std::to_string( m_GEHandler->getPlayerInTurn()->getResources().at(Course::BasicResource::MONEY ) ) ));
+}
+
 void MapWindow::printData(QString data)
 {
     qDebug() << data;
@@ -114,6 +120,7 @@ void MapWindow::printNames(QList<QString> names)
 void MapWindow::initNewGame(QList<QString> names)
 {
     m_GEHandler->initNewGame(names);
+    updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 
 }

@@ -21,6 +21,7 @@
 #include "gamescene.hh"
 #include "graphics/simplemapitem.h"
 #include "mapitem.hh"
+#include "core/basicresources.h"
 
 namespace Ui {
 class MapWindow;
@@ -63,6 +64,8 @@ private:
 
     //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
     std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
+
+    void updateResourceLabels();
 
 
 

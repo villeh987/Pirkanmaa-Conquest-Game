@@ -60,7 +60,7 @@ void GameEventHandler::addPlayers(QList<QString> names)
     players_.push_back(player2);
 }
 
-std::shared_ptr<Course::PlayerBase> GameEventHandler::getPlayerInTurn()
+std::shared_ptr<Player> GameEventHandler::getPlayerInTurn()
 {
     return player_in_turn_;
 }

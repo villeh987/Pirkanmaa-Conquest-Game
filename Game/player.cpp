@@ -9,6 +9,11 @@ Player::Player(const std::string &name, const std::vector<std::shared_ptr<Course
 
 }
 
+Course::ResourceMap Player::getResources() const
+{
+    return resources_;
+}
+
 
 
 

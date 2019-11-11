@@ -53,13 +53,13 @@ public:
 
     void addPlayers(QList<QString> names);
 
-    std::shared_ptr<Course::PlayerBase> getPlayerInTurn();
+    std::shared_ptr<Game::Player> getPlayerInTurn();
     int getRounds();
 
 private:
-    std::vector<std::shared_ptr<Course::PlayerBase>> players_;
+    std::vector<std::shared_ptr<Game::Player>> players_;
 
-    std::shared_ptr<Course::PlayerBase> player_in_turn_;
+    std::shared_ptr<Game::Player> player_in_turn_;
     int rounds_ = 1;
 
 };
