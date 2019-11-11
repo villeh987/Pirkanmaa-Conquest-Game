@@ -6,7 +6,7 @@
 
 #include "interfaces/igameeventhandler.h"
 #include "core/basicresources.h"
-#include "core/playerbase.h"
+#include "player.hh"
 
 
 namespace Game {

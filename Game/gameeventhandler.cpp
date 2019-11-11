@@ -53,8 +53,8 @@ void GameEventHandler::addPlayers(QList<QString> names)
     std::string name1 = names.at(0).toStdString();
     std::string name2 = names.at(1).toStdString();
 
-    auto player1 = std::make_shared<Course::PlayerBase>(name1);
-    auto player2 = std::make_shared<Course::PlayerBase>(name2);
+    auto player1 = std::make_shared<Game::Player>(name1);
+    auto player2 = std::make_shared<Game::Player>(name2);
 
     players_.push_back(player1);
     players_.push_back(player2);

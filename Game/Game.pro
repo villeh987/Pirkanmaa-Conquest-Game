@@ -12,6 +12,7 @@ SOURCES += \
     mapitem.cpp \
     mapwindow.cc \
     objectmanager.cpp \
+    player.cpp \
     startdialog.cpp
 
 HEADERS += \
@@ -20,6 +21,7 @@ HEADERS += \
     mapitem.hh \
     mapwindow.hh \
     objectmanager.hh \
+    player.hh \
     startdialog.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
