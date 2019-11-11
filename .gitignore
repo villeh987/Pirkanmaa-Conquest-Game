@@ -36,6 +36,15 @@ Thumbs.db
 /.qmake.cache
 /.qmake.stash
 
+# Added for Otekn3 course project
+*/.qmake.stash
+*TheGame
+moc_*.h
+target_wrapper.sh
+UnitTests/interface_tests/interface_tests
+Course
+
+
 # qtcreator generated files
 *.pro.user*
 **/*.pro.user
