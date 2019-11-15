@@ -13,7 +13,9 @@ SOURCES += \
     mapwindow.cc \
     objectmanager.cpp \
     player.cpp \
-    startdialog.cpp
+    startdialog.cpp \
+    Game_tiles/supplychain.cpp \
+    Game_buildings/tunitower.cpp
 
 HEADERS += \
     gameeventhandler.hh \
@@ -22,7 +24,9 @@ HEADERS += \
     mapwindow.hh \
     objectmanager.hh \
     player.hh \
-    startdialog.hh
+    startdialog.hh \
+    Game_tiles/supplychain.hh \
+    Game_buildings/tunitower.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
