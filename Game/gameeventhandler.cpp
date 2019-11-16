@@ -65,6 +65,11 @@ std::shared_ptr<Player> GameEventHandler::getPlayerInTurn()
     return player_in_turn_;
 }
 
+std::vector<std::shared_ptr<Player> > GameEventHandler::getPlayers()
+{
+    return players_;
+}
+
 int GameEventHandler::getRounds()
 {
     return rounds_;

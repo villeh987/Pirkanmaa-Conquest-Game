@@ -4,10 +4,12 @@
 
 #include "graphics/simplemapitem.h"
 #include "gamescene.hh"
+#include "exceptions/baseexception.h"
 
 
 #include <math.h>
 #include <memory>
+#include <exception>
 
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
@@ -38,10 +40,15 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
 
+    // Connect emitted signal from gamescene
+    connect(m_simplescene.get(), &Game::GameScene::tileClicked, this, &MapWindow::updateGraphicsView);
+
+
     //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
     Game::GameScene* sgs_rawptr = m_simplescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+
 }
 
 MapWindow::~MapWindow()
@@ -123,6 +130,23 @@ void MapWindow::initNewGame(QList<QString> names)
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 
+   /* auto test_hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayers().at(0));
+    m_GManager->returnTiles().at(0)->setOwner(m_GEHandler->getPlayers().at(0));
+
+    qDebug() << "1:" << QString::fromStdString(test_hq->getOwner().get()->getName());
+    qDebug() << "2:" << QString::fromStdString(m_GManager->returnTiles().at(0)->getOwner().get()->getName());
+
+
+
+    try {
+        m_GManager->returnTiles().at(0)->addBuilding(test_hq);
+    }
+    catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    //drawItem(test_tile); */
+
 }
 
 void MapWindow::changeTurn()
@@ -130,7 +154,13 @@ void MapWindow::changeTurn()
     m_GEHandler->changeTurn();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
     m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
+    //m_ui->graphicsView->viewport()->update();
 
+}
+
+void MapWindow::updateGraphicsView()
+{
+    m_ui->graphicsView->viewport()->update();
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

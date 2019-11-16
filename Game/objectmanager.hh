@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <interfaces/iobjectmanager.h>
+#include "buildings/buildingbase.h"
 
 
 

@@ -22,6 +22,7 @@
 #include "graphics/simplemapitem.h"
 #include "mapitem.hh"
 #include "core/basicresources.h"
+#include "buildings/headquarters.h"
 
 namespace Ui {
 class MapWindow;
@@ -80,6 +81,9 @@ private slots:
 
     // Init loaded game
     //void initLoadedGame(QString data);
+
+    // Update GraphicsView
+    void updateGraphicsView();
 
 
 

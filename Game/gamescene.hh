@@ -120,11 +120,19 @@ public:
      */
     virtual bool event(QEvent* event) override;
 
+
+
 private:
     QGraphicsItem* m_mapBoundRect;
+    QGraphicsRectItem* highlight_ = nullptr;
     int m_width;
     int m_height;
     int m_scale;
+
+    QRectF previous_;
+
+signals:
+    void tileClicked();
 
 };
 }
