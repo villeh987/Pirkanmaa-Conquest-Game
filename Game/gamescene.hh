@@ -10,6 +10,7 @@
 
 #include "core/gameobject.h"
 #include "graphics/simplemapitem.h"
+#include "mapitem.hh"
 
 namespace Game {
 

@@ -130,22 +130,26 @@ void MapWindow::initNewGame(QList<QString> names)
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 
-   /* auto test_hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayers().at(0));
+    auto test_hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayers().at(0));
     m_GManager->returnTiles().at(0)->setOwner(m_GEHandler->getPlayers().at(0));
 
-    qDebug() << "1:" << QString::fromStdString(test_hq->getOwner().get()->getName());
-    qDebug() << "2:" << QString::fromStdString(m_GManager->returnTiles().at(0)->getOwner().get()->getName());
+    //qDebug() << "1:" << QString::fromStdString(test_hq->getOwner().get()->getName());
+    //qDebug() << "2:" << QString::fromStdString(m_GManager->returnTiles().at(0)->getOwner().get()->getName());
 
 
 
     try {
         m_GManager->returnTiles().at(0)->addBuilding(test_hq);
+        drawItem(test_hq);
+        m_ui->graphicsView->viewport()->update();
     }
     catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    //drawItem(test_tile); */
+   //qDebug() << qreal(m_GManager->returnTiles().at(0)->getBuildingCount());
+   //qDebug() <<  QString::fromStdString(m_GManager->returnTiles().at(0)->getBuildings().at(0)->getOwner()->getName());
+
 
 }
 

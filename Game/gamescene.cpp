@@ -68,7 +68,7 @@ std::pair<int, int> GameScene::getSize() const
 
 void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
 {
-    Course::SimpleMapItem* nItem = new Course::SimpleMapItem(obj, m_scale);
+    Game::MapItem* nItem = new Game::MapItem(obj, m_scale);
     addItem(nItem);
 }
 
@@ -79,7 +79,7 @@ void GameScene::removeItem(std::shared_ptr<Course::GameObject> obj)
         qDebug() << "Nothing to be removed at the location pointed by given obj.";
     } else {
         for ( auto item : items_list ){
-            Course::SimpleMapItem* mapitem = static_cast<Course::SimpleMapItem*>(item);
+            Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
             if ( mapitem->isSameObj(obj) ){
                 delete mapitem;
             }
@@ -95,7 +95,7 @@ void GameScene::updateItem(std::shared_ptr<Course::GameObject> obj)
         qDebug() << "Nothing to update.";
     } else {
         for ( auto item : items_list ){
-            Course::SimpleMapItem* mapItem = static_cast<Course::SimpleMapItem*>(item);
+            Game::MapItem* mapItem = static_cast<Game::MapItem*>(item);
             if (mapItem->isSameObj(obj)){
                 mapItem->updateLoc();
             }
@@ -137,13 +137,13 @@ bool GameScene::event(QEvent *event)
                 qDebug() << "Click on map area.";
 
             } else if (pressed == highlight_) {
-                qDebug() << "Klikkasit samaa!";
+                //qDebug() << "Klikkasit samaa!";
 
                 return true;
 
             } else if (highlight_ == nullptr) {
                 qDebug() << "ObjID: " <<
-                            static_cast<Course::SimpleMapItem*>(pressed)
+                            static_cast<Game::MapItem*>(pressed)
                             ->getBoundObject()->ID  << " pressed.";
 
                 //QRectF highlight = pressed->boundingRect();
@@ -153,7 +153,7 @@ bool GameScene::event(QEvent *event)
                 return true;
 
             } else {
-                qDebug() << "Ny vaihetaa paikkaa!";
+                //qDebug() << "Ny vaihetaa paikkaa!";
                 QGraphicsScene::removeItem(highlight_);
                 delete highlight_;
                 highlight_ = this->addRect(pressed->boundingRect(), QPen(Qt::red, 10));
