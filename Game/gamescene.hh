@@ -10,6 +10,7 @@
 
 #include "core/gameobject.h"
 #include "graphics/simplemapitem.h"
+#include "tiles/tilebase.h"
 #include "mapitem.hh"
 
 namespace Game {
@@ -121,11 +122,15 @@ public:
      */
     virtual bool event(QEvent* event) override;
 
+    unsigned int getActiveTile();
+
 
 
 private:
     QGraphicsItem* m_mapBoundRect;
     QGraphicsRectItem* highlight_ = nullptr;
+    unsigned int active_tile_;
+
     int m_width;
     int m_height;
     int m_scale;
@@ -134,6 +139,7 @@ private:
 
 signals:
     void tileClicked();
+
 
 };
 }

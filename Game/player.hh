@@ -6,6 +6,14 @@
 #include "core/resourcemaps.h"
 
 
+const Course::ResourceMap STARTRESOURCES = {
+    {Course::BasicResource::MONEY, 5},
+    {Course::BasicResource::FOOD, 100},
+    {Course::BasicResource::WOOD, 25},
+    {Course::BasicResource::STONE, 50},
+    {Course::BasicResource::ORE, 75}
+};
+
 namespace Game {
 
 //class TileBase;
@@ -28,17 +36,11 @@ public:
     Player(const std::string& name,
            const std::vector<std::shared_ptr<Course::GameObject> > objects ={});
 
-    Course::ResourceMap getResources() const;
+    Course::ResourceMap& getResources();
 
 private:
 
-    Course::ResourceMap resources_ = {
-        {Course::BasicResource::MONEY, 5},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 25},
-        {Course::BasicResource::STONE, 50},
-        {Course::BasicResource::ORE, 75}
-    };
+    Course::ResourceMap resources_ = {};
 };
 
 

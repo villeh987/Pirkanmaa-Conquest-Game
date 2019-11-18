@@ -149,6 +149,8 @@ bool GameScene::event(QEvent *event)
                 //QRectF highlight = pressed->boundingRect();
                 highlight_ = this->addRect(pressed->boundingRect(), QPen(Qt::red, 10));
                 emit tileClicked();
+                active_tile_ =  static_cast<Game::MapItem*>(pressed)
+                        ->getBoundObject()->ID;
                 //previous_ = current;
                 return true;
 
@@ -160,6 +162,9 @@ bool GameScene::event(QEvent *event)
                 //previous_ = current_compare;
                 emit tileClicked();
 
+                active_tile_ =  static_cast<Game::MapItem*>(pressed)
+                        ->getBoundObject()->ID;
+
                 return true;
             }
 
@@ -169,6 +174,11 @@ bool GameScene::event(QEvent *event)
     return false;
 
 
+}
+
+unsigned int GameScene::getActiveTile()
+{
+    return active_tile_;
 }
 
 

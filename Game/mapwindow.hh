@@ -53,6 +53,7 @@ public:
     void drawMap();
 
     void addFarm();
+    void addHq();
 
 private:
     StartDialog* dialog_ = nullptr;

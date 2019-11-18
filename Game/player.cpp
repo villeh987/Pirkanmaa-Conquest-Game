@@ -4,16 +4,16 @@ namespace Game {
 
 
 Player::Player(const std::string &name, const std::vector<std::shared_ptr<Course::GameObject> > objects)
-    :PlayerBase(name, objects)
+    :PlayerBase(name, objects),
+      resources_(STARTRESOURCES)
 {
 
 }
 
-Course::ResourceMap Player::getResources() const
+Course::ResourceMap &Player::getResources()
 {
     return resources_;
 }
-
 
 
 
