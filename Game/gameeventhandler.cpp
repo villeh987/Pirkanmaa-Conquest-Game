@@ -1,4 +1,5 @@
 #include "gameeventhandler.hh"
+#include "gamescene.hh"
 #include <QList>
 #include <QDebug>
 
@@ -15,12 +16,33 @@ GameEventHandler::GameEventHandler()
 
 bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player, Course::BasicResource resource, int amount)
 {
+    std::shared_ptr<Game::Player> player_to_modify = nullptr;
+
+    for (auto i : players_) {
+        if (i->getName() == player->getName()) {
+
+            for (auto& k : i->getResources()) {
+                if (k.first == resource) {
+                    k.second += amount;
+
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 
 }
 
 bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player, Course::ResourceMap resources)
 {
-
+    for (auto j : resources) {
+        if ( !modifyResource(player, j.first, j.second) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void GameEventHandler::initNewGame(QList<QString> names)
@@ -65,10 +87,16 @@ std::shared_ptr<Player> GameEventHandler::getPlayerInTurn()
     return player_in_turn_;
 }
 
+std::vector<std::shared_ptr<Player> > GameEventHandler::getPlayers()
+{
+    return players_;
+}
+
 int GameEventHandler::getRounds()
 {
     return rounds_;
 }
+
 
 
 }

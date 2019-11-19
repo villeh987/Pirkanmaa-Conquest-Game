@@ -189,7 +189,7 @@
             <height>150</height>
            </size>
           </property>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="foodLabel">
            <property name="geometry">
             <rect>
              <x>90</x>
@@ -215,7 +215,7 @@
             <string>Money</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="woodLabel">
            <property name="geometry">
             <rect>
              <x>90</x>
@@ -292,7 +292,7 @@
             <string>1000</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="stoneLabel">
            <property name="geometry">
             <rect>
              <x>90</x>
@@ -321,7 +321,7 @@
             <string>1000</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_14">
+          <widget class="QLabel" name="oireLabel">
            <property name="geometry">
             <rect>
              <x>90</x>
@@ -426,7 +426,7 @@
             <string>Build</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="buildHqButton">
            <property name="geometry">
             <rect>
              <x>10</x>

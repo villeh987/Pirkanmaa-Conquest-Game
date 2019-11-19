@@ -54,6 +54,8 @@ public:
     void addPlayers(QList<QString> names);
 
     std::shared_ptr<Game::Player> getPlayerInTurn();
+    std::vector<std::shared_ptr<Game::Player>> getPlayers();
+
     int getRounds();
 
 private:

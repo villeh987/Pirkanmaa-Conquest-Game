@@ -19,11 +19,23 @@ QRectF MapItem::boundingRect() const
 void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
-    painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
+
+    if (m_gameobject->getType() == "HeadQuarters") {
+
+        QRectF target = boundingRect();
+        QRectF source(-100, 0, 500, 500);
+        QPixmap pixmap("headquarters.png");
+        painter->drawPixmap(target, pixmap, source);
+
+    } else {
+        painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
+        painter->drawRect(boundingRect());
+    }
+
     if ( m_gameobject->getType() == "" ){
         // Draw different types in different shapes <- täytyy selvittää mitä tuo meinaa
     }
-    painter->drawRect(boundingRect());
+
 }
 
 const std::shared_ptr<Course::GameObject> &MapItem::getBoundObject()
@@ -60,6 +72,7 @@ void MapItem::setSize(int size)
 
 void MapItem::addNewColor(std::string type)
 {
+    // If not found
     if ( c_mapcolors.find(type) == c_mapcolors.end() ){
         std::size_t hash = std::hash<std::string>{}(type);
         c_mapcolors.insert({type, QColor((hash & 0xFF0000) >> 16, (hash & 0x00FF00 ) >> 8, (hash & 0x0000FF))});

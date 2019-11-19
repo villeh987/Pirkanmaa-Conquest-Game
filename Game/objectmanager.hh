@@ -5,10 +5,18 @@
 #include <vector>
 
 #include <interfaces/iobjectmanager.h>
+#include "buildings/buildingbase.h"
+#include "core/coordinate.h"
+#include "tiles/tilebase.h"
 
 
 
 namespace Game {
+
+class TileBase;
+class PlayerBase;
+class GameObject;
+class Coordinate;
 
 class ObjectManager : public Course::iObjectManager
 {

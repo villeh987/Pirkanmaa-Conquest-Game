@@ -22,6 +22,7 @@
 #include "graphics/simplemapitem.h"
 #include "mapitem.hh"
 #include "core/basicresources.h"
+#include "buildings/headquarters.h"
 
 namespace Ui {
 class MapWindow;
@@ -52,6 +53,7 @@ public:
     void drawMap();
 
     void addFarm();
+    void addHq();
 
 private:
     StartDialog* dialog_ = nullptr;
@@ -80,6 +82,9 @@ private slots:
 
     // Init loaded game
     //void initLoadedGame(QString data);
+
+    // Update GraphicsView
+    void updateGraphicsView();
 
 
 

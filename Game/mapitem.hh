@@ -4,6 +4,7 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QDebug>
 
 #include <memory>
 #include <map>
