@@ -27,6 +27,11 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         QPixmap pixmap("headquarters.png");
         painter->drawPixmap(target, pixmap, source);
 
+    }
+    else if (m_gameobject->getType() == "Water") {
+            painter->setBrush(QBrush(QColor(Qt::blue)));
+
+
     } else {
         painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
         painter->drawRect(boundingRect());

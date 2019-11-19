@@ -6,6 +6,7 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    Game_tiles/water.cpp \
     gameeventhandler.cpp \
     gamescene.cpp \
     main.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
     Game_buildings/tunitower.cpp
 
 HEADERS += \
+    Game_tiles/water.hh \
     gameeventhandler.hh \
     gamescene.hh \
     mapitem.hh \

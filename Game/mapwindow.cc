@@ -69,7 +69,7 @@ void MapWindow::showStartDialog()
 {
     m_GEHandler = nHandler;
 } */
-
+/*
 void MapWindow::setSize(int width, int height)
 {
     m_simplescene->setSize(width, height);
@@ -84,17 +84,18 @@ void MapWindow::resize()
 {
     m_simplescene->resize();
 }
-
+*/
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->updateItem(obj);
+    m_simplescene->updateMapItem(obj);
 }
 
 void MapWindow::generateMap()
 {
     Course::WorldGenerator& worldGen = Course::WorldGenerator::getInstance();
-    worldGen.addConstructor<Course::Forest>(1);
+    worldGen.addConstructor<Course::Forest>(2);
     worldGen.addConstructor<Course::Grassland>(5);
+    worldGen.addConstructor<Game::Water>(2);
     worldGen.generateMap(10, 10, 1, m_GManager, m_GEHandler);
     drawMap();
 
@@ -217,10 +218,11 @@ void MapWindow::updateGraphicsView()
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->removeItem(obj);
+    m_simplescene->removeMapItem(obj);
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->drawItem(obj);
+    m_simplescene->drawMapItem(obj);
 }
+

@@ -12,12 +12,10 @@
 #include "graphics/simplemapitem.h"
 #include "tiles/tilebase.h"
 #include "mapitem.hh"
+#include "Game_tiles/water.hh"
 
 namespace Game {
 
-const std::pair<int, int> SCENE_WIDTH_LIMITS = {1, 100};
-const std::pair<int, int> SCENE_HEIGHT_LIMITS = {1, 100};
-const std::pair<int, int> SCENE_SCALE_LIMITS = {1, 500};
 
 /**
  * @brief The GameScene class is a custom QgraphicsScene that shows
@@ -35,8 +33,6 @@ public:
      * @param height in tiles for the game map.
      * @param scale is the size in pixels of a single square tile.
      *
-     * @pre 0 < width <= 100 && 0 < height <= 100 && 0 < scale <= 500. Otherwise
-     * default values are used for the created object.
      */
 
     GameScene(QWidget* qt_parent = nullptr,
@@ -52,51 +48,12 @@ public:
     ~GameScene() = default;
 
     /**
-     * @brief Sets the map size and calls resize().
-     * @param width in tiles.
-     * @param height in tiles.
-     * @pre width and height must each be between 1 and 100.
-     * @post width and height are set to given sizes.
-     * @post Exception guarantee: No-throw
-     */
-    void setSize(int width, int height);
-
-    /**
-     * @brief set the tile size, aka scale of the map and calls resize().
-     * Function behaviour after objects has been drawn is not specified.
-     * @param scale in pixels.
-     * @pre 0 < scale <= 500
-     * @post Scene scale is set to scale.
-     * @post Exception guarantee: None
-     */
-    void setScale(int scale);
-
-    /**
-     * @brief resize recalculates the bounding rectangle
-     */
-    void resize();
-
-    /**
-     * @brief get the size of a single tile
-     * @return the size of a tile in pixels.
-     * @post Exception guarantee: No-throw
-     */
-    int getScale() const;
-
-    /**
-     * @brief get the size of the map.
-     * @return pair<width, height> in tiles.
-     * @post Exception guarantee: No-throw
-     */
-    std::pair<int,int> getSize() const;
-
-    /**
      * @brief draw a new item to the map.
      * @param obj shared ptr to the object
      * @pre obj must have a valid coordinate property.
      * @post Exception guarantee: None
      */
-    void drawItem( std::shared_ptr<Course::GameObject> obj);
+    void drawMapItem( std::shared_ptr<Course::GameObject> obj);
 
     /**
      * @brief tries to remove drawn object at the location obj points to.
@@ -105,13 +62,13 @@ public:
      * @post Exception guarantee: None
      *
      */
-    void removeItem( std::shared_ptr<Course::GameObject> obj);
+    void removeMapItem( std::shared_ptr<Course::GameObject> obj);
 
     /**
      * @brief updates the position of obj.
      * @param obj shared ptr to the obj being updated.
      */
-    void updateItem( std::shared_ptr<Course::GameObject> obj);
+    void updateMapItem( std::shared_ptr<Course::GameObject> obj);
 
     /**
      * @brief simple event handler that notifies when objects or the play
@@ -127,13 +84,13 @@ public:
 
 
 private:
-    QGraphicsItem* m_mapBoundRect;
+    QGraphicsItem* _mapBoundRect;
     QGraphicsRectItem* highlight_ = nullptr;
     unsigned int active_tile_;
 
-    int m_width;
-    int m_height;
-    int m_scale;
+    int scene_width;
+    int scene_height;
+    int scene_scale;
 
     QRectF previous_;
 
