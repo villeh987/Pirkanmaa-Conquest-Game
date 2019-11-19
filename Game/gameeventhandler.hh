@@ -8,6 +8,7 @@
 #include "interfaces/igameeventhandler.h"
 #include "core/basicresources.h"
 #include "player.hh"
+#include "Game_errors/resourceerror.hh"
 
 
 namespace Game {

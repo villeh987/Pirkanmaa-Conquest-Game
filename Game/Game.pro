@@ -24,6 +24,7 @@ HEADERS += \
     mapwindow.hh \
     objectmanager.hh \
     player.hh \
+    Game_errors/resourceerror.hh \
     startdialog.hh \
     Game_tiles/supplychain.hh \
     Game_buildings/tunitower.hh
