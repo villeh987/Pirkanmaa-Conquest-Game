@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <utility>
 
 #include "interfaces/igameeventhandler.h"
 #include "core/basicresources.h"
@@ -57,6 +58,8 @@ public:
     std::vector<std::shared_ptr<Game::Player>> getPlayers();
 
     int getRounds();
+
+    Course::ResourceMap convertToNegative(Course::ResourceMap to_convert);
 
 private:
     std::vector<std::shared_ptr<Game::Player>> players_;

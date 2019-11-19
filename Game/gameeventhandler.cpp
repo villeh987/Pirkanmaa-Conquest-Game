@@ -16,7 +16,6 @@ GameEventHandler::GameEventHandler()
 
 bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player, Course::BasicResource resource, int amount)
 {
-    std::shared_ptr<Game::Player> player_to_modify = nullptr;
 
     for (auto i : players_) {
         if (i->getName() == player->getName()) {
@@ -95,6 +94,18 @@ std::vector<std::shared_ptr<Player> > GameEventHandler::getPlayers()
 int GameEventHandler::getRounds()
 {
     return rounds_;
+}
+
+Course::ResourceMap GameEventHandler::convertToNegative(Course::ResourceMap to_convert)
+{
+    Course::ResourceMap converted = {};
+
+    for (auto i : to_convert) {
+        Course::BasicResource resource = i.first;
+        int value = i.second * -1;
+        converted.insert(std::pair<Course::BasicResource, int>(resource, value));
+    }
+    return converted;
 }
 
 

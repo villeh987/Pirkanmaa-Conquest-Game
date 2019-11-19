@@ -70,7 +70,6 @@ void MapWindow::showStartDialog()
     m_GEHandler = nHandler;
 } */
 
-/*
 void MapWindow::setSize(int width, int height)
 {
     m_simplescene->setSize(width, height);
@@ -85,10 +84,10 @@ void MapWindow::resize()
 {
     m_simplescene->resize();
 }
-*/
+
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->updateMapItem(obj);
+    m_simplescene->updateItem(obj);
 }
 
 void MapWindow::generateMap()
@@ -125,7 +124,8 @@ void MapWindow::addHq()
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    m_GEHandler->modifyResources(test_hq->getOwner(), test_hq->BUILD_COST);
+    Course::ResourceMap HQ_BUILD_COST = m_GEHandler->convertToNegative(test_hq->BUILD_COST);
+    m_GEHandler->modifyResources(test_hq->getOwner(), HQ_BUILD_COST);
     drawItem(test_hq);
     updateGraphicsView();
     updateResourceLabels();
@@ -217,10 +217,10 @@ void MapWindow::updateGraphicsView()
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->removeMapItem(obj);
+    m_simplescene->removeItem(obj);
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->drawMapItem(obj);
+    m_simplescene->drawItem(obj);
 }
