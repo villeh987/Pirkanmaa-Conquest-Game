@@ -29,10 +29,22 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     }
     else if (m_gameobject->getType() == "Water") {
-            painter->setBrush(QBrush(QColor(Qt::blue)));
+         painter->setBrush(QBrush(QColor(Qt::blue)));
+         painter->drawRect(boundingRect());
 
 
-    } else {
+    } else if (m_gameobject->getType() == "Forest") {
+        painter->setBrush(QBrush(QColor(0, 102, 0)));
+        painter->drawRect(boundingRect());
+
+
+    } else if (m_gameobject->getType() == "Grassland") {
+        painter->setBrush(QBrush(QColor(108, 255, 0)));
+        painter->drawRect(boundingRect());
+
+
+    }
+    else {
         painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
         painter->drawRect(boundingRect());
     }

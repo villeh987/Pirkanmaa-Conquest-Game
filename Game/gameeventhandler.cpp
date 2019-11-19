@@ -22,7 +22,7 @@ bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player
 
             for (auto& k : i->getResources()) {
                 if (k.first == resource) {
-                    result = k.second + amount;
+                    int result = k.second + amount;
                     if (result < 0) {
                         throw ResourceError("Not enough resources.");
                     } else {
