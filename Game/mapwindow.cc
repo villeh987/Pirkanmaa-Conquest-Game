@@ -123,10 +123,16 @@ void MapWindow::addFarm()
     }
 
     Course::ResourceMap FARM_BUILD_COST = m_GEHandler->convertToNegative(farm->BUILD_COST);
-    m_GEHandler->modifyResources(farm->getOwner(), FARM_BUILD_COST);
-    drawItem(farm);
-    updateGraphicsView();
-    updateResourceLabels();
+
+    try {
+        m_GEHandler->modifyResources(farm->getOwner(), FARM_BUILD_COST);
+        drawItem(farm);
+        updateGraphicsView();
+        updateResourceLabels();
+
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
 }
 
 void MapWindow::addHq()
@@ -137,15 +143,22 @@ void MapWindow::addHq()
 
     try {
         m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(hq);
-    } catch (Course::BaseException& e) {
+    } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
 
     Course::ResourceMap HQ_BUILD_COST = m_GEHandler->convertToNegative(hq->BUILD_COST);
-    m_GEHandler->modifyResources(hq->getOwner(), HQ_BUILD_COST);
-    drawItem(hq);
-    updateGraphicsView();
-    updateResourceLabels();
+    try {
+        m_GEHandler->modifyResources(hq->getOwner(), HQ_BUILD_COST);
+        drawItem(hq);
+        updateGraphicsView();
+        updateResourceLabels();
+
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+
 }
 
 void MapWindow::addOutpost()
@@ -156,15 +169,22 @@ void MapWindow::addOutpost()
 
     try {
         m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(outpost);
-    } catch (Course::BaseException& e) {
+    } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
 
     Course::ResourceMap OUTPOST_BUILD_COST = m_GEHandler->convertToNegative(outpost->BUILD_COST);
-    m_GEHandler->modifyResources(outpost->getOwner(), OUTPOST_BUILD_COST);
-    drawItem(outpost);
-    updateGraphicsView();
-    updateResourceLabels();
+
+    try {
+        m_GEHandler->modifyResources(outpost->getOwner(), OUTPOST_BUILD_COST);
+        drawItem(outpost);
+        updateGraphicsView();
+        updateResourceLabels();
+
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
 }
 
 void MapWindow::updateResourceLabels()
