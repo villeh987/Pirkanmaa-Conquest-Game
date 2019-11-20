@@ -475,7 +475,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>Shit</string>
+            <string>TuniTower</string>
            </property>
           </widget>
           <widget class="QPushButton" name="buildFarmButton">
@@ -501,7 +501,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>Ass</string>
+            <string>TestButton</string>
            </property>
           </widget>
          </widget>

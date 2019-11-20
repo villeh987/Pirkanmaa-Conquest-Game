@@ -55,13 +55,19 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 
     } else if (m_gameobject->getType() == "TuniTower") {
+        // korjataan piirtokoordinaatit
         painter->setBrush(QBrush(QColor(204, 102, 0)));
-        const QVector<QPointF> tuni_tower(QVector<QPointF>() << QPointF(0.3,0)
-                                          << QPointF(0.7, 0) << QPointF(0.7,0.7)
-                                          << QPointF(0.3, 0.3) << QPointF(0.3, 0));
-        const QPen tuni_pen(Qt::black, 1);
-        painter->drawPolygon(tuni_tower);
+        static const QPointF tuni_tower[5] = {QPointF (m_gameobject->getCoordinate().x() + 3, m_gameobject->getCoordinate().y() +0),
+                                                QPointF(m_gameobject->getCoordinate().x() +7,m_gameobject->getCoordinate().y()+ 0),
+                                                QPointF(m_gameobject->getCoordinate().x() + 7,m_gameobject->getCoordinate().y() +7),
+                                                QPointF(m_gameobject->getCoordinate().x() +3,m_gameobject->getCoordinate().y()+ 3),
+                                                QPointF(m_gameobject->getCoordinate().x() +3, m_gameobject->getCoordinate().y() + 0)
+                                               };
+        const QPen tuni_pen(Qt::black, 5);
+
         painter->setPen(tuni_pen);
+        painter->drawPolygon(tuni_tower, 3);
+
 
         painter->drawRect(boundingRect());
 
