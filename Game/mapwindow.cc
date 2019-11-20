@@ -31,11 +31,21 @@ MapWindow::MapWindow(QWidget *parent):
     generateMap();
 
     // Connect game buttons
-    connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::addHq);
-    connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::addFarm);
-    connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::addOutpost);
+
+    connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::prepareBuildHq);
+    connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::prepareBuildFarm);
+    connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::prepareBuildOutpost);
+    connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
+
+    connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
+
+
+
+    //connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::addHq);
+    //connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::addFarm);
+    //connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::addOutpost);
     // seuraava on testiksi t. kasuro~sedö. yhdistetään siis shit-nappi tunitowerin buildiin
-    connect(m_ui->pushButton_9, &QPushButton::clicked, this, &MapWindow::addTuniTower);
+    //connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::addTuniTower);
 
 
     // Catch emitted signals from startdialog
@@ -136,7 +146,7 @@ void MapWindow::addFarm()
     }
 }
 
-void MapWindow::addHq()
+/*void MapWindow::addHq()
 {
     auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
@@ -211,6 +221,27 @@ void MapWindow::addTuniTower()
         qDebug() << QString::fromStdString(e.msg());
     }
 
+} */
+
+void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& building)
+
+{
+    try {
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(building);
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    Course::ResourceMap BUILDING_BUILD_COST = m_GEHandler->convertToNegative(building->BUILD_COST);
+    try {
+        m_GEHandler->modifyResources(building->getOwner(), BUILDING_BUILD_COST);
+        drawItem(building);
+        updateGraphicsView();
+        updateResourceLabels();
+
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
 }
 
 void MapWindow::updateResourceLabels()
@@ -295,6 +326,34 @@ void MapWindow::changeTurn()
 void MapWindow::updateGraphicsView()
 {
     m_ui->graphicsView->viewport()->update();
+}
+
+void MapWindow::prepareBuildHq()
+{
+    auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    emit SbuildBuilding(hq);
+}
+
+void MapWindow::prepareBuildFarm()
+{
+    auto farm = std::make_shared<Course::Farm>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    emit SbuildBuilding(farm);
+}
+
+void MapWindow::prepareBuildOutpost()
+{
+    auto outpost = std::make_shared<Course::Outpost>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    emit SbuildBuilding(outpost);
+}
+
+void MapWindow::prepareBuildTuniTower()
+{
+    auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    emit SbuildBuilding(tower);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

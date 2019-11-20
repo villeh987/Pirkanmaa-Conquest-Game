@@ -60,6 +60,8 @@ public:
     void addOutpost();
     void addTuniTower();
 
+    void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
+
 private:
     StartDialog* dialog_ = nullptr;
 
@@ -91,6 +93,13 @@ private slots:
     // Update GraphicsView
     void updateGraphicsView();
 
+    void prepareBuildHq();
+    void prepareBuildFarm();
+    void prepareBuildOutpost();
+    void prepareBuildTuniTower();
+
+signals:
+    void SbuildBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
 
 };

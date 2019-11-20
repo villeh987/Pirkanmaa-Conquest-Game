@@ -9,6 +9,8 @@
 #include "core/coordinate.h"
 #include "tiles/tilebase.h"
 
+#include "buildings/farm.h"
+#include "Game_tiles/water.hh"
 
 
 namespace Game {
