@@ -23,6 +23,8 @@
 #include "mapitem.hh"
 #include "core/basicresources.h"
 #include "buildings/headquarters.h"
+#include "buildings/farm.h"
+#include "buildings/outpost.h"
 
 namespace Ui {
 class MapWindow;
@@ -54,6 +56,7 @@ public:
 
     void addFarm();
     void addHq();
+    void addOutpost();
 
 private:
     StartDialog* dialog_ = nullptr;

@@ -27,8 +27,19 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         QPixmap pixmap("headquarters.png");
         painter->drawPixmap(target, pixmap, source);
 
-    }
-    else if (m_gameobject->getType() == "Water") {
+    } else if (m_gameobject->getType() == "Farm") {
+        QRectF target = boundingRect();
+        QRectF source(-100, 0, 700, 700);
+        QPixmap pixmap("farm.png");
+        painter->drawPixmap(target, pixmap, source);
+
+    }else if (m_gameobject->getType() == "Outpost") {
+        QRectF target = boundingRect();
+        QRectF source(-100, 0, 700, 700);
+        QPixmap pixmap("outpost.png");
+        painter->drawPixmap(target, pixmap, source);
+
+    } else if (m_gameobject->getType() == "Water") {
          painter->setBrush(QBrush(QColor(Qt::blue)));
          painter->drawRect(boundingRect());
 

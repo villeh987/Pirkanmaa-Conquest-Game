@@ -32,6 +32,8 @@ MapWindow::MapWindow(QWidget *parent):
 
     // Connect game buttons
     connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::addHq);
+    connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::addFarm);
+    connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::addOutpost);
 
 
 
@@ -110,24 +112,57 @@ void MapWindow::drawMap()
 
 void MapWindow::addFarm()
 {
-
-}
-
-void MapWindow::addHq()
-{
-    auto test_hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    auto farm = std::make_shared<Course::Farm>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
 
 
     try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(test_hq);
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(farm);
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    Course::ResourceMap HQ_BUILD_COST = m_GEHandler->convertToNegative(test_hq->BUILD_COST);
-    m_GEHandler->modifyResources(test_hq->getOwner(), HQ_BUILD_COST);
-    drawItem(test_hq);
+    Course::ResourceMap FARM_BUILD_COST = m_GEHandler->convertToNegative(farm->BUILD_COST);
+    m_GEHandler->modifyResources(farm->getOwner(), FARM_BUILD_COST);
+    drawItem(farm);
+    updateGraphicsView();
+    updateResourceLabels();
+}
+
+void MapWindow::addHq()
+{
+    auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+
+
+    try {
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(hq);
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    Course::ResourceMap HQ_BUILD_COST = m_GEHandler->convertToNegative(hq->BUILD_COST);
+    m_GEHandler->modifyResources(hq->getOwner(), HQ_BUILD_COST);
+    drawItem(hq);
+    updateGraphicsView();
+    updateResourceLabels();
+}
+
+void MapWindow::addOutpost()
+{
+    auto outpost = std::make_shared<Course::Outpost>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+
+
+    try {
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(outpost);
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    Course::ResourceMap OUTPOST_BUILD_COST = m_GEHandler->convertToNegative(outpost->BUILD_COST);
+    m_GEHandler->modifyResources(outpost->getOwner(), OUTPOST_BUILD_COST);
+    drawItem(outpost);
     updateGraphicsView();
     updateResourceLabels();
 }

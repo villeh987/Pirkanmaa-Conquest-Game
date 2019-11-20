@@ -7,11 +7,11 @@
 
 
 const Course::ResourceMap STARTRESOURCES = {
-    {Course::BasicResource::MONEY, 5},
-    {Course::BasicResource::FOOD, 100},
-    {Course::BasicResource::WOOD, 25},
-    {Course::BasicResource::STONE, 50},
-    {Course::BasicResource::ORE, 75}
+    {Course::BasicResource::MONEY, 10000},
+    {Course::BasicResource::FOOD, 11000},
+    {Course::BasicResource::WOOD, 12000},
+    {Course::BasicResource::STONE, 13000},
+    {Course::BasicResource::ORE, 14000}
 };
 
 namespace Game {
