@@ -76,20 +76,10 @@ bool GameScene::event(QEvent *event)
             point.rx() = floor(point.rx());
             point.ry() = floor(point.ry());
 
+
             // Paint border rect as highlight
 
-
-
             QGraphicsItem* pressed = itemAt(point * scene_scale, QTransform());
-
-            //QRectF current = static_cast<Course::SimpleMapItem*>(pressed)
-             //       ->boundingRect();
-
-            //QRectF current_compare = QRectF(current.x()+5,  current.y()+5, current.width()-10, current.height()-10);
-
-            //qDebug() << "curr_x:" << qreal(current.x()) << "curr_y:" << qreal(current.y()) << "curr_width:" << qreal(current.width()) << "curr_height:" << qreal(current.height());
-            //qDebug() << "prev_x:" << qreal(previous_.x()) << "prev_y:" << qreal(previous_.y())<< "prev_width:" << qreal(previous_.width()) << "prev_height:" << qreal(previous_.height());
-            //qDebug() << "comp_x:" << qreal(current_compare.x()) << "comp_y:" << qreal(current_compare.y()) << "comp_width:" << qreal(current_compare.width()) << "comp_height:" << qreal(current_compare.height());
 
 
             if ( pressed == _mapBoundRect ){
@@ -97,42 +87,29 @@ bool GameScene::event(QEvent *event)
 
             } else if (pressed == highlight_) {
                 //qDebug() << "Klikkasit samaa!";
-
-                return true;
-
-            } else if (highlight_ == nullptr) {
-                qDebug() << "ObjID: " <<
-                            static_cast<Game::MapItem*>(pressed)
-                            ->getBoundObject()->ID  << " pressed.";
-
-                //QRectF highlight = pressed->boundingRect();
-                highlight_ = this->addRect(pressed->boundingRect(), QPen(Qt::red, 10));
-                emit tileClicked();
-                active_tile_ =  static_cast<Game::MapItem*>(pressed)
-                        ->getBoundObject()->ID;
-                //previous_ = current;
                 return true;
 
             } else {
-                //qDebug() << "Ny vaihetaa paikkaa!";
-                QGraphicsScene::removeItem(highlight_);
-                delete highlight_;
-                highlight_ = this->addRect(pressed->boundingRect(), QPen(Qt::red, 10));
-                //previous_ = current_compare;
-                emit tileClicked();
+                if (highlight_ != nullptr) {
+                    QGraphicsScene::removeItem(highlight_);
+                    delete highlight_;
+                }
+
+                highlight_ = this->addRect( QRectF(pressed->boundingRect().x()+2,
+                                                   pressed->boundingRect().y()+3,
+                                                   pressed->boundingRect().width()-5,
+                                                   pressed->boundingRect().height()-5),
+                                            QPen(Qt::red, 7));
+                emit tileClicked();  // Needed to update graphicsView widget
 
                 active_tile_ =  static_cast<Game::MapItem*>(pressed)
                         ->getBoundObject()->ID;
 
                 return true;
             }
-
-
         }
     }
     return false;
-
-
 }
 
 unsigned int GameScene::getActiveTile()
