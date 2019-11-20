@@ -55,11 +55,6 @@ public:
 
     void drawMap();
 
-    void addFarm();
-    void addHq();
-    void addOutpost();
-    void addTuniTower();
-
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
 private:

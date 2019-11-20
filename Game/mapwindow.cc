@@ -40,14 +40,6 @@ MapWindow::MapWindow(QWidget *parent):
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
 
-
-    //connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::addHq);
-    //connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::addFarm);
-    //connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::addOutpost);
-    // seuraava on testiksi t. kasuro~sedö. yhdistetään siis shit-nappi tunitowerin buildiin
-    //connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::addTuniTower);
-
-
     // Catch emitted signals from startdialog
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
@@ -121,108 +113,6 @@ void MapWindow::drawMap()
     }
 }
 
-void MapWindow::addFarm()
-{
-    auto farm = std::make_shared<Course::Farm>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
-
-
-    try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(farm);
-    } catch (Course::BaseException& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-    Course::ResourceMap FARM_BUILD_COST = m_GEHandler->convertToNegative(farm->BUILD_COST);
-
-    try {
-        m_GEHandler->modifyResources(farm->getOwner(), FARM_BUILD_COST);
-        drawItem(farm);
-        updateGraphicsView();
-        updateResourceLabels();
-
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-}
-
-/*void MapWindow::addHq()
-{
-    auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
-
-
-    try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(hq);
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-    Course::ResourceMap HQ_BUILD_COST = m_GEHandler->convertToNegative(hq->BUILD_COST);
-    try {
-        m_GEHandler->modifyResources(hq->getOwner(), HQ_BUILD_COST);
-        drawItem(hq);
-        updateGraphicsView();
-        updateResourceLabels();
-
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-
-}
-
-void MapWindow::addOutpost()
-{
-    auto outpost = std::make_shared<Course::Outpost>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
-
-
-    try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(outpost);
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-    Course::ResourceMap OUTPOST_BUILD_COST = m_GEHandler->convertToNegative(outpost->BUILD_COST);
-
-    try {
-        m_GEHandler->modifyResources(outpost->getOwner(), OUTPOST_BUILD_COST);
-        drawItem(outpost);
-        updateGraphicsView();
-        updateResourceLabels();
-
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-}
-
-void MapWindow::addTuniTower()
-{
-    auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
-
-
-    try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(tower);
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-    Course::ResourceMap FARM_BUILD_COST = m_GEHandler->convertToNegative(tower->BUILD_COST);
-    try {
-        m_GEHandler->modifyResources(tower->getOwner(), FARM_BUILD_COST);
-        drawItem(tower);
-        updateGraphicsView();
-        updateResourceLabels();
-
-    } catch (Game::ResourceError& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    }
-
-} */
-
 void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& building)
 
 {
@@ -283,34 +173,6 @@ void MapWindow::initNewGame(QList<QString> names)
     m_GEHandler->initNewGame(names);
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
-
-
-
-   /* auto test_hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayers().at(0));
-    m_GManager->returnTiles().at(0)->setOwner(m_GEHandler->getPlayers().at(0));
-
-
-
-    try {
-        m_GManager->returnTiles().at(0)->addBuilding(test_hq);
-
-        qDebug() << QString::fromStdString( std::to_string( m_GEHandler->getPlayerInTurn()->getResources().at(Course::BasicResource::MONEY )));
-        m_GEHandler->modifyResources(test_hq->getOwner(), test_hq->BUILD_COST);
-        qDebug() << QString::fromStdString( std::to_string( m_GEHandler->getPlayerInTurn()->getResources().at(Course::BasicResource::MONEY )));
-
-        drawItem(test_hq);
-        m_ui->graphicsView->viewport()->update();
-        updateResourceLabels();
-
-    }
-    catch (Course::BaseException& e) {
-        qDebug() << QString::fromStdString(e.msg());
-    } */
-
-   //qDebug() << qreal(m_GManager->returnTiles().at(0)->getBuildingCount());
-   //qDebug() <<  QString::fromStdString(m_GManager->returnTiles().at(0)->getBuildings().at(0)->getOwner()->getName());
-
-
 }
 
 void MapWindow::changeTurn()
