@@ -15,7 +15,7 @@ SOURCES += \
     objectmanager.cpp \
     player.cpp \
     startdialog.cpp \
-    Game_tiles/supplychain.cpp \
+    Game_buildings/supplychain.cpp \
     Game_buildings/tunitower.cpp
 
 HEADERS += \
@@ -29,7 +29,7 @@ HEADERS += \
     Game_errors/resourceerror.hh \
     Game_resourcemaps/resources.hh \
     startdialog.hh \
-    Game_tiles/supplychain.hh \
+    Game_buildings/supplychain.hh \
     Game_buildings/tunitower.hh
 
 win32:CONFIG(release, debug|release): LIBS += \

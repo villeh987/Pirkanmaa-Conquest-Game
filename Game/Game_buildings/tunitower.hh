@@ -4,8 +4,7 @@
 #include <memory>
 
 #include "buildings/buildingbase.h"
-#include "core/resourcemaps.h"
-#include "core/basicresources.h"
+#include "Game_resourcemaps/resources.hh"
 
 namespace Game {
 
@@ -19,8 +18,8 @@ public:
             const std::shared_ptr<Course::iObjectManager>& objectmanager,
             const std::shared_ptr<Course::PlayerBase>& owner,
             const int& tilespaces = 1,
-            const Course::ResourceMap& buildcost = Course::ConstResourceMaps::FARM_BUILD_COST,
-            const Course::ResourceMap& production = Course::ConstResourceMaps::FARM_PRODUCTION);
+            const Course::ResourceMap& buildcost = GameResourceMaps::TUNITOWER_BUILD_COST,
+            const Course::ResourceMap& production = GameResourceMaps::TUNITOWER_PRODUCTION);
 
     virtual std::string getType() const override;
 };

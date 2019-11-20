@@ -1,6 +1,7 @@
 #ifndef WATER_HH
 #define WATER_HH
 #include "tiles/tilebase.h"
+#include "Game_resourcemaps/resources.hh"
 
 namespace Game {
 
@@ -16,8 +17,7 @@ public:
           const std::shared_ptr<Course::iObjectManager>& objectmanager,
           const unsigned int& max_build = 0,
           const unsigned int& max_work = 0,
-          //huom, tänne tarvii tehdä muutoksia. Eli tarvitaan oma resources-luokka.
-          const Course::ResourceMap& production = Course::ConstResourceMaps::FOREST_BP
+          const Course::ResourceMap& production = GameResourceMaps::WATER_BP
           );
 
     virtual ~Water() = default;
