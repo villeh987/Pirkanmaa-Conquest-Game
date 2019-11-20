@@ -24,7 +24,10 @@ TuniTower::TuniTower(const std::shared_ptr<Course::iGameEventHandler> &eventhand
 {
 }
 
-
+std::string TuniTower::getType() const
+{
+    return "TuniTower";
+}
 
 
 } // namespace Game

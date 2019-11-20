@@ -25,6 +25,7 @@
 #include "buildings/headquarters.h"
 #include "buildings/farm.h"
 #include "buildings/outpost.h"
+#include "Game_buildings/tunitower.hh"
 
 namespace Ui {
 class MapWindow;
@@ -57,6 +58,7 @@ public:
     void addFarm();
     void addHq();
     void addOutpost();
+    void addTuniTower();
 
 private:
     StartDialog* dialog_ = nullptr;

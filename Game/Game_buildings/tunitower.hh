@@ -21,8 +21,9 @@ public:
             const int& tilespaces = 1,
             const Course::ResourceMap& buildcost = Course::ConstResourceMaps::FARM_BUILD_COST,
             const Course::ResourceMap& production = Course::ConstResourceMaps::FARM_PRODUCTION);
-};
 
+    virtual std::string getType() const override;
+};
 
 
 

@@ -34,7 +34,8 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::addHq);
     connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::addFarm);
     connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::addOutpost);
-
+    // seuraava on testiksi t. kasuro~sedö. yhdistetään siis shit-nappi tunitowerin buildiin
+    connect(m_ui->pushButton_9, &QPushButton::clicked, this, &MapWindow::addTuniTower);
 
 
     // Catch emitted signals from startdialog
@@ -178,6 +179,31 @@ void MapWindow::addOutpost()
     try {
         m_GEHandler->modifyResources(outpost->getOwner(), OUTPOST_BUILD_COST);
         drawItem(outpost);
+        updateGraphicsView();
+        updateResourceLabels();
+
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+}
+
+void MapWindow::addTuniTower()
+{
+    auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+
+
+    try {
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(tower);
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    Course::ResourceMap FARM_BUILD_COST = m_GEHandler->convertToNegative(tower->BUILD_COST);
+    try {
+        m_GEHandler->modifyResources(tower->getOwner(), FARM_BUILD_COST);
+        drawItem(tower);
         updateGraphicsView();
         updateResourceLabels();
 

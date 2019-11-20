@@ -42,7 +42,7 @@ public:
      * @exception NoSpace - If the tile doesn't have enough space for
      * the \b building.
      */
-    void addBuilding(const std::shared_ptr<Course::BuildingBase>& building) override;
+    //void addBuilding(const std::shared_ptr<Course::BuildingBase>& building) override;
 
 
 };

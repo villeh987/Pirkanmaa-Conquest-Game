@@ -54,7 +54,19 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         painter->drawRect(boundingRect());
 
 
+    } else if (m_gameobject->getType() == "TuniTower") {
+        painter->setBrush(QBrush(QColor(204, 102, 0)));
+        const QVector<QPointF> tuni_tower(QVector<QPointF>() << QPointF(0.3,0)
+                                          << QPointF(0.7, 0) << QPointF(0.7,0.7)
+                                          << QPointF(0.3, 0.3) << QPointF(0.3, 0));
+        const QPen tuni_pen(Qt::black, 1);
+        painter->drawPolygon(tuni_tower);
+        painter->setPen(tuni_pen);
+
+        painter->drawRect(boundingRect());
+
     }
+
     else {
         painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
         painter->drawRect(boundingRect());
