@@ -13,6 +13,7 @@
 #include "interfaces/igameeventhandler.h"
 #include "graphics/simplegamescene.h"
 #include "startdialog.hh"
+#include "workerdialog.hh"
 #include "gameeventhandler.hh"
 #include "objectmanager.hh"
 #include "core/worldgenerator.h"
@@ -27,6 +28,8 @@
 #include "buildings/outpost.h"
 #include "Game_buildings/tunitower.hh"
 #include "Game_buildings/mine.hh"
+#include "workers/basicworker.h"
+#include "exceptions/baseexception.h"
 
 namespace Ui {
 class MapWindow;
@@ -57,9 +60,11 @@ public:
     void drawMap();
 
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
+    void addWorker(const std::shared_ptr<Course::WorkerBase>& worker);
 
 private:
     StartDialog* dialog_ = nullptr;
+    WorkerDialog* worker_dialog_ = nullptr;
 
     Ui::MapWindow* m_ui;
 
@@ -71,6 +76,7 @@ private:
     std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
 
     void updateResourceLabels();
+    void updateWorkerCounts();
 
 
 
@@ -94,6 +100,12 @@ private slots:
     void prepareBuildOutpost();
     void prepareBuildTuniTower();
     void prepareBuildMine();
+
+    // Worker Dialog
+    void showWorkerDialog();
+    void destroyWorkerDialog();
+
+    void prepareAddBasicWorker();
 
 signals:
     void SbuildBuilding(const std::shared_ptr<Course::BuildingBase>& building);

@@ -38,16 +38,26 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
     connect(m_ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
 
+    connect(m_ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
+
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
 
     // Catch emitted signals from startdialog
+
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
     //connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
     connect(dialog_, &StartDialog::sendNames, this, &MapWindow::initNewGame);
     connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
+    // Catch emitted signals from workerDialog
+
+    worker_dialog_ = new WorkerDialog(this, "Choose worker type:");
+
+    connect(worker_dialog_, &WorkerDialog::sendBuildBasicWorker, this, &MapWindow::prepareAddBasicWorker);
+    //connect(worker_dialog_, &WorkerDialog::accepted, this, &MapWindow::destroyWorkerDialog);
+    //connect(worker_dialog_, &WorkerDialog::rejected, this, &MapWindow::destroyWorkerDialog);
 
     // Connect emitted signal from gamescene
     connect(m_simplescene.get(), &Game::GameScene::tileClicked, this, &MapWindow::updateGraphicsView);
@@ -135,6 +145,27 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
     }
 }
 
+void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
+{
+    try {
+        m_GManager->getTile( m_simplescene->getActiveTile() )->addWorker(worker);
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    Course::ResourceMap WORKER_RECRUITMENT_COST = m_GEHandler->convertToNegative(worker->RECRUITMENT_COST);
+    try {
+        m_GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
+        drawItem(worker);
+        updateGraphicsView();
+        updateResourceLabels();
+        updateWorkerCounts();
+
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+}
+
 void MapWindow::updateResourceLabels()
 {
     m_ui->moneyValLabel->setText( QString::fromStdString(
@@ -157,6 +188,24 @@ void MapWindow::updateResourceLabels()
                                   std::to_string(
                                   m_GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::ORE ))));
+}
+
+void MapWindow::updateWorkerCounts()
+{
+    std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers = m_GManager->getTile(m_simplescene->getActiveTile())->getWorkers();
+    int basic_worker_amount = 0;
+
+
+
+    for (auto& worker: tile_workers) {
+        if (worker->getType() == "BasicWorker") {
+           ++basic_worker_amount;
+        }
+    }
+
+     m_ui->workerValLabel->setText(QString::fromStdString(std::to_string(basic_worker_amount)));
+
+
 }
 
 void MapWindow::printData(QString data)
@@ -188,7 +237,9 @@ void MapWindow::changeTurn()
 
 void MapWindow::updateGraphicsView()
 {
+    //updateWorkerCounts();
     m_ui->graphicsView->viewport()->update();
+
 }
 
 void MapWindow::prepareBuildHq()
@@ -224,6 +275,25 @@ void MapWindow::prepareBuildMine()
     auto mine = std::make_shared<Game::Mine>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(mine);
+}
+
+void MapWindow::showWorkerDialog()
+{
+    //worker_dialog_ = new WorkerDialog(this, "hello");
+    worker_dialog_->open();
+}
+
+void MapWindow::destroyWorkerDialog()
+{
+    delete worker_dialog_;
+}
+
+void MapWindow::prepareAddBasicWorker()
+{
+    qDebug() << "prepare to add BasicWorker";
+    auto basic_worker = std::make_shared<Course::BasicWorker>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    addWorker(basic_worker);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

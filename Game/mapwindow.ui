@@ -373,7 +373,7 @@
             <string>Worker management</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="assignWorkerButton">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -386,7 +386,7 @@
             <string>Assign</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="freeWorkerButton">
            <property name="geometry">
             <rect>
              <x>170</x>
@@ -397,6 +397,32 @@
            </property>
            <property name="text">
             <string>Free</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="workerValLabel">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>40</y>
+             <width>21</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="workerLabel">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>40</y>
+             <width>67</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Workers</string>
            </property>
           </widget>
          </widget>

@@ -17,7 +17,8 @@ SOURCES += \
     player.cpp \
     startdialog.cpp \
     Game_buildings/supplychain.cpp \
-    Game_buildings/tunitower.cpp
+    Game_buildings/tunitower.cpp \
+    workerdialog.cpp
 
 HEADERS += \
     Game_tiles/water.hh \
@@ -32,7 +33,8 @@ HEADERS += \
     Game_resourcemaps/resources.hh \
     startdialog.hh \
     Game_buildings/supplychain.hh \
-    Game_buildings/tunitower.hh
+    Game_buildings/tunitower.hh \
+    workerdialog.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -60,4 +62,5 @@ else:unix: PRE_TARGETDEPS += \
 
 FORMS += \
     mapwindow.ui \
-    startdialog.ui
+    startdialog.ui \
+    workerdialog.ui
