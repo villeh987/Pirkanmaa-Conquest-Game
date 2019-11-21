@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     mapitem.cpp \
     mapwindow.cc \
+    Game_buildings/mine.cpp \
     objectmanager.cpp \
     player.cpp \
     startdialog.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     gamescene.hh \
     mapitem.hh \
     mapwindow.hh \
+    Game_buildings/mine.hh \
     objectmanager.hh \
     player.hh \
     Game_errors/resourceerror.hh \

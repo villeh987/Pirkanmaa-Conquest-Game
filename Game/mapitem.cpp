@@ -33,10 +33,16 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         QPixmap pixmap("farm.png");
         painter->drawPixmap(target, pixmap, source);
 
-    }else if (m_gameobject->getType() == "Outpost") {
+    } else if (m_gameobject->getType() == "Outpost") {
         QRectF target = boundingRect();
         QRectF source(-100, 0, 700, 700);
         QPixmap pixmap("outpost.png");
+        painter->drawPixmap(target, pixmap, source);
+
+    } else if (m_gameobject->getType() == "Mine") {
+        QRectF target = boundingRect();
+        QRectF source(-100, 0, 500, 500);
+        QPixmap pixmap("mine.png");
         painter->drawPixmap(target, pixmap, source);
 
     } else if (m_gameobject->getType() == "Water") {

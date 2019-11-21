@@ -36,6 +36,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::prepareBuildFarm);
     connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::prepareBuildOutpost);
     connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
+    connect(m_ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
 
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
@@ -216,6 +217,13 @@ void MapWindow::prepareBuildTuniTower()
     auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(tower);
+}
+
+void MapWindow::prepareBuildMine()
+{
+    auto mine = std::make_shared<Game::Mine>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    emit SbuildBuilding(mine);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

@@ -26,6 +26,7 @@
 #include "buildings/farm.h"
 #include "buildings/outpost.h"
 #include "Game_buildings/tunitower.hh"
+#include "Game_buildings/mine.hh"
 
 namespace Ui {
 class MapWindow;
@@ -92,6 +93,7 @@ private slots:
     void prepareBuildFarm();
     void prepareBuildOutpost();
     void prepareBuildTuniTower();
+    void prepareBuildMine();
 
 signals:
     void SbuildBuilding(const std::shared_ptr<Course::BuildingBase>& building);

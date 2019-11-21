@@ -36,6 +36,19 @@ const Course::ResourceMap SUPPLYCHAIN_PRODUCTION {
 };
 
 
+// Bulding - Mine
+const Course::ResourceMap MINE_BUILD_COST {
+    {Course::BasicResource::MONEY, 42},
+    {Course::BasicResource::FOOD, 42},
+    {Course::BasicResource::WOOD, 42}
+};
+
+const Course::ResourceMap MINE_PRODUCTION {
+    {Course::BasicResource::MONEY, 110},
+    {Course::BasicResource::ORE, 150}
+};
+
+
 // Tile - Water
 
 const Course::ResourceMap WATER_BP {
