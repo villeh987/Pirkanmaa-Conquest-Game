@@ -75,6 +75,8 @@ private:
     //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
     std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
 
+    unsigned int active_tile_;
+
     void updateResourceLabels();
     void updateWorkerCounts();
 
@@ -94,6 +96,8 @@ private slots:
 
     // Update GraphicsView
     void updateGraphicsView();
+
+    void handleTileclick(Course::Coordinate tile_coords);
 
     void prepareBuildHq();
     void prepareBuildFarm();

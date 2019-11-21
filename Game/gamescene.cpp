@@ -101,18 +101,9 @@ bool GameScene::event(QEvent *event)
                                                    pressed->boundingRect().height()-5),
                                             QPen(Qt::red, 7));
 
-                qDebug() << qreal(static_cast<Game::MapItem*>(pressed)
-                                  ->getBoundObject()->ID)
-                         << qreal(static_cast<Game::MapItem*>(pressed)
-                                  ->getBoundObject()->getCoordinate().x())
-                         << qreal(static_cast<Game::MapItem*>(pressed)
-                                  ->getBoundObject()->getCoordinate().y());
 
-                active_tile_ =  static_cast<Game::MapItem*>(pressed)
-                        ->getBoundObject()->ID;
-
-
-                emit tileClicked();  // Needed to update graphicsView widget
+                emit tileClicked(static_cast<Game::MapItem*>(pressed)
+                                 ->getBoundObject()->getCoordinate());  // Needed to update graphicsView widget
 
                 return true;
             }
@@ -120,12 +111,6 @@ bool GameScene::event(QEvent *event)
     }
     return false;
 }
-
-unsigned int GameScene::getActiveTile()
-{
-    return active_tile_;
-}
-
 
 
 

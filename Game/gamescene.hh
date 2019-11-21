@@ -79,14 +79,11 @@ public:
      */
     virtual bool event(QEvent* event) override;
 
-    unsigned int getActiveTile();
-
-
 
 private:
     QGraphicsItem* _mapBoundRect;
     QGraphicsRectItem* highlight_ = nullptr;
-    unsigned int active_tile_;
+    //unsigned int active_tile_;
 
     int scene_width;
     int scene_height;
@@ -95,7 +92,7 @@ private:
     QRectF previous_;
 
 signals:
-    void tileClicked();
+    void tileClicked(Course::Coordinate tile_coords);
 
 
 };

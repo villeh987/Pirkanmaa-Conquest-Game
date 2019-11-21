@@ -60,7 +60,7 @@ MapWindow::MapWindow(QWidget *parent):
     //connect(worker_dialog_, &WorkerDialog::rejected, this, &MapWindow::destroyWorkerDialog);
 
     // Connect emitted signal from gamescene
-    connect(m_simplescene.get(), &Game::GameScene::tileClicked, this, &MapWindow::updateGraphicsView);
+    connect(m_simplescene.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
 
 
     //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -128,7 +128,7 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
 
 {
     try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addBuilding(building);
+        m_GManager->getTile( active_tile_ )->addBuilding(building);
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
@@ -148,7 +148,7 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
 void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 {
     try {
-        m_GManager->getTile( m_simplescene->getActiveTile() )->addWorker(worker);
+        m_GManager->getTile( active_tile_ )->addWorker(worker);
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
@@ -192,7 +192,7 @@ void MapWindow::updateResourceLabels()
 
 void MapWindow::updateWorkerCounts()
 {
-    std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers = m_GManager->getTile(m_simplescene->getActiveTile())->getWorkers();
+    std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers = m_GManager->getTile(active_tile_)->getWorkers();
     int basic_worker_amount = 0;
 
 
@@ -237,43 +237,55 @@ void MapWindow::changeTurn()
 
 void MapWindow::updateGraphicsView()
 {
-    //updateWorkerCounts();
     m_ui->graphicsView->viewport()->update();
+
+}
+
+void MapWindow::handleTileclick(Course::Coordinate tile_coords)
+{
+    updateGraphicsView();
+
+    qDebug() << qreal(m_GManager->getTile(tile_coords)->ID)
+             << qreal(m_GManager->getTile(tile_coords)->getCoordinate().x())
+             << qreal(m_GManager->getTile(tile_coords)->getCoordinate().y());
+
+    active_tile_ = m_GManager->getTile(tile_coords)->ID;
+    updateWorkerCounts();
 
 }
 
 void MapWindow::prepareBuildHq()
 {
     auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(hq);
 }
 
 void MapWindow::prepareBuildFarm()
 {
     auto farm = std::make_shared<Course::Farm>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(farm);
 }
 
 void MapWindow::prepareBuildOutpost()
 {
     auto outpost = std::make_shared<Course::Outpost>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(outpost);
 }
 
 void MapWindow::prepareBuildTuniTower()
 {
     auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(tower);
 }
 
 void MapWindow::prepareBuildMine()
 {
     auto mine = std::make_shared<Game::Mine>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(mine);
 }
 
@@ -292,7 +304,7 @@ void MapWindow::prepareAddBasicWorker()
 {
     qDebug() << "prepare to add BasicWorker";
     auto basic_worker = std::make_shared<Course::BasicWorker>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( m_simplescene->getActiveTile() )->setOwner( m_GEHandler->getPlayerInTurn() );
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     addWorker(basic_worker);
 }
 
