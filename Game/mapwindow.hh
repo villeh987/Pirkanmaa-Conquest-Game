@@ -61,6 +61,7 @@ public:
 
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
     void addWorker(const std::shared_ptr<Course::WorkerBase>& worker);
+    void removeWorker(const std::shared_ptr<Course::WorkerBase>& worker);
 
 private:
     StartDialog* dialog_ = nullptr;
@@ -110,6 +111,7 @@ private slots:
     void destroyWorkerDialog();
 
     void prepareAddBasicWorker();
+    void prepareRemoveWorker(std::string worker_type);
 
 signals:
     void SbuildBuilding(const std::shared_ptr<Course::BuildingBase>& building);

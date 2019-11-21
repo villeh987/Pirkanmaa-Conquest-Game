@@ -18,11 +18,21 @@ WorkerDialog::~WorkerDialog()
     delete ui;
 }
 
+void WorkerDialog::setInfoText(QString text)
+{
+    ui->infoLabel->setText(text);
+}
+
 void WorkerDialog::getWorkerType()
 {
     if (ui->basicWorkerRadioButton->isChecked()) {
-        qDebug() << "Lähtee:";
-        emit sendBuildBasicWorker();
+        if (ui->infoLabel->text() == "Choose worker type to free:") {
+            emit sendFreeWorker("BasicWorker");
+        } else {
+            qDebug() << "Lähtee:";
+            emit sendBuildBasicWorker();
+        }
+
     }
 
 }

@@ -18,6 +18,8 @@ public:
     explicit WorkerDialog(QWidget *parent = nullptr, QString infotext = "Choose worker type:");
     ~WorkerDialog();
 
+    void setInfoText(QString text);
+
 private:
     Ui::WorkerDialog *ui;
 
@@ -27,6 +29,7 @@ private slots:
 
 signals:
     void sendBuildBasicWorker();
+    void sendFreeWorker(std::string worker_type);
 };
 
 #endif // WORKERDIALOG_HH

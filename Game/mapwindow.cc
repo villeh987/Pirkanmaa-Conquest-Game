@@ -39,6 +39,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
 
     connect(m_ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
+    connect(m_ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
 
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
@@ -56,6 +57,7 @@ MapWindow::MapWindow(QWidget *parent):
     worker_dialog_ = new WorkerDialog(this, "Choose worker type:");
 
     connect(worker_dialog_, &WorkerDialog::sendBuildBasicWorker, this, &MapWindow::prepareAddBasicWorker);
+    connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
     //connect(worker_dialog_, &WorkerDialog::accepted, this, &MapWindow::destroyWorkerDialog);
     //connect(worker_dialog_, &WorkerDialog::rejected, this, &MapWindow::destroyWorkerDialog);
 
@@ -157,6 +159,27 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     try {
         m_GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
         drawItem(worker);
+        updateGraphicsView();
+        updateResourceLabels();
+        updateWorkerCounts();
+
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+}
+
+void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
+{
+    try {
+        m_simplescene->removeMapItem(worker);
+
+    } catch (Course::BaseException& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
+    try {
+        qDebug() << "removing:";
+        m_GManager->getTile( active_tile_ )->removeWorker(worker);
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
@@ -292,6 +315,11 @@ void MapWindow::prepareBuildMine()
 void MapWindow::showWorkerDialog()
 {
     //worker_dialog_ = new WorkerDialog(this, "hello");
+    if (sender() == m_ui->assignWorkerButton) {
+        worker_dialog_->setInfoText("Choose worker type:");
+    } else {
+        worker_dialog_->setInfoText("Choose worker type to free:");
+    }
     worker_dialog_->open();
 }
 
@@ -306,6 +334,18 @@ void MapWindow::prepareAddBasicWorker()
     auto basic_worker = std::make_shared<Course::BasicWorker>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     addWorker(basic_worker);
+}
+
+void MapWindow::prepareRemoveWorker(std::string worker_type)
+{
+    qDebug() << "prepare to remove BasicWorker";
+    for (auto& worker : m_GManager->getTile( active_tile_ )->getWorkers()) {
+        if (worker->getType() == worker_type) {
+            removeWorker(worker);
+            break;
+        }
+    }
+
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
