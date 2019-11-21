@@ -61,21 +61,84 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 
     } else if (m_gameobject->getType() == "TuniTower") {
-        // korjataan piirtokoordinaatit
+
+
+        int tile_x = (m_scenelocation * m_size).x();
+        int tile_y = (m_scenelocation * m_size + QPoint(m_size, m_size)).y();
+
         painter->setBrush(QBrush(QColor(204, 102, 0)));
-        static const QPointF tuni_tower[5] = {QPointF (m_gameobject->getCoordinate().x() + 3, m_gameobject->getCoordinate().y() +0),
-                                                QPointF(m_gameobject->getCoordinate().x() +7,m_gameobject->getCoordinate().y()+ 0),
-                                                QPointF(m_gameobject->getCoordinate().x() + 7,m_gameobject->getCoordinate().y() +7),
-                                                QPointF(m_gameobject->getCoordinate().x() +3,m_gameobject->getCoordinate().y()+ 3),
-                                                QPointF(m_gameobject->getCoordinate().x() +3, m_gameobject->getCoordinate().y() + 0)
-                                               };
-        const QPen tuni_pen(Qt::black, 5);
+        QPointF tuni_tower[4] = {
+            QPointF(tile_x + 12, tile_y - 40),
+            QPointF(tile_x + 12, tile_y),
+            QPointF(tile_x + 38, tile_y),
+            QPointF(tile_x + 38, tile_y - 40)
+        };
+
+        QPointF tuni_forehead[9] = {
+            QPointF(tile_x+17, tile_y-25),
+            QPointF(tile_x+17, tile_y-30),
+            QPointF(tile_x+20, tile_y-35),
+            QPointF(tile_x+25, tile_y-37),
+            QPointF(tile_x+25, tile_y-35),
+            QPointF(tile_x+20, tile_y-32),
+            QPointF(tile_x+19, tile_y-30),
+            QPointF(tile_x+19, tile_y-25),
+            QPointF(tile_x+17, tile_y-25)
+        };
+
+        QPointF tuni_right_eye[5] = {
+            QPointF(tile_x+20.5, tile_y-25),
+            QPointF(tile_x+20.5, tile_y-27),
+            QPointF(tile_x+24, tile_y-27),
+            QPointF(tile_x+24, tile_y-25),
+            QPointF(tile_x+20.5, tile_y-25)
+        };
+
+        QPointF tuni_left_eye[7] = {
+            QPointF(tile_x+25, tile_y-20),
+            QPointF(tile_x+25, tile_y-27),
+            QPointF(tile_x+32, tile_y-27),
+            QPointF(tile_x+32, tile_y-25),
+            QPointF(tile_x+27, tile_y-25),
+            QPointF(tile_x+27, tile_y-20),
+            QPointF(tile_x+25, tile_y-20)
+        };
+
+        QPointF tuni_cheeck[12] = {
+            QPointF(tile_x+25, tile_y-15),
+            QPointF(tile_x+30, tile_y-16),
+            QPointF(tile_x+33, tile_y-20),
+            QPointF(tile_x+33, tile_y-25),
+            QPointF(tile_x+35, tile_y-25),
+            QPointF(tile_x+35, tile_y-19),
+            QPointF(tile_x+35, tile_y-19),
+            QPointF(tile_x+32, tile_y-17),
+            QPointF(tile_x+32, tile_y-15),
+            QPointF(tile_x+29, tile_y-14),
+            QPointF(tile_x+25, tile_y-14),
+            QPointF(tile_x+25, tile_y-15)
+
+
+        };
+
+        QBrush tuni_face_brush;
+        tuni_face_brush.setColor(QColor(Qt::white));
+        tuni_face_brush.setStyle(Qt::SolidPattern);
+
+
+        const QPen tuni_pen(Qt::black, 1, Qt::SolidLine);
 
         painter->setPen(tuni_pen);
-        painter->drawPolygon(tuni_tower, 3);
+        painter->drawPolygon(tuni_tower, 4);
+
+        painter->setBrush(tuni_face_brush);
+
+        painter->drawPolygon(tuni_forehead, 9);
+        painter->drawPolygon(tuni_right_eye, 5);
+        painter->drawPolygon(tuni_left_eye, 7);
+        painter->drawPolygon(tuni_cheeck, 12);
 
 
-        painter->drawRect(boundingRect());
 
     }
 
