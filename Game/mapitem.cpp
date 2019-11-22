@@ -54,6 +54,68 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         painter->setBrush(QBrush(QColor(0, 102, 0)));
         painter->drawRect(boundingRect());
 
+        int tile_x = (m_scenelocation * m_size).x();
+        int tile_y = (m_scenelocation * m_size + QPoint(m_size, m_size)).y();
+
+
+        QPointF tree_trunk[5] = {
+            QPointF(tile_x+4.2,tile_y-37),
+            QPointF(tile_x+4.2,tile_y-40),
+            QPointF(tile_x+5.8,tile_y-40),
+            QPointF(tile_x+5.8,tile_y-37),
+            QPointF(tile_x+4.2,tile_y-37)
+
+        };
+
+        QBrush tree_trunk_brush = QColor(102, 50, 0);
+        QPen tree_trunk_pen = QPen(QColor(102, 50, 0));
+
+        QPointF tree_leaves_left[8] = {
+            QPointF(tile_x+5, tile_y-41),
+            QPointF(tile_x+1, tile_y-40),
+            QPointF(tile_x+5, tile_y-44),
+            QPointF(tile_x+1.5, tile_y-43), // tää kans
+            QPointF(tile_x+5, tile_y-47),
+            QPointF(tile_x+3, tile_y-47),
+            QPointF(tile_x+5, tile_y-49),
+            QPointF(tile_x+5, tile_y-41)
+
+        };
+
+        QPointF tree_leaves_right[8] = {
+            QPointF(tile_x+5, tile_y-41),
+            QPointF(tile_x+9, tile_y-40),
+            QPointF(tile_x+5, tile_y-44),
+            QPointF(tile_x+8.5, tile_y-43),//tää
+            QPointF(tile_x+5, tile_y-47),
+            QPointF(tile_x+7, tile_y-47),
+            QPointF(tile_x+5, tile_y-49),
+            QPointF(tile_x+5, tile_y-41)
+
+        };
+
+
+
+        QPen tree_leaves_pen = QPen(QColor(128, 255, 0));
+        QBrush tree_leaves_brush = QColor(128, 255, 0);
+
+        painter->setBrush(tree_leaves_brush);
+        painter->setPen(tree_leaves_pen);
+        //int horizontal_count = 0;
+        //while (horizontal_count <= 5){
+            // tähän tulee looppi joka piirtää ruudun täyteen puita
+        //}
+
+        painter->drawPolygon(tree_leaves_left, 8);
+        painter->drawPolygon(tree_leaves_right, 8);
+
+        painter->setBrush(tree_trunk_brush);
+        painter->setPen(tree_trunk_pen);
+
+
+        painter->drawPolygon(tree_trunk, 5);
+
+
 
     } else if (m_gameobject->getType() == "Grassland") {
         painter->setBrush(QBrush(QColor(108, 255, 0)));
@@ -140,6 +202,86 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 
 
+    }
+
+    else if (m_gameobject->getType() == "BasicWorker") {
+
+        int tile_x = (m_scenelocation * m_size).x();
+        int tile_y = (m_scenelocation * m_size + QPoint(m_size, m_size)).y();
+
+
+        QPointF tuni_forehead[9] = {
+            QPointF(tile_x+17, tile_y-25),
+            QPointF(tile_x+17, tile_y-30),
+            QPointF(tile_x+20, tile_y-35),
+            QPointF(tile_x+25, tile_y-37),
+            QPointF(tile_x+25, tile_y-35),
+            QPointF(tile_x+20, tile_y-32),
+            QPointF(tile_x+19, tile_y-30),
+            QPointF(tile_x+19, tile_y-25),
+            QPointF(tile_x+17, tile_y-25)
+        };
+
+        QPointF tuni_right_eye[5] = {
+            QPointF(tile_x+20.5, tile_y-25),
+            QPointF(tile_x+20.5, tile_y-27),
+            QPointF(tile_x+24, tile_y-27),
+            QPointF(tile_x+24, tile_y-25),
+            QPointF(tile_x+20.5, tile_y-25)
+        };
+
+        QPointF tuni_left_eye[7] = {
+            QPointF(tile_x+25, tile_y-20),
+            QPointF(tile_x+25, tile_y-27),
+            QPointF(tile_x+32, tile_y-27),
+            QPointF(tile_x+32, tile_y-25),
+            QPointF(tile_x+27, tile_y-25),
+            QPointF(tile_x+27, tile_y-20),
+            QPointF(tile_x+25, tile_y-20)
+        };
+
+        QPointF tuni_cheeck[12] = {
+            QPointF(tile_x+25, tile_y-15),
+            QPointF(tile_x+30, tile_y-16),
+            QPointF(tile_x+33, tile_y-20),
+            QPointF(tile_x+33, tile_y-25),
+            QPointF(tile_x+35, tile_y-25),
+            QPointF(tile_x+35, tile_y-19),
+            QPointF(tile_x+35, tile_y-19),
+            QPointF(tile_x+32, tile_y-17),
+            QPointF(tile_x+32, tile_y-15),
+            QPointF(tile_x+29, tile_y-14),
+            QPointF(tile_x+25, tile_y-14),
+            QPointF(tile_x+25, tile_y-15)
+
+
+        };
+
+        QBrush tuni_face_brush;
+        tuni_face_brush.setColor(QColor(Qt::blue));
+        tuni_face_brush.setStyle(Qt::SolidPattern);
+
+
+        const QPen tuni_pen(Qt::white, 0.7, Qt::SolidLine);
+
+        painter->setPen(tuni_pen);
+
+        painter->setBrush(tuni_face_brush);
+
+        painter->drawPolygon(tuni_forehead, 9);
+        painter->drawPolygon(tuni_right_eye, 5);
+        painter->drawPolygon(tuni_left_eye, 7);
+        painter->drawPolygon(tuni_cheeck, 12);
+
+        QRectF target = boundingRect();
+        QRectF source(-300, 10, 1100, 1100);
+        QPixmap pixmap("workerhelmet.png");
+        painter->drawPixmap(target, pixmap, source);
+
+        QRectF target2 = boundingRect();
+        QRectF source2(-200, -400, 800, 800);
+        QPixmap pixmap2("cigarette.png");
+        painter->drawPixmap(target2, pixmap2, source2);
     }
 
     else {
