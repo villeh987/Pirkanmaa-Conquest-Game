@@ -27,6 +27,11 @@ MapWindow::MapWindow(QWidget *parent):
     m_GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
 
+    // Random seed
+    srand (std::time(NULL));
+    rnd_seed_ = rand() % 10000 + 1;
+    qDebug() << "Seed:" << qreal(rnd_seed_);
+
     // Generate map
     generateMap();
 
@@ -69,6 +74,7 @@ MapWindow::MapWindow(QWidget *parent):
     Game::GameScene* sgs_rawptr = m_simplescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+
 
 }
 
@@ -114,7 +120,7 @@ void MapWindow::generateMap()
     worldGen.addConstructor<Course::Forest>(2);
     worldGen.addConstructor<Course::Grassland>(5);
     worldGen.addConstructor<Game::Water>(2);
-    worldGen.generateMap(10, 10, 1, m_GManager, m_GEHandler);
+    worldGen.generateMap(10, 10, rnd_seed_, m_GManager, m_GEHandler);
     drawMap();
 
 }

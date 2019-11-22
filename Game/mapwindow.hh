@@ -81,6 +81,8 @@ private:
     void updateResourceLabels();
     void updateWorkerCounts();
 
+    unsigned int rnd_seed_ = 0;
+
 
 
 private slots:
