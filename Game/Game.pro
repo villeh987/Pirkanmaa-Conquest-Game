@@ -20,6 +20,7 @@ SOURCES += \
     Game_buildings/supplychain.cpp \
     Game_buildings/tunitower.cpp \
     Game_workers/teekkari.cpp \
+    styles.cpp \
     workerdialog.cpp
 
 HEADERS += \
@@ -39,6 +40,7 @@ HEADERS += \
     Game_buildings/supplychain.hh \
     Game_buildings/tunitower.hh \
     Game_workers/teekkari.hh \
+    styles.hh \
     workerdialog.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
