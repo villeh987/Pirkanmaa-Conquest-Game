@@ -62,6 +62,7 @@ public:
     int getRounds();
 
     Course::ResourceMap convertToNegative(Course::ResourceMap to_convert);
+    bool isOwnedByOtherPlayer(std::shared_ptr<Course::TileBase> tile);
 
 private:
     std::vector<std::shared_ptr<Game::Player>> players_;

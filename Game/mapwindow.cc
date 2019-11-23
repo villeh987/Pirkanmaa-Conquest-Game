@@ -298,8 +298,15 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
              << qreal(m_GManager->getTile(tile_coords)->getCoordinate().y()); */
 
     active_tile_ = m_GManager->getTile(tile_coords)->ID;
-    // If current tile is dull, disable game actions.
-    disableGamePanel( m_GManager->isDullTile(m_GManager->getTile(active_tile_)->getType()) );
+
+    // If current tile is dull or owned by other player, disable game actions.
+    if (m_GManager->isDullTile(m_GManager->getTile(active_tile_)->getType()) ) {
+        disableGamePanel(true);
+    } else if (!(m_GEHandler->isOwnedByOtherPlayer(m_GManager->getTile(active_tile_)))) {
+        disableGamePanel(true);
+    } else {
+        disableGamePanel(false);
+    }
     updateWorkerCounts();
 
 }

@@ -123,6 +123,19 @@ Course::ResourceMap GameEventHandler::convertToNegative(Course::ResourceMap to_c
     return converted;
 }
 
+bool GameEventHandler::isOwnedByOtherPlayer(std::shared_ptr<Course::TileBase> tile)
+{
+
+    for (auto i : players_) {
+        if (i == tile->getOwner()) {
+            if (player_in_turn_ != i) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 
 
 }
