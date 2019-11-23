@@ -61,6 +61,38 @@ const Course::ResourceMap WATER_BP {
 
 
 
+// Worker - Teekkari
+
+const Course::ResourceMapDouble TEEKKARI_EFFICIENCY {
+    {Course::BasicResource::MONEY, 2},
+    {Course::BasicResource::FOOD, 1},
+    {Course::BasicResource::WOOD, 1},
+    {Course::BasicResource::STONE, 1},
+    {Course::BasicResource::ORE, 1}
+};
+
+const Course::ResourceMap TEEKKARI_RECRUITMENT_COST = {
+    {Course::BasicResource::MONEY, 500},
+    {Course::BasicResource::FOOD, 500}
+};
+
+
+// Worker - Miner
+
+const Course::ResourceMapDouble MINER_EFFICIENCY {
+    {Course::BasicResource::MONEY, 0.5},
+    {Course::BasicResource::FOOD, 0.5},
+    {Course::BasicResource::WOOD, 0.5},
+    {Course::BasicResource::STONE, 0.5},
+    {Course::BasicResource::ORE, 0.5}
+};
+
+const Course::ResourceMap MINER_RECRUITMENT_COST = {
+    {Course::BasicResource::MONEY, 50},
+    {Course::BasicResource::FOOD, 50}
+};
+
+
 }
 }
 

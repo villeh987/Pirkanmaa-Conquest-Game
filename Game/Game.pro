@@ -13,11 +13,13 @@ SOURCES += \
     mapitem.cpp \
     mapwindow.cc \
     Game_buildings/mine.cpp \
+    Game_workers/miner.cpp \
     objectmanager.cpp \
     player.cpp \
     startdialog.cpp \
     Game_buildings/supplychain.cpp \
     Game_buildings/tunitower.cpp \
+    Game_workers/teekkari.cpp \
     workerdialog.cpp
 
 HEADERS += \
@@ -28,6 +30,7 @@ HEADERS += \
     mapitem.hh \
     mapwindow.hh \
     Game_buildings/mine.hh \
+    Game_workers/miner.hh \
     objectmanager.hh \
     player.hh \
     Game_errors/resourceerror.hh \
@@ -35,6 +38,7 @@ HEADERS += \
     startdialog.hh \
     Game_buildings/supplychain.hh \
     Game_buildings/tunitower.hh \
+    Game_workers/teekkari.hh \
     workerdialog.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
