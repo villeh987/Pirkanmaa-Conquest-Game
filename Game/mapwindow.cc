@@ -178,6 +178,7 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 {
     try {
         m_simplescene->removeMapItem(worker);
+        updateGraphicsView();
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -274,9 +275,9 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 {
     updateGraphicsView();
 
-    qDebug() << qreal(m_GManager->getTile(tile_coords)->ID)
+    /*qDebug() << qreal(m_GManager->getTile(tile_coords)->ID)
              << qreal(m_GManager->getTile(tile_coords)->getCoordinate().x())
-             << qreal(m_GManager->getTile(tile_coords)->getCoordinate().y());
+             << qreal(m_GManager->getTile(tile_coords)->getCoordinate().y()); */
 
     active_tile_ = m_GManager->getTile(tile_coords)->ID;
     updateWorkerCounts();

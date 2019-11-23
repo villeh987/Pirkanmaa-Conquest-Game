@@ -33,13 +33,19 @@ void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> obj)
 
 void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> obj)
 {
-    QList<QGraphicsItem*> items_list = items(obj->getCoordinate().asQpoint());
+
+    QList<QGraphicsItem*> items_list = items();
+
     if ( items_list.size() == 1 ){
         qDebug() << "Nothing to be removed at the location pointed by given obj.";
     } else {
         for ( auto item : items_list ){
+
             Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
+            //qDebug() << "Mapitem on:" << (mapitem->getBoundObject()->getCoordinate().asQpoint());
+
             if ( mapitem->isSameObj(obj) ){
+                //qDebug() << "poistetaan mapitem:";
                 delete mapitem;
             }
         }
@@ -101,7 +107,7 @@ bool GameScene::event(QEvent *event)
                                                    pressed->boundingRect().height()-5),
                                             QPen(Qt::red, 7));
 
-
+                //qDebug() << QString::fromStdString(static_cast<Game::MapItem*>(pressed)->getBoundObject()->getType());
                 emit tileClicked(static_cast<Game::MapItem*>(pressed)
                                  ->getBoundObject()->getCoordinate());  // Needed to update graphicsView widget
 
