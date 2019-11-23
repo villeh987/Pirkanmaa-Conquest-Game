@@ -74,6 +74,15 @@ void GameEventHandler::changeTurn()
 
 }
 
+void GameEventHandler::handleGenerateResources(std::vector<std::shared_ptr<Course::TileBase>> tiles)
+{
+    for (auto i : tiles) {
+        if (i->getOwner() == player_in_turn_) {
+            i->generateResources();
+        }
+    }
+}
+
 void GameEventHandler::addPlayers(QList<QString> names)
 
 {

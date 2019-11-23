@@ -257,6 +257,7 @@ void MapWindow::initNewGame(QList<QString> names)
 
 void MapWindow::changeTurn()
 {
+    m_GEHandler->handleGenerateResources(m_GManager->returnTiles());
     m_GEHandler->changeTurn();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
     m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));

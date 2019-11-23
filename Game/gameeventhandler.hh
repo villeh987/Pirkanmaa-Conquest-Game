@@ -52,6 +52,7 @@ public:
     void initNewGame(QList<QString> names);
     void startGame();
     void changeTurn();
+    void handleGenerateResources(std::vector<std::shared_ptr<Course::TileBase> > tiles);
 
     void addPlayers(QList<QString> names);
 
