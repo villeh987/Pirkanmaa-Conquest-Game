@@ -121,9 +121,12 @@ bool GameScene::event(QEvent *event)
 
 void GameScene::removeHighlight()
 {
-    QGraphicsScene::removeItem(highlight_);
-    delete highlight_;
-    highlight_ = nullptr;
+    if (highlight_ != nullptr) {
+        QGraphicsScene::removeItem(highlight_);
+        delete highlight_;
+        highlight_ = nullptr;
+    }
+
 }
 
 
