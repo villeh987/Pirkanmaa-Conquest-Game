@@ -93,6 +93,7 @@ private slots:
     void initNewGame(QList<QString> names);
 
     void changeTurn();
+    void disableGamePanel(bool disable = true);
 
     // Init loaded game
     //void initLoadedGame(QString data);

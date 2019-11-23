@@ -257,13 +257,29 @@ void MapWindow::initNewGame(QList<QString> names)
 
 void MapWindow::changeTurn()
 {
-    m_GEHandler->handleGenerateResources(m_GManager->returnTiles());
+    try {
+        m_GEHandler->handleGenerateResources(m_GManager->returnTiles());
+
+      // If this error is thrown, it means that player doesn't have enough resources to proceed the game
+    } catch (Game::ResourceError& e) {
+        qDebug() << QString::fromStdString(e.msg());
+    }
+
     m_GEHandler->changeTurn();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
     m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
     updateResourceLabels();
+    disableGamePanel();
     m_simplescene->removeHighlight();
     updateGraphicsView();
+
+}
+
+void MapWindow::disableGamePanel(bool disable)
+{
+    m_ui->resourceWidget->setDisabled(disable);
+    m_ui->workerWidget->setDisabled(disable);
+    m_ui->buildWidget->setDisabled(disable);
 
 }
 
@@ -282,6 +298,8 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
              << qreal(m_GManager->getTile(tile_coords)->getCoordinate().y()); */
 
     active_tile_ = m_GManager->getTile(tile_coords)->ID;
+    // If current tile is dull, disable game actions.
+    disableGamePanel( m_GManager->isDullTile(m_GManager->getTile(active_tile_)->getType()) );
     updateWorkerCounts();
 
 }
@@ -354,7 +372,6 @@ void MapWindow::prepareRemoveWorker(std::string worker_type)
             break;
         }
     }
-
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

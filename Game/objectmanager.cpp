@@ -51,6 +51,16 @@ std::vector<std::shared_ptr<Course::TileBase> > ObjectManager::returnTiles()
     return tiles_;
 }
 
+bool ObjectManager::isDullTile(std::string tile_type)
+{
+    for (auto dull : DULL_TILES) {
+        if (tile_type == dull) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 

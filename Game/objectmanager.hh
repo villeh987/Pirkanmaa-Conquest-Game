@@ -11,6 +11,7 @@
 
 #include "buildings/farm.h"
 #include "Game_tiles/water.hh"
+#include "constants.hh"
 
 
 namespace Game {
@@ -65,6 +66,8 @@ public:
             const std::vector<Course::Coordinate>& coordinates);
 
     std::vector<std::shared_ptr<Course::TileBase>> returnTiles();
+
+    bool isDullTile(std::string tile_type);
 
 private:
     std::vector<std::shared_ptr<Course::TileBase>> tiles_;

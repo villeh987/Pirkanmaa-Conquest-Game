@@ -22,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     Game_tiles/water.hh \
+    constants.hh \
     gameeventhandler.hh \
     gamescene.hh \
     mapitem.hh \
