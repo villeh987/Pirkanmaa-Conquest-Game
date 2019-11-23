@@ -8,11 +8,15 @@ StartDialog::StartDialog(QWidget *parent) :
     ui(new Ui::StartDialog)
 {
     ui->setupUi(this);
+    color_dialog_ = new QColorDialog(Qt::white, this);
+    color_dialog_->setOption(QColorDialog::DontUseNativeDialog, true);
 
     connect(ui->startDialogNewButton, &QPushButton::clicked, this, &StartDialog::startGame);
     connect(ui->startDialogLoadButton, &QPushButton::clicked, this, &StartDialog::loadGame);
 
     connect(ui->loadFileEntry, &QLineEdit::editingFinished, this, &StartDialog::getFileName);
+    connect(ui->player1ColorButton, &QPushButton::clicked, this, &StartDialog::getPlayerColor);
+    connect(ui->player2ColorButton, &QPushButton::clicked, this, &StartDialog::getPlayerColor);
 
     // Hide
     ui->loadFileEntry->setVisible(false);
@@ -20,6 +24,8 @@ StartDialog::StartDialog(QWidget *parent) :
     ui->startDialogNameEntry2->setVisible(false);
     ui->startDialogPlayer1Label->setVisible(false);
     ui->startDialogPlayer2Label->setVisible(false);
+    ui->player1ColorButton->setVisible(false);
+    ui->player2ColorButton->setVisible(false);
 }
 
 StartDialog::~StartDialog()
@@ -52,7 +58,8 @@ void StartDialog::startGame()
         } else {
 
             QList<QString> player_names = {player1, player2};
-            emit sendNames(player_names);
+            QList<QColor> colors = {player1_color_, player2_color_};
+            emit sendNamesAndColors(player_names, colors);
             acceptDialog();
         }
 
@@ -75,6 +82,12 @@ void StartDialog::startGame()
         ui->startDialogNameEntry2->setVisible(true);
         ui->startDialogPlayer1Label->setVisible(true);
         ui->startDialogPlayer2Label->setVisible(true);
+        ui->player1ColorButton->setVisible(true);
+        ui->player2ColorButton->setVisible(true);
+        ui->player1ColorDisplay->setVisible(true);
+        ui->player2ColorDisplay->setVisible(true);
+        displaySelectedColor(ui->player1ColorDisplay, player1_color_);
+        displaySelectedColor(ui->player2ColorDisplay, player2_color_);
 
 
 
@@ -109,6 +122,11 @@ void StartDialog::loadGame()
         ui->startDialogNameEntry2->setVisible(false);
         ui->startDialogPlayer1Label->setVisible(false);
         ui->startDialogPlayer2Label->setVisible(false);
+        ui->player1ColorButton->setVisible(false);
+        ui->player2ColorButton->setVisible(false);
+        ui->player1ColorDisplay->setVisible(false);
+        ui->player2ColorDisplay->setVisible(false);
+
     }
 
 
@@ -152,5 +170,27 @@ void StartDialog::acceptDialog()
     if (ui->startDialogNewButton->text() != "Cancel") {
         StartDialog::accept();
     }
+}
+
+void StartDialog::getPlayerColor()
+{
+    QColor color = color_dialog_->getColor("Choose player color");
+
+    if (sender() == ui->player1ColorButton) {
+        player1_color_ = color;
+        displaySelectedColor(ui->player1ColorDisplay, color);
+    } else {
+        player2_color_ = color;
+        displaySelectedColor(ui->player2ColorDisplay, color);
+    }
+}
+
+void StartDialog::displaySelectedColor(QPushButton* button, QColor color)
+{
+    QPalette pal = button->palette();
+    pal.setColor(QPalette::Button, color);
+    button->setAutoFillBackground(true);
+    button->setPalette(pal);
+    button->update();
 }
 

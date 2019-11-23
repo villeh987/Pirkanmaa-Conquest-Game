@@ -52,9 +52,9 @@ MapWindow::MapWindow(QWidget *parent):
     // Catch emitted signals from startdialog
 
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
-    connect(dialog_, &StartDialog::sendNames, this, &MapWindow::printNames);
+    connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::printNames);
     //connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
-    connect(dialog_, &StartDialog::sendNames, this, &MapWindow::initNewGame);
+    connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::initNewGame);
     connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
     // Catch emitted signals from workerDialog
@@ -243,14 +243,16 @@ void MapWindow::printData(QString data)
     qDebug() << data;
 }
 
-void MapWindow::printNames(QList<QString> names)
+void MapWindow::printNames(QList<QString> names, QList<QColor> colors)
 {
     qDebug() << names;
+    qDebug() << "Player1 color:" << colors.at(0);
+    qDebug() << "Player1 color:" << colors.at(1);
 }
 
-void MapWindow::initNewGame(QList<QString> names)
+void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
 {
-    m_GEHandler->initNewGame(names);
+    m_GEHandler->initNewGame(names, colors);
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 }

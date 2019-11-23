@@ -1,9 +1,12 @@
 #ifndef PLAYER_HH
 #define PLAYER_HH
 
+#include <QColor>
+
 #include "core/playerbase.h"
 #include "core/gameobject.h"
 #include "core/resourcemaps.h"
+
 
 
 const Course::ResourceMap STARTRESOURCES = {
@@ -38,9 +41,12 @@ public:
 
     Course::ResourceMap& getResources();
 
+    void setColor(QColor color);
+
 private:
 
     Course::ResourceMap resources_ = {};
+    QColor player_color_;
 };
 
 

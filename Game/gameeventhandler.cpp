@@ -50,9 +50,10 @@ bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> playe
     return true;
 }
 
-void GameEventHandler::initNewGame(QList<QString> names)
+void GameEventHandler::initNewGame(QList<QString> names, QList<QColor> colors)
 {
     addPlayers(names);
+    addColors(colors);
     startGame();
 
     qDebug() << "Players added:" << QString::fromStdString(players_.at(0)->getName()) << QString::fromStdString(players_.at(1)->getName());
@@ -94,6 +95,15 @@ void GameEventHandler::addPlayers(QList<QString> names)
 
     players_.push_back(player1);
     players_.push_back(player2);
+}
+
+void GameEventHandler::addColors(QList<QColor> colors)
+{
+    if (!colors.empty()) {
+        players_.at(0)->setColor(colors.at(0));
+        players_.at(1)->setColor(colors.at(1));
+    }
+
 }
 
 std::shared_ptr<Player> GameEventHandler::getPlayerInTurn()

@@ -15,6 +15,11 @@ Course::ResourceMap &Player::getResources()
     return resources_;
 }
 
+void Player::setColor(QColor color)
+{
+    player_color_ = color;
+}
+
 
 
 

@@ -87,10 +87,10 @@ private:
 
 private slots:
     void printData(QString data);
-    void printNames(QList<QString> names);
+    void printNames(QList<QString> names, QList<QColor> colors);
 
     // Init brand new game
-    void initNewGame(QList<QString> names);
+    void initNewGame(QList<QString> names, QList<QColor> colors);
 
     void changeTurn();
     void disableGamePanel(bool disable = true);

@@ -9,6 +9,7 @@
 #include "core/basicresources.h"
 #include "player.hh"
 #include "Game_errors/resourceerror.hh"
+#include "QColor"
 
 
 namespace Game {
@@ -49,12 +50,13 @@ public:
     bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                      Course::ResourceMap resources);
 
-    void initNewGame(QList<QString> names);
+    void initNewGame(QList<QString> names, QList<QColor> colors);
     void startGame();
     void changeTurn();
     void handleGenerateResources(std::vector<std::shared_ptr<Course::TileBase> > tiles);
 
     void addPlayers(QList<QString> names);
+    void addColors(QList<QColor> colors);
 
     std::shared_ptr<Game::Player> getPlayerInTurn();
     std::vector<std::shared_ptr<Game::Player>> getPlayers();
