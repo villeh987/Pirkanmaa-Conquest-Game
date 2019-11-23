@@ -99,6 +99,7 @@ bool GameScene::event(QEvent *event)
                 if (highlight_ != nullptr) {
                     QGraphicsScene::removeItem(highlight_);
                     delete highlight_;
+                    highlight_ = nullptr;
                 }
 
                 highlight_ = this->addRect( QRectF(pressed->boundingRect().x()+2,
@@ -116,6 +117,13 @@ bool GameScene::event(QEvent *event)
         }
     }
     return false;
+}
+
+void GameScene::removeHighlight()
+{
+    QGraphicsScene::removeItem(highlight_);
+    delete highlight_;
+    highlight_ = nullptr;
 }
 
 

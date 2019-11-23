@@ -261,7 +261,8 @@ void MapWindow::changeTurn()
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
     m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
     updateResourceLabels();
-    //m_ui->graphicsView->viewport()->update();
+    m_simplescene->removeHighlight();
+    updateGraphicsView();
 
 }
 

@@ -79,6 +79,8 @@ public:
      */
     virtual bool event(QEvent* event) override;
 
+    void removeHighlight();
+
 
 private:
     QGraphicsItem* _mapBoundRect;
