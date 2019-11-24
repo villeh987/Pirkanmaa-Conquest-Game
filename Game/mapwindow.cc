@@ -317,13 +317,41 @@ void MapWindow::disableBuildIndividual()
 
     for (auto& i : m_GManager->getTile(active_tile_)->getBuildings()) {
         std::string type = i->getType();
+        if (type == "HeadQuarters") {
+            m_ui->buildHqButton->setDisabled(true);
+        }
+        if (type == "Outpost") {
+            m_ui->buildOutpostButton->setDisabled(true);
+        }
+
+        if (type == "TuniTower") {
+            m_ui->buildTuniTowerButton->setDisabled(true);
+        }
+
+        if (type == "Mine") {
+            m_ui->buildMineButton->setDisabled(true);
+        }
+
+        if (type == "Farm") {
+            m_ui->buildFarmButton->setDisabled(true);
+        }
+
+        if (type == "SupplyChain") {
+            m_ui->buildSupplyChainButton->setDisabled(true);
+        }
+
+
+
+
+
+        /*
         m_ui->buildHqButton->setDisabled(type == "HeadQuarters");
         m_ui->buildTuniTowerButton->setDisabled(type == "TuniTower");
         m_ui->buildMineButton->setDisabled(type == "Mine");
         m_ui->buildFarmButton->setDisabled(type == "Farm");
         m_ui->buildOutpostButton->setDisabled(type == "Outpost");
-        m_ui->buildSupplyChainButton->setDisabled(type == "SupplyChain");
-        }
+        m_ui->buildSupplyChainButton->setDisabled(type == "SupplyChain"); */
+     }
 }
 
 void MapWindow::updateGraphicsView()
