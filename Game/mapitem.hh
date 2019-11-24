@@ -27,7 +27,7 @@ public:
      * @param size of the created item in pixels.
      * @pre obj must have a valid Coordinate.
      */
-    MapItem(const std::shared_ptr<Course::GameObject> &obj, int size);
+    MapItem(const std::shared_ptr<Course::GameObject> &obj, int size, QColor player_color);
 
     /**
      * @brief boundingRect
@@ -85,6 +85,7 @@ private:
     const std::shared_ptr<Course::GameObject> m_gameobject;
     QPoint m_scenelocation;
     int m_size;
+    QColor m_player_color;
 
     static std::map<std::string, QColor> c_mapcolors;
     static std::vector<std::pair<std::string, QColor>> g_vectorcolors;

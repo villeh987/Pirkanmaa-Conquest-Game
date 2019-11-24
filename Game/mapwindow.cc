@@ -144,7 +144,7 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
     Course::ResourceMap BUILDING_BUILD_COST = m_GEHandler->convertToNegative(building->BUILD_COST);
     try {
         m_GEHandler->modifyResources(building->getOwner(), BUILDING_BUILD_COST);
-        drawItem(building);
+        drawItem(building, m_GEHandler->getPlayerInTurn()->player_color_);
         updateGraphicsView();
         updateResourceLabels();
         disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
@@ -165,7 +165,7 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     Course::ResourceMap WORKER_RECRUITMENT_COST = m_GEHandler->convertToNegative(worker->RECRUITMENT_COST);
     try {
         m_GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
-        drawItem(worker);
+        drawItem(worker, m_GEHandler->getPlayerInTurn()->player_color_);
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
@@ -298,6 +298,32 @@ void MapWindow::disableBuild(bool disable)
     m_ui->buildWidget->setDisabled(disable);
 }
 
+void MapWindow::disableBuildIndividual(bool disable)
+{
+
+    for (auto i : m_GManager->getTile(active_tile_)->getBuildings()) {
+        std::string type = i->getType();
+
+        if (type == "Headquarters") {
+            m_ui->buildHqButton->setDisabled(disable);
+        } else if (type == "TuniTower") {
+            m_ui->buildTuniTowerButton->setDisabled(disable);
+        } else if (type == "Mine") {
+            m_ui->buildMineButton->setDisabled(disable);
+        } else if (type == "Farm" ) {
+            m_ui->buildFarmButton->setDisabled(disable);
+        } else if (type == "Outpost") {
+            m_ui->buildOutpostButton->setDisabled(disable);
+        } else if (type == "SupplyChain") {
+            m_ui->buildSupplyChainButton->setDisabled(disable);
+        }
+
+    }
+
+
+
+}
+
 void MapWindow::updateGraphicsView()
 {
     m_ui->graphicsView->viewport()->update();
@@ -323,6 +349,7 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
         disableGamePanel(false);
         disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
         disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
+        disableBuildIndividual(true);
 
     }
     updateWorkerCounts();
@@ -404,8 +431,8 @@ void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
     m_simplescene->removeMapItem(obj);
 }
 
-void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
+void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj, QColor player_color)
 {
-    m_simplescene->drawMapItem(obj);
+    m_simplescene->drawMapItem(obj, player_color);
 }
 

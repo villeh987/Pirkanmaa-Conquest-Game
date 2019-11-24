@@ -53,7 +53,7 @@ public:
      * @pre obj must have a valid coordinate property.
      * @post Exception guarantee: None
      */
-    void drawMapItem( std::shared_ptr<Course::GameObject> obj);
+    void drawMapItem( std::shared_ptr<Course::GameObject> obj, QColor player_color);
 
     /**
      * @brief tries to remove drawn object at the location obj points to.

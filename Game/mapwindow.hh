@@ -51,7 +51,7 @@ public:
     void setScale(int scale);
     void resize();
 
-    void drawItem( std::shared_ptr<Course::GameObject> obj);
+    void drawItem( std::shared_ptr<Course::GameObject> obj, QColor player_color = QColor(Qt::black));
     void removeItem( std::shared_ptr<Course::GameObject> obj);
     void updateItem( std::shared_ptr<Course::GameObject> obj);
 
@@ -96,6 +96,7 @@ private slots:
     void disableGamePanel(bool disable = true);
     void disableAssingWorker(bool disable = true);
     void disableBuild(bool disable = true);
+    void disableBuildIndividual(bool disable= true);
 
     // Init loaded game
     //void initLoadedGame(QString data);

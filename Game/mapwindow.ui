@@ -569,17 +569,17 @@
             <string>Farm</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton_11">
+          <widget class="QPushButton" name="buildSupplyChainButton">
            <property name="geometry">
             <rect>
              <x>210</x>
              <y>90</y>
-             <width>81</width>
+             <width>91</width>
              <height>41</height>
             </rect>
            </property>
            <property name="text">
-            <string>TestButton</string>
+            <string>SupplyChain</string>
            </property>
           </widget>
          </widget>

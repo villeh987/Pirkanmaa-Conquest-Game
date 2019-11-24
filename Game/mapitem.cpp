@@ -6,8 +6,8 @@ namespace Game {
 std::map<std::string, QColor> MapItem::c_mapcolors = {};
 //std::vector<std::pair<std::string, QColor>> g_vectorcolors = [];
 
-MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
-    m_gameobject(obj), m_scenelocation(m_gameobject->getCoordinatePtr()->asQpoint()), m_size(size)
+MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj, int size , QColor player_color):
+    m_gameobject(obj), m_scenelocation(m_gameobject->getCoordinatePtr()->asQpoint()), m_size(size), m_player_color(player_color)
 {
     addNewColor(m_gameobject->getType());
 }

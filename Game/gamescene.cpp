@@ -25,9 +25,9 @@ GameScene::GameScene(QWidget* parent, int width, int height, int scale):
 }
 
 
-void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> obj)
+void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> obj, QColor player_color)
 {
-    Game::MapItem* nItem = new Game::MapItem(obj, scene_scale);
+    Game::MapItem* nItem = new Game::MapItem(obj, scene_scale, player_color);
     addItem(nItem);
 }
 

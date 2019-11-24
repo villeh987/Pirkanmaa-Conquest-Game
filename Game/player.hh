@@ -42,11 +42,11 @@ public:
     Course::ResourceMap& getResources();
 
     void setColor(QColor color);
+    QColor player_color_;
 
 private:
 
     Course::ResourceMap resources_ = {};
-    QColor player_color_;
 };
 
 
