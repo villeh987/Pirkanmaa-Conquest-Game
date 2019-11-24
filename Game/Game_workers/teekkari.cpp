@@ -18,11 +18,15 @@ Teekkari::Teekkari(const std::shared_ptr<Course::iGameEventHandler>& eventhandle
         efficiency)
 
 {
-}
-
 
 
 
 } // Namespace Game
 
 
+std::string Teekkari::getType() const
+    {
+        return "Teekkari";
+    }
+
+}

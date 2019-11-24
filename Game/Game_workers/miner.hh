@@ -15,11 +15,14 @@ public:
           const int &tilespaces = 1,
           const Course::ResourceMap &cost = GameResourceMaps::MINER_RECRUITMENT_COST,
           const Course::ResourceMapDouble &efficiency = GameResourceMaps::MINER_EFFICIENCY);
+
+    virtual std::string getType() const;
 };
 
 
 
 } // Namespace Game
+
 
 
 

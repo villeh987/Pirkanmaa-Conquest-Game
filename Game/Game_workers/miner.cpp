@@ -20,7 +20,10 @@ Miner::Miner(const std::shared_ptr<Course::iGameEventHandler>& eventhandler,
         efficiency)
 {
 }
-
+std::string Miner::getType() const
+    {
+        return "Miner";
+    }
 
 
 }

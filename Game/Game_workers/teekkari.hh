@@ -16,10 +16,14 @@ public:
              const int &tilespaces = 1,
              const Course::ResourceMap &cost = GameResourceMaps::TEEKKARI_RECRUITMENT_COST,
              const Course::ResourceMapDouble &efficiency = GameResourceMaps::TEEKKARI_EFFICIENCY);
+
+    virtual std::string getType() const;
+
 };
 
-
 }
+
+
 
 
 #endif // TEEKKARI_HH
