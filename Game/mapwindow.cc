@@ -149,6 +149,7 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
         updateGraphicsView();
         updateResourceLabels();
         disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
+        disableBuildIndividual();
 
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -297,33 +298,32 @@ void MapWindow::disableAssingWorker(bool disable)
 
 void MapWindow::disableBuild(bool disable)
 {
-    m_ui->buildWidget->setDisabled(disable);
+    m_ui->buildHqButton->setDisabled(disable);
+    m_ui->buildTuniTowerButton->setDisabled(disable);
+    m_ui->buildMineButton->setDisabled(disable);
+    m_ui->buildFarmButton->setDisabled(disable);
+    m_ui->buildOutpostButton->setDisabled(disable);
+    m_ui->buildSupplyChainButton->setDisabled(disable);
+
+    //m_ui->buildWidget->setDisabled(disable);
 }
 
-void MapWindow::disableBuildIndividual(bool disable)
+void MapWindow::disableBuildIndividual()
 {
 
-    for (auto i : m_GManager->getTile(active_tile_)->getBuildings()) {
-        std::string type = i->getType();
-
-        if (type == "Headquarters") {
-            m_ui->buildHqButton->setDisabled(disable);
-        } else if (type == "TuniTower") {
-            m_ui->buildTuniTowerButton->setDisabled(disable);
-        } else if (type == "Mine") {
-            m_ui->buildMineButton->setDisabled(disable);
-        } else if (type == "Farm" ) {
-            m_ui->buildFarmButton->setDisabled(disable);
-        } else if (type == "Outpost") {
-            m_ui->buildOutpostButton->setDisabled(disable);
-        } else if (type == "SupplyChain") {
-            m_ui->buildSupplyChainButton->setDisabled(disable);
-        }
-
+    if (m_GManager->getTile(active_tile_)->getBuildings().empty()) {
+        disableBuild(false);
     }
 
-
-
+    for (auto& i : m_GManager->getTile(active_tile_)->getBuildings()) {
+        std::string type = i->getType();
+        m_ui->buildHqButton->setDisabled(type == "HeadQuarters");
+        m_ui->buildTuniTowerButton->setDisabled(type == "TuniTower");
+        m_ui->buildMineButton->setDisabled(type == "Mine");
+        m_ui->buildFarmButton->setDisabled(type == "Farm");
+        m_ui->buildOutpostButton->setDisabled(type == "Outpost");
+        m_ui->buildSupplyChainButton->setDisabled(type == "SupplyChain");
+        }
 }
 
 void MapWindow::updateGraphicsView()
@@ -351,7 +351,7 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
         disableGamePanel(false);
         disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
         disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
-        disableBuildIndividual(true);
+        disableBuildIndividual();
 
     }
     updateWorkerCounts();
