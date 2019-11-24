@@ -146,6 +146,22 @@ bool GameEventHandler::isOwnedByOtherPlayer(std::shared_ptr<Course::TileBase> ti
     return true;
 }
 
+bool GameEventHandler::hasMaxWorkers(std::shared_ptr<Course::TileBase> tile)
+{
+    if (tile->getWorkerCount() == tile->MAX_WORKERS) {
+        return true;
+    }
+    return false;
+}
+
+bool GameEventHandler::hasMaxBuildings(std::shared_ptr<Course::TileBase> tile)
+{
+    if (tile->getBuildingCount() == tile->MAX_BUILDINGS) {
+        return true;
+    }
+    return false;
+}
+
 
 
 }

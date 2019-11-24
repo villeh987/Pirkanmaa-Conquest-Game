@@ -147,6 +147,7 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
         drawItem(building);
         updateGraphicsView();
         updateResourceLabels();
+        disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
 
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -168,6 +169,7 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
+        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -190,6 +192,7 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
+        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -285,6 +288,16 @@ void MapWindow::disableGamePanel(bool disable)
 
 }
 
+void MapWindow::disableAssingWorker(bool disable)
+{
+    m_ui->assignWorkerButton->setDisabled(disable);
+}
+
+void MapWindow::disableBuild(bool disable)
+{
+    m_ui->buildWidget->setDisabled(disable);
+}
+
 void MapWindow::updateGraphicsView()
 {
     m_ui->graphicsView->viewport()->update();
@@ -308,6 +321,9 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
         disableGamePanel(true);
     } else {
         disableGamePanel(false);
+        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
+        disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
+
     }
     updateWorkerCounts();
 

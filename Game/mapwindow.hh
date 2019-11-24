@@ -94,6 +94,8 @@ private slots:
 
     void changeTurn();
     void disableGamePanel(bool disable = true);
+    void disableAssingWorker(bool disable = true);
+    void disableBuild(bool disable = true);
 
     // Init loaded game
     //void initLoadedGame(QString data);

@@ -65,6 +65,8 @@ public:
 
     Course::ResourceMap convertToNegative(Course::ResourceMap to_convert);
     bool isOwnedByOtherPlayer(std::shared_ptr<Course::TileBase> tile);
+    bool hasMaxWorkers(std::shared_ptr<Course::TileBase> tile);
+    bool hasMaxBuildings(std::shared_ptr<Course::TileBase> tile);
 
 private:
     std::vector<std::shared_ptr<Game::Player>> players_;
