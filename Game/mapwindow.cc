@@ -13,9 +13,9 @@
 
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
-    m_ui(new Ui::MapWindow),
+    m_ui(new Ui::MapWindow)
     //m_simplescene(new Course::SimpleGameScene(this)) //tänne
-    m_simplescene(new Game::GameScene(this))
+
 {
     m_ui->setupUi(this);
 
@@ -26,6 +26,7 @@ MapWindow::MapWindow(QWidget *parent):
     // Manager and handler
     m_GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
+    m_simplescene = std::make_shared<Game::GameScene>(this, 10, 10, 50, m_GEHandler);
 
     // Random seed
     srand (std::time(NULL));
@@ -258,6 +259,7 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
     m_GEHandler->initNewGame(names, colors);
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
+    m_simplescene->setPlayerColor(colors.at(0), colors.at(1));
 }
 
 void MapWindow::changeTurn()

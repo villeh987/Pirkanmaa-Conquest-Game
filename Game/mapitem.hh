@@ -81,6 +81,8 @@ public:
      */
     void setSize(int size);
 
+
+
 private:
     const std::shared_ptr<Course::GameObject> m_gameobject;
     QPoint m_scenelocation;

@@ -3,13 +3,20 @@
 namespace Game {
 
 
-void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect)
+void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color)
 {
+
+
+    if (type == "Water") {
+
+        painter.setPen(QPen(Qt::black));
+        painter.setBrush(QBrush(QColor(Qt::blue)));
+        painter.drawRect(boundingRect);
+    }
 
     if (type == "Forest") {
 
-
-
+        painter.setPen(QPen(Qt::black));
         QPointF tree_trunk[5] = {
             QPointF(tile_x+4.2,tile_y-37),
             QPointF(tile_x+4.2,tile_y-40),
@@ -18,7 +25,6 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
             QPointF(tile_x+4.2,tile_y-37)
 
         };
-
 
         QPointF tree_leaves_left[8] = {
             QPointF(tile_x+5, tile_y-41),
@@ -69,6 +75,9 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
     }
 
     if (type == "TuniTower") {
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QPointF tuni_tower[4] = {
             QPointF(tile_x + 12, tile_y - 40),
             QPointF(tile_x + 12, tile_y),
@@ -144,6 +153,9 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
     }
 
     if (type == "BasicWorker") {
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QPointF tuni_forehead[9] = {
             QPointF(tile_x+17, tile_y-25),
             QPointF(tile_x+17, tile_y-30),
@@ -212,7 +224,6 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
         QPixmap pixmap("workerhelmet.png");
         painter.drawPixmap(boundingRect, pixmap, source);
 
-        //QRectF target2 = boundingRect();
         QRectF source2(-200, -400, 800, 800);
         QPixmap pixmap2("cigarette.png");
         painter.drawPixmap(boundingRect, pixmap2, source2);
@@ -220,18 +231,29 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
     if (type == "HeadQuarters") {
 
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QRectF source(-100, 0, 500, 500);
         QPixmap pixmap("headquarters.png");
         painter.drawPixmap(boundingRect, pixmap, source);
     }
     if (type == "Farm") {
+
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QRectF source(-100, 0, 700, 700);
         QPixmap pixmap("farm.png");
         painter.drawPixmap(boundingRect, pixmap, source);
 
     }
 
+
+
     if (type == "Outpost") {
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QRectF source(-100, 0, 700, 700);
         QPixmap pixmap("outpost.png");
         painter.drawPixmap(boundingRect, pixmap, source);
@@ -239,23 +261,38 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
     }
 
     if (type == "Mine") {
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
         QRectF source(-100, 0, 500, 500);
         QPixmap pixmap("mine.png");
         painter.drawPixmap(boundingRect, pixmap, source);
     }
 
-    if (type == "Water") {
-        painter.setBrush(QBrush(QColor(Qt::blue)));
-        painter.drawRect(boundingRect);
-    }
+
 
     if (type == "Grassland") {
+
+        painter.setPen(QPen(Qt::black));
         painter.setBrush(QBrush(QColor(108, 255, 0)));
         painter.drawRect(boundingRect);
     }
 
-}
 
 
 
 }
+
+void setBoundingRectColor(int tile_x, int tile_y, QColor player_color, QPainter& painter, QRectF boundingRect)
+{
+    QPen color_bound(player_color, 2);
+
+    painter.setPen(color_bound);
+
+    QRectF color_bound_rect(tile_x, tile_y-50, boundingRect.width(), boundingRect.height());
+
+    painter.drawRect(color_bound_rect);
+}
+
+}
+

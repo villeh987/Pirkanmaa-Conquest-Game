@@ -41,8 +41,8 @@ private:
 
     QString file_to_load_ = "";
     QString file_data_ = "";
-    QColor player1_color_ = QColor(Qt::black);
-    QColor player2_color_ = QColor(Qt::black);
+    QColor player1_color_ = QColor(255, 255, 51);
+    QColor player2_color_ = QColor(255, 51, 255);
 
     bool game_loaded_ = false;
 

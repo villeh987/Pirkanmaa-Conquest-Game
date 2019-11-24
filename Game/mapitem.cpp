@@ -23,7 +23,7 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     int tile_x = (m_scenelocation * m_size).x();
     int tile_y = (m_scenelocation * m_size + QPoint(m_size, m_size)).y();
-    getStyle(tile_x, tile_y, m_gameobject->getType(), *painter, boundingRect());
+    getStyle(tile_x, tile_y, m_gameobject->getType(), *painter, boundingRect(), m_player_color);
 
 
 }
@@ -71,5 +71,5 @@ void MapItem::addNewColor(std::string type)
 
 
 }
-
 }
+

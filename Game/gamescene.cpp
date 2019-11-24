@@ -7,9 +7,10 @@
 
 namespace Game {
 
-GameScene::GameScene(QWidget* parent, int width, int height, int scale):
+GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::shared_ptr<GameEventHandler> m_GEHandler):
     QGraphicsScene(parent),
-    _mapBoundRect(nullptr)
+    _mapBoundRect(nullptr),
+    m_GEHandler(m_GEHandler)
 
 {
     scene_width = width;
@@ -106,7 +107,7 @@ bool GameScene::event(QEvent *event)
                                                    pressed->boundingRect().y()+3,
                                                    pressed->boundingRect().width()-5,
                                                    pressed->boundingRect().height()-5),
-                                            QPen(Qt::red, 7));
+                                            QPen(m_GEHandler->getPlayerInTurn()->player_color_, 7));
 
                 //qDebug() << QString::fromStdString(static_cast<Game::MapItem*>(pressed)->getBoundObject()->getType());
                 emit tileClicked(static_cast<Game::MapItem*>(pressed)
@@ -126,6 +127,13 @@ void GameScene::removeHighlight()
         delete highlight_;
         highlight_ = nullptr;
     }
+
+}
+
+void GameScene::setPlayerColor(QColor player_1_color, QColor player_2_color)
+{
+    player_1_color = _player_1_color;
+    player_2_color = _player_2_color;
 
 }
 
