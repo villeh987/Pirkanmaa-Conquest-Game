@@ -29,10 +29,21 @@ void WorkerDialog::getWorkerType()
         if (ui->infoLabel->text() == "Choose worker type to free:") {
             emit sendFreeWorker("BasicWorker");
         } else {
-            qDebug() << "Lähtee:";
             emit sendBuildBasicWorker();
         }
-
+    } else if (ui->minerRadioButton->isChecked()) {
+        if (ui->infoLabel->text() == "Choose worker type to free:") {
+            emit sendFreeWorker("Miner");
+        } else {
+            emit sendBuildMiner();
+        }
+    }
+    else {
+        if (ui->infoLabel->text() == "Choose worker type to free:") {
+            emit sendFreeWorker("Teekkari");
+        } else {
+            emit sendBuildTeekkari();
+        }
     }
 
 }

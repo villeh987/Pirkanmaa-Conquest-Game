@@ -29,6 +29,8 @@ private slots:
 
 signals:
     void sendBuildBasicWorker();
+    void sendBuildMiner();
+    void sendBuildTeekkari();
     void sendFreeWorker(std::string worker_type);
 };
 

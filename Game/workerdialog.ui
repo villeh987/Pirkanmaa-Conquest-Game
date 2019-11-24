@@ -73,7 +73,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="someOtherWorkerButton">
+   <widget class="QRadioButton" name="minerRadioButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -83,7 +83,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>something else</string>
+     <string>Miner</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="teekkariRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>100</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Teekkari</string>
     </property>
    </widget>
   </widget>

@@ -19,6 +19,8 @@ public:
 
     virtual std::string getType() const;
 
+    virtual void doSpecialAction() override;
+
 };
 
 }

@@ -17,6 +17,8 @@ public:
           const Course::ResourceMapDouble &efficiency = GameResourceMaps::MINER_EFFICIENCY);
 
     virtual std::string getType() const;
+
+    virtual void doSpecialAction() override;
 };
 
 

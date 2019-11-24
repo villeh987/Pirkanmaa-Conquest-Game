@@ -63,6 +63,8 @@ MapWindow::MapWindow(QWidget *parent):
     worker_dialog_ = new WorkerDialog(this, "Choose worker type:");
 
     connect(worker_dialog_, &WorkerDialog::sendBuildBasicWorker, this, &MapWindow::prepareAddBasicWorker);
+    connect(worker_dialog_, &WorkerDialog::sendBuildMiner, this, &MapWindow::prepareAddMiner);
+    connect(worker_dialog_, &WorkerDialog::sendBuildTeekkari, this, &MapWindow::prepareAddTeekkari);
     connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
     //connect(worker_dialog_, &WorkerDialog::accepted, this, &MapWindow::destroyWorkerDialog);
     //connect(worker_dialog_, &WorkerDialog::rejected, this, &MapWindow::destroyWorkerDialog);
@@ -230,16 +232,24 @@ void MapWindow::updateWorkerCounts()
 {
     std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers = m_GManager->getTile(active_tile_)->getWorkers();
     int basic_worker_amount = 0;
+    int miner_amount = 0;
+    int teekkari_amount = 0;
 
 
 
     for (auto& worker: tile_workers) {
         if (worker->getType() == "BasicWorker") {
            ++basic_worker_amount;
+        } else if (worker->getType() == "Miner") {
+            ++miner_amount;
+        } else if (worker->getType() == "Teekkari") {
+            ++teekkari_amount;
         }
     }
 
      m_ui->workerValLabel->setText(QString::fromStdString(std::to_string(basic_worker_amount)));
+     m_ui->teekkariValLabel->setText(QString::fromStdString(std::to_string(teekkari_amount)));
+     m_ui->minerValLabel->setText(QString::fromStdString(std::to_string(miner_amount)));
 
 
 }
@@ -444,6 +454,22 @@ void MapWindow::prepareAddBasicWorker()
     auto basic_worker = std::make_shared<Course::BasicWorker>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
     m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
     addWorker(basic_worker);
+}
+
+void MapWindow::prepareAddMiner()
+{
+    qDebug() << "prepare to add Miner";
+    auto miner = std::make_shared<Game::Miner>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    addWorker(miner);
+}
+
+void MapWindow::prepareAddTeekkari()
+{
+    qDebug() << "prepare to add Teekkari";
+    auto teekkari = std::make_shared<Game::Teekkari>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    addWorker(teekkari);
 }
 
 void MapWindow::prepareRemoveWorker(std::string worker_type)

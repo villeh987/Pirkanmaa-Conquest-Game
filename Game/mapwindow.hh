@@ -29,6 +29,8 @@
 #include "Game_buildings/tunitower.hh"
 #include "Game_buildings/mine.hh"
 #include "workers/basicworker.h"
+#include "Game_workers/miner.hh"
+#include "Game_workers/teekkari.hh"
 #include "exceptions/baseexception.h"
 #include "Game_tiles/rock.hh"
 
@@ -118,6 +120,8 @@ private slots:
     void destroyWorkerDialog();
 
     void prepareAddBasicWorker();
+    void prepareAddMiner();
+    void prepareAddTeekkari();
     void prepareRemoveWorker(std::string worker_type);
 
 signals:
