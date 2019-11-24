@@ -6,6 +6,7 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    Game_tiles/rock.cpp \
     Game_tiles/water.cpp \
     gameeventhandler.cpp \
     gamescene.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     workerdialog.cpp
 
 HEADERS += \
+    Game_tiles/rock.hh \
     Game_tiles/water.hh \
     constants.hh \
     gameeventhandler.hh \

@@ -30,6 +30,7 @@
 #include "Game_buildings/mine.hh"
 #include "workers/basicworker.h"
 #include "exceptions/baseexception.h"
+#include "Game_tiles/rock.hh"
 
 namespace Ui {
 class MapWindow;

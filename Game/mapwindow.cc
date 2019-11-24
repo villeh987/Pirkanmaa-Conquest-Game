@@ -121,6 +121,7 @@ void MapWindow::generateMap()
     worldGen.addConstructor<Course::Forest>(2);
     worldGen.addConstructor<Course::Grassland>(5);
     worldGen.addConstructor<Game::Water>(2);
+    worldGen.addConstructor<Game::Rock>(1);
     worldGen.generateMap(10, 10, rnd_seed_, m_GManager, m_GEHandler);
     drawMap();
 

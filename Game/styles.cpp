@@ -6,6 +6,61 @@ namespace Game {
 void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color)
 {
 
+    if (type == "Rock") {
+        painter.setPen(QPen(Qt::black));
+        painter.setBrush(QBrush(QColor(64, 64, 64)));
+        painter.drawRect(boundingRect);
+
+        QPointF small_mountain[10] = {
+            QPointF(tile_x+5, tile_y-35),
+            QPointF(tile_x+7, tile_y-40),
+            QPointF(tile_x+8, tile_y-38),
+            QPointF(tile_x+10, tile_y-45),
+            QPointF(tile_x+13, tile_y-43),
+            QPointF(tile_x+15, tile_y-49),
+            QPointF(tile_x+17.5, tile_y-38),
+            QPointF(tile_x+18, tile_y-40),
+            QPointF(tile_x+20, tile_y-35),
+            QPointF(tile_x+5, tile_y-35)
+        };
+
+        QPointF large_mountain[11] = {
+            QPointF(tile_x+15, tile_y-5),
+            QPointF(tile_x+20, tile_y-15),
+            QPointF(tile_x+22.5, tile_y-12.5),
+            QPointF(tile_x+25, tile_y-20),
+            QPointF(tile_x+27.5, tile_y-17.5),
+            QPointF(tile_x+35, tile_y-30),
+            QPointF(tile_x+40, tile_y-20),
+            QPointF(tile_x+42, tile_y-25),
+            QPointF(tile_x+45, tile_y-15),
+            QPointF(tile_x+50, tile_y-5),
+            QPointF(tile_x+15, tile_y-5)
+        };
+
+        QPointF snow_top[11] = {
+            QPointF(tile_x+27.5, tile_y-17.5),
+            QPointF(tile_x+30, tile_y-17),
+            QPointF(tile_x+32.5, tile_y-18),
+            QPointF(tile_x+35, tile_y-16),
+            QPointF(tile_x+38, tile_y-18),
+            QPointF(tile_x+42, tile_y-16),
+            QPointF(tile_x+44, tile_y-18),
+            QPointF(tile_x+42, tile_y-25),
+            QPointF(tile_x+40, tile_y-20),
+            QPointF(tile_x+35, tile_y-30),
+            QPointF(tile_x+27.5, tile_y-17.5)
+        };
+
+        QPen mountain_pen = QPen(QColor(Qt::black), 1);
+
+        painter.setPen(mountain_pen);
+        painter.drawPolygon(small_mountain, 10);
+        painter.drawPolygon(large_mountain, 11);
+        painter.setBrush(QColor(Qt::white));
+        painter.drawPolygon(snow_top, 11);
+
+    }
 
     if (type == "Water") {
 
