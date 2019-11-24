@@ -96,7 +96,7 @@ private slots:
     void disableGamePanel(bool disable = true);
     void disableAssingWorker(bool disable = true);
     void disableBuild(bool disable = true);
-    void disableBuildIndividual(bool disable= true);
+    void disableBuildIndividual();
 
     // Init loaded game
     //void initLoadedGame(QString data);
