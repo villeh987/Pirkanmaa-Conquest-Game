@@ -48,8 +48,6 @@ public:
 
     void showStartDialog();
 
-    //void setGEHandler(std::shared_ptr<Course::iGameEventHandler> nHandler);
-
     void setSize(int width, int height);
     void setScale(int scale);
     void resize();
@@ -76,8 +74,7 @@ private:
     std::shared_ptr<Game::ObjectManager> m_GManager = nullptr;
 
 
-    //std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
-    std::shared_ptr<Game::GameScene> m_simplescene = nullptr;
+    std::shared_ptr<Game::GameScene> gamescene_ = nullptr;
 
     unsigned int active_tile_;
 

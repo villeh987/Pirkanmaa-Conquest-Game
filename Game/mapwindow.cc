@@ -14,7 +14,6 @@
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow)
-    //m_simplescene(new Course::SimpleGameScene(this)) //tänne
 
 {
     m_ui->setupUi(this);
@@ -26,7 +25,7 @@ MapWindow::MapWindow(QWidget *parent):
     // Manager and handler
     m_GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
-    m_simplescene = std::make_shared<Game::GameScene>(this, 10, 10, 50, m_GEHandler);
+    gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, m_GEHandler);
 
     // Random seed
     srand (std::time(NULL));
@@ -54,7 +53,7 @@ MapWindow::MapWindow(QWidget *parent):
 
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::printNames);
-    //connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
+    connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::initNewGame);
     connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
@@ -66,15 +65,13 @@ MapWindow::MapWindow(QWidget *parent):
     connect(worker_dialog_, &WorkerDialog::sendBuildMiner, this, &MapWindow::prepareAddMiner);
     connect(worker_dialog_, &WorkerDialog::sendBuildTeekkari, this, &MapWindow::prepareAddTeekkari);
     connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
-    //connect(worker_dialog_, &WorkerDialog::accepted, this, &MapWindow::destroyWorkerDialog);
-    //connect(worker_dialog_, &WorkerDialog::rejected, this, &MapWindow::destroyWorkerDialog);
 
     // Connect emitted signal from gamescene
-    connect(m_simplescene.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
+    connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
 
 
-    //Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
-    Game::GameScene* sgs_rawptr = m_simplescene.get();
+    //Course::SimpleGameScene* sgs_rawptr = gamescene_.get();
+    Game::GameScene* sgs_rawptr = gamescene_.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 
@@ -99,22 +96,22 @@ void MapWindow::showStartDialog()
 /*
 void MapWindow::setSize(int width, int height)
 {
-    m_simplescene->setSize(width, height);
+    gamescene_->setSize(width, height);
 }
 
 void MapWindow::setScale(int scale)
 {
-    m_simplescene->setScale(scale);
+    gamescene_->setScale(scale);
 }
 
 void MapWindow::resize()
 {
-    m_simplescene->resize();
+    gamescene_->resize();
 }
 */
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->updateMapItem(obj);
+    gamescene_->updateMapItem(obj);
 }
 
 void MapWindow::generateMap()
@@ -184,7 +181,7 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 {
     try {
-        m_simplescene->removeMapItem(worker);
+        gamescene_->removeMapItem(worker);
         updateGraphicsView();
 
     } catch (Course::BaseException& e) {
@@ -271,7 +268,7 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
     m_GEHandler->initNewGame(names, colors);
     updateResourceLabels();
     m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
-    m_simplescene->setPlayerColor(colors.at(0), colors.at(1));
+    gamescene_->setPlayerColor(colors.at(0), colors.at(1));
 }
 
 void MapWindow::changeTurn()
@@ -289,7 +286,7 @@ void MapWindow::changeTurn()
     m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
     updateResourceLabels();
     disableGamePanel();
-    m_simplescene->removeHighlight();
+    gamescene_->removeHighlight();
     updateGraphicsView();
 
 }
@@ -485,11 +482,11 @@ void MapWindow::prepareRemoveWorker(std::string worker_type)
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->removeMapItem(obj);
+    gamescene_->removeMapItem(obj);
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj, QColor player_color)
 {
-    m_simplescene->drawMapItem(obj, player_color);
+    gamescene_->drawMapItem(obj, player_color);
 }
 
