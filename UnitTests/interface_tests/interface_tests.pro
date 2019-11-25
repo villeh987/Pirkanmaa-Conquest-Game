@@ -12,7 +12,9 @@ HEADERS += ../../Game/gameeventhandler.hh \
            ../../Course/CourseLib/core/*.h \
            ../../Course/CourseLib/tiles/tilebase.h \
            ../../Course/CourseLib/interfaces/igameeventhandler.h \
-           ../../Game/Game_errors/resourceerror.hh
+           ../../Course/CourseLib/interfaces/iobjectmanager.h \
+           ../../Game/Game_errors/resourceerror.hh \
+           ../../Course/CourseLib/buildings/buildingbase.h
 
 
 SOURCES +=  tst_gameeventhandler.cpp \
@@ -20,6 +22,7 @@ SOURCES +=  tst_gameeventhandler.cpp \
             ../../Game/player.cpp \
             ../../Course/CourseLib/core/*.cpp \
             ../../Course/CourseLib/tiles/tilebase.cpp \
+            ../../Course/CourseLib/buildings/buildingbase.cpp
 
 INCLUDEPATH += \
             ../../Game \
