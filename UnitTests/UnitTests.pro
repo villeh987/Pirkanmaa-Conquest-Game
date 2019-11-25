@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    interface_tests
+    interface_tests \
+    objectmanager_tests
 

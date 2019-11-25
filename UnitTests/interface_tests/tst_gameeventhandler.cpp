@@ -17,7 +17,6 @@ public:
 
 private:
     std::unique_ptr<Game::GameEventHandler> test_gehandler;
-    std::shared_ptr<Game::Player> test_player;
 
 private slots:
     void test_modifyResourcesAdd();
@@ -35,7 +34,6 @@ private slots:
 gameeventhandler::gameeventhandler()
 {
     test_gehandler = std::make_unique<Game::GameEventHandler>();
-    //test_player = std::make_shared<Game::Player>("Test_player");
 
 }
 
