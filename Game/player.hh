@@ -6,16 +6,9 @@
 #include "core/playerbase.h"
 #include "core/gameobject.h"
 #include "core/resourcemaps.h"
+#include "constants.hh"
 
 
-
-const Course::ResourceMap STARTRESOURCES = {
-    {Course::BasicResource::MONEY, 10000},
-    {Course::BasicResource::FOOD, 11000},
-    {Course::BasicResource::WOOD, 12000},
-    {Course::BasicResource::STONE, 13000},
-    {Course::BasicResource::ORE, 14000}
-};
 
 namespace Game {
 

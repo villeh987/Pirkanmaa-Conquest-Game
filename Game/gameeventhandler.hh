@@ -4,12 +4,14 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <QColor>
 
 #include "interfaces/igameeventhandler.h"
 #include "core/basicresources.h"
 #include "player.hh"
 #include "Game_errors/resourceerror.hh"
-#include "QColor"
+#include "constants.hh"
+
 
 
 namespace Game {
