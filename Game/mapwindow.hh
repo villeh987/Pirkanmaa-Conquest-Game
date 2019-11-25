@@ -70,7 +70,7 @@ private:
 
     Ui::MapWindow* m_ui;
 
-    std::shared_ptr<Game::GameEventHandler> m_GEHandler = nullptr;
+    std::shared_ptr<Game::GameEventHandler> GEHandler = nullptr;
     std::shared_ptr<Game::ObjectManager> m_GManager = nullptr;
 
 

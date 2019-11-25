@@ -40,7 +40,7 @@ public:
               int width = 10,
               int height = 10,
               int scale = 50,
-              std::shared_ptr<GameEventHandler> m_GEHandler = nullptr
+              std::shared_ptr<GameEventHandler> s_GEHandler = nullptr
               );
 
     /**
@@ -83,24 +83,18 @@ public:
 
     void removeHighlight();
 
-    void setPlayerColor(QColor player_1_color, QColor player_2_color);
-
 
 private:
     QGraphicsItem* _mapBoundRect;
     QGraphicsRectItem* highlight_ = nullptr;
-    //unsigned int active_tile_;
 
     int scene_width;
     int scene_height;
     int scene_scale;
 
-    QColor _player_1_color;
-    QColor _player_2_color;
-
     QRectF previous_;
 
-    std::shared_ptr<GameEventHandler> m_GEHandler;
+    std::shared_ptr<GameEventHandler> s_GEHandler;
 
 signals:
     void tileClicked(Course::Coordinate tile_coords);

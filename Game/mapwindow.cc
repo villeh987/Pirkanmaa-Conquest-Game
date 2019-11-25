@@ -23,9 +23,9 @@ MapWindow::MapWindow(QWidget *parent):
     dialog_ = new StartDialog(this);
 
     // Manager and handler
-    m_GEHandler = std::make_shared<Game::GameEventHandler>();
+    GEHandler = std::make_shared<Game::GameEventHandler>();
     m_GManager = std::make_shared<Game::ObjectManager>();
-    gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, m_GEHandler);
+    gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, GEHandler);
 
     // Random seed
     srand (std::time(NULL));
@@ -91,7 +91,7 @@ void MapWindow::showStartDialog()
 /*void MapWindow::setGEHandler(
         std::shared_ptr<Course::iGameEventHandler> nHandler)
 {
-    m_GEHandler = nHandler;
+    GEHandler = nHandler;
 } */
 /*
 void MapWindow::setSize(int width, int height)
@@ -121,7 +121,7 @@ void MapWindow::generateMap()
     worldGen.addConstructor<Course::Grassland>(5);
     worldGen.addConstructor<Game::Water>(2);
     worldGen.addConstructor<Game::Rock>(1);
-    worldGen.generateMap(10, 10, rnd_seed_, m_GManager, m_GEHandler);
+    worldGen.generateMap(10, 10, rnd_seed_, m_GManager, GEHandler);
     drawMap();
 
 }
@@ -142,13 +142,13 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    Course::ResourceMap BUILDING_BUILD_COST = m_GEHandler->convertToNegative(building->BUILD_COST);
+    Course::ResourceMap BUILDING_BUILD_COST = GEHandler->convertToNegative(building->BUILD_COST);
     try {
-        m_GEHandler->modifyResources(building->getOwner(), BUILDING_BUILD_COST);
-        drawItem(building, m_GEHandler->getPlayerInTurn()->player_color_);
+        GEHandler->modifyResources(building->getOwner(), BUILDING_BUILD_COST);
+        drawItem(building, GEHandler->getPlayerInTurn()->player_color_);
         updateGraphicsView();
         updateResourceLabels();
-        disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
+        disableBuild(GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
         disableBuildIndividual();
 
     } catch (Game::ResourceError& e) {
@@ -164,14 +164,14 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    Course::ResourceMap WORKER_RECRUITMENT_COST = m_GEHandler->convertToNegative(worker->RECRUITMENT_COST);
+    Course::ResourceMap WORKER_RECRUITMENT_COST = GEHandler->convertToNegative(worker->RECRUITMENT_COST);
     try {
-        m_GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
-        drawItem(worker, m_GEHandler->getPlayerInTurn()->player_color_);
+        GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
+        drawItem(worker, GEHandler->getPlayerInTurn()->player_color_);
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
-        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
+        disableAssingWorker(GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -194,7 +194,7 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
-        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
+        disableAssingWorker(GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
@@ -205,23 +205,23 @@ void MapWindow::updateResourceLabels()
 {
     m_ui->moneyValLabel->setText( QString::fromStdString(
                                   std::to_string(
-                                  m_GEHandler->getPlayerInTurn()->getResources()
+                                  GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::MONEY ))));
     m_ui->foodValLabel->setText( QString::fromStdString(
                                   std::to_string(
-                                  m_GEHandler->getPlayerInTurn()->getResources()
+                                  GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::FOOD ))));
     m_ui->woodValLabel->setText( QString::fromStdString(
                                   std::to_string(
-                                  m_GEHandler->getPlayerInTurn()->getResources()
+                                  GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::WOOD ))));
     m_ui->stoneValLabel->setText( QString::fromStdString(
                                   std::to_string(
-                                  m_GEHandler->getPlayerInTurn()->getResources()
+                                  GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::STONE ))));
     m_ui->oreValLabel->setText( QString::fromStdString(
                                   std::to_string(
-                                  m_GEHandler->getPlayerInTurn()->getResources()
+                                  GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::ORE ))));
 }
 
@@ -265,25 +265,24 @@ void MapWindow::printNames(QList<QString> names, QList<QColor> colors)
 
 void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
 {
-    m_GEHandler->initNewGame(names, colors);
+    GEHandler->initNewGame(names, colors);
     updateResourceLabels();
-    m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
-    gamescene_->setPlayerColor(colors.at(0), colors.at(1));
+    m_ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 }
 
 void MapWindow::changeTurn()
 {
     try {
-        m_GEHandler->handleGenerateResources(m_GManager->returnTiles());
+        GEHandler->handleGenerateResources(m_GManager->returnTiles());
 
       // If this error is thrown, it means that player doesn't have enough resources to proceed the game
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
 
-    m_GEHandler->changeTurn();
-    m_ui->turnNameLabel->setText( QString::fromStdString(m_GEHandler->getPlayerInTurn()->getName()) + "'s turn");
-    m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(m_GEHandler->getRounds())));
+    GEHandler->changeTurn();
+    m_ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn");
+    m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(GEHandler->getRounds())));
     updateResourceLabels();
     disableGamePanel();
     gamescene_->removeHighlight();
@@ -381,12 +380,12 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
     // If current tile is dull or owned by other player, disable game actions.
     if (m_GManager->isDullTile(m_GManager->getTile(active_tile_)->getType()) ) {
         disableGamePanel(true);
-    } else if (!(m_GEHandler->isOwnedByOtherPlayer(m_GManager->getTile(active_tile_)))) {
+    } else if (!(GEHandler->isOwnedByOtherPlayer(m_GManager->getTile(active_tile_)))) {
         disableGamePanel(true);
     } else {
         disableGamePanel(false);
-        disableAssingWorker(m_GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
-        disableBuild(m_GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
+        disableAssingWorker(GEHandler->hasMaxWorkers(m_GManager->getTile(active_tile_)));
+        disableBuild(GEHandler->hasMaxBuildings(m_GManager->getTile(active_tile_)));
         disableBuildIndividual();
 
     }
@@ -396,36 +395,36 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 
 void MapWindow::prepareBuildHq()
 {
-    auto hq = std::make_shared<Course::HeadQuarters>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto hq = std::make_shared<Course::HeadQuarters>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(hq);
 }
 
 void MapWindow::prepareBuildFarm()
 {
-    auto farm = std::make_shared<Course::Farm>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto farm = std::make_shared<Course::Farm>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(farm);
 }
 
 void MapWindow::prepareBuildOutpost()
 {
-    auto outpost = std::make_shared<Course::Outpost>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto outpost = std::make_shared<Course::Outpost>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(outpost);
 }
 
 void MapWindow::prepareBuildTuniTower()
 {
-    auto tower = std::make_shared<Game::TuniTower>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto tower = std::make_shared<Game::TuniTower>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(tower);
 }
 
 void MapWindow::prepareBuildMine()
 {
-    auto mine = std::make_shared<Game::Mine>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto mine = std::make_shared<Game::Mine>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(mine);
 }
 
@@ -448,24 +447,24 @@ void MapWindow::destroyWorkerDialog()
 void MapWindow::prepareAddBasicWorker()
 {
     qDebug() << "prepare to add BasicWorker";
-    auto basic_worker = std::make_shared<Course::BasicWorker>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto basic_worker = std::make_shared<Course::BasicWorker>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     addWorker(basic_worker);
 }
 
 void MapWindow::prepareAddMiner()
 {
     qDebug() << "prepare to add Miner";
-    auto miner = std::make_shared<Game::Miner>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto miner = std::make_shared<Game::Miner>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     addWorker(miner);
 }
 
 void MapWindow::prepareAddTeekkari()
 {
     qDebug() << "prepare to add Teekkari";
-    auto teekkari = std::make_shared<Game::Teekkari>(m_GEHandler, m_GManager, m_GEHandler->getPlayerInTurn());
-    m_GManager->getTile( active_tile_ )->setOwner( m_GEHandler->getPlayerInTurn() );
+    auto teekkari = std::make_shared<Game::Teekkari>(GEHandler, m_GManager, GEHandler->getPlayerInTurn());
+    m_GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     addWorker(teekkari);
 }
 
