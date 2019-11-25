@@ -68,7 +68,7 @@ private:
     StartDialog* dialog_ = nullptr;
     WorkerDialog* worker_dialog_ = nullptr;
 
-    Ui::MapWindow* m_ui;
+    Ui::MapWindow* ui;
 
     std::shared_ptr<Game::GameEventHandler> GEHandler = nullptr;
     std::shared_ptr<Game::ObjectManager> GManager = nullptr;

@@ -13,10 +13,10 @@
 
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
-    m_ui(new Ui::MapWindow)
+    ui(new Ui::MapWindow)
 
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
     // Startdialog
 
@@ -37,14 +37,14 @@ MapWindow::MapWindow(QWidget *parent):
 
     // Connect game buttons
 
-    connect(m_ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::prepareBuildHq);
-    connect(m_ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::prepareBuildFarm);
-    connect(m_ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::prepareBuildOutpost);
-    connect(m_ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
-    connect(m_ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
+    connect(ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::prepareBuildHq);
+    connect(ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::prepareBuildFarm);
+    connect(ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::prepareBuildOutpost);
+    connect(ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
+    connect(ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
 
-    connect(m_ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
-    connect(m_ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
+    connect(ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
+    connect(ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
 
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
@@ -55,7 +55,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::printNames);
     connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::initNewGame);
-    connect(m_ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
+    connect(ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
     // Catch emitted signals from workerDialog
 
@@ -73,14 +73,14 @@ MapWindow::MapWindow(QWidget *parent):
     //Course::SimpleGameScene* sgs_rawptr = gamescene_.get();
     Game::GameScene* sgs_rawptr = gamescene_.get();
 
-    m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+    ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 
 
 }
 
 MapWindow::~MapWindow()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void MapWindow::showStartDialog()
@@ -203,23 +203,23 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
 void MapWindow::updateResourceLabels()
 {
-    m_ui->moneyValLabel->setText( QString::fromStdString(
+    ui->moneyValLabel->setText( QString::fromStdString(
                                   std::to_string(
                                   GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::MONEY ))));
-    m_ui->foodValLabel->setText( QString::fromStdString(
+    ui->foodValLabel->setText( QString::fromStdString(
                                   std::to_string(
                                   GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::FOOD ))));
-    m_ui->woodValLabel->setText( QString::fromStdString(
+    ui->woodValLabel->setText( QString::fromStdString(
                                   std::to_string(
                                   GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::WOOD ))));
-    m_ui->stoneValLabel->setText( QString::fromStdString(
+    ui->stoneValLabel->setText( QString::fromStdString(
                                   std::to_string(
                                   GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::STONE ))));
-    m_ui->oreValLabel->setText( QString::fromStdString(
+    ui->oreValLabel->setText( QString::fromStdString(
                                   std::to_string(
                                   GEHandler->getPlayerInTurn()->getResources()
                                           .at(Course::BasicResource::ORE ))));
@@ -244,9 +244,9 @@ void MapWindow::updateWorkerCounts()
         }
     }
 
-     m_ui->workerValLabel->setText(QString::fromStdString(std::to_string(basic_worker_amount)));
-     m_ui->teekkariValLabel->setText(QString::fromStdString(std::to_string(teekkari_amount)));
-     m_ui->minerValLabel->setText(QString::fromStdString(std::to_string(miner_amount)));
+     ui->workerValLabel->setText(QString::fromStdString(std::to_string(basic_worker_amount)));
+     ui->teekkariValLabel->setText(QString::fromStdString(std::to_string(teekkari_amount)));
+     ui->minerValLabel->setText(QString::fromStdString(std::to_string(miner_amount)));
 
 
 }
@@ -267,7 +267,7 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
 {
     GEHandler->initNewGame(names, colors);
     updateResourceLabels();
-    m_ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
+    ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 }
 
 void MapWindow::changeTurn()
@@ -281,8 +281,8 @@ void MapWindow::changeTurn()
     }
 
     GEHandler->changeTurn();
-    m_ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn");
-    m_ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(GEHandler->getRounds())));
+    ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn");
+    ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(GEHandler->getRounds())));
     updateResourceLabels();
     disableGamePanel();
     gamescene_->removeHighlight();
@@ -292,27 +292,27 @@ void MapWindow::changeTurn()
 
 void MapWindow::disableGamePanel(bool disable)
 {
-    m_ui->resourceWidget->setDisabled(disable);
-    m_ui->workerWidget->setDisabled(disable);
-    m_ui->buildWidget->setDisabled(disable);
+    ui->resourceWidget->setDisabled(disable);
+    ui->workerWidget->setDisabled(disable);
+    ui->buildWidget->setDisabled(disable);
 
 }
 
 void MapWindow::disableAssingWorker(bool disable)
 {
-    m_ui->assignWorkerButton->setDisabled(disable);
+    ui->assignWorkerButton->setDisabled(disable);
 }
 
 void MapWindow::disableBuild(bool disable)
 {
-    m_ui->buildHqButton->setDisabled(disable);
-    m_ui->buildTuniTowerButton->setDisabled(disable);
-    m_ui->buildMineButton->setDisabled(disable);
-    m_ui->buildFarmButton->setDisabled(disable);
-    m_ui->buildOutpostButton->setDisabled(disable);
-    m_ui->buildSupplyChainButton->setDisabled(disable);
+    ui->buildHqButton->setDisabled(disable);
+    ui->buildTuniTowerButton->setDisabled(disable);
+    ui->buildMineButton->setDisabled(disable);
+    ui->buildFarmButton->setDisabled(disable);
+    ui->buildOutpostButton->setDisabled(disable);
+    ui->buildSupplyChainButton->setDisabled(disable);
 
-    //m_ui->buildWidget->setDisabled(disable);
+    //ui->buildWidget->setDisabled(disable);
 }
 
 void MapWindow::disableBuildIndividual()
@@ -325,26 +325,26 @@ void MapWindow::disableBuildIndividual()
     for (auto& i : GManager->getTile(active_tile_)->getBuildings()) {
         std::string type = i->getType();
         if (type == "HeadQuarters") {
-            m_ui->buildHqButton->setDisabled(true);
+            ui->buildHqButton->setDisabled(true);
         }
         if (type == "Outpost") {
-            m_ui->buildOutpostButton->setDisabled(true);
+            ui->buildOutpostButton->setDisabled(true);
         }
 
         if (type == "TuniTower") {
-            m_ui->buildTuniTowerButton->setDisabled(true);
+            ui->buildTuniTowerButton->setDisabled(true);
         }
 
         if (type == "Mine") {
-            m_ui->buildMineButton->setDisabled(true);
+            ui->buildMineButton->setDisabled(true);
         }
 
         if (type == "Farm") {
-            m_ui->buildFarmButton->setDisabled(true);
+            ui->buildFarmButton->setDisabled(true);
         }
 
         if (type == "SupplyChain") {
-            m_ui->buildSupplyChainButton->setDisabled(true);
+            ui->buildSupplyChainButton->setDisabled(true);
         }
 
 
@@ -352,18 +352,18 @@ void MapWindow::disableBuildIndividual()
 
 
         /*
-        m_ui->buildHqButton->setDisabled(type == "HeadQuarters");
-        m_ui->buildTuniTowerButton->setDisabled(type == "TuniTower");
-        m_ui->buildMineButton->setDisabled(type == "Mine");
-        m_ui->buildFarmButton->setDisabled(type == "Farm");
-        m_ui->buildOutpostButton->setDisabled(type == "Outpost");
-        m_ui->buildSupplyChainButton->setDisabled(type == "SupplyChain"); */
+        ui->buildHqButton->setDisabled(type == "HeadQuarters");
+        ui->buildTuniTowerButton->setDisabled(type == "TuniTower");
+        ui->buildMineButton->setDisabled(type == "Mine");
+        ui->buildFarmButton->setDisabled(type == "Farm");
+        ui->buildOutpostButton->setDisabled(type == "Outpost");
+        ui->buildSupplyChainButton->setDisabled(type == "SupplyChain"); */
      }
 }
 
 void MapWindow::updateGraphicsView()
 {
-    m_ui->graphicsView->viewport()->update();
+    ui->graphicsView->viewport()->update();
 
 }
 
@@ -431,7 +431,7 @@ void MapWindow::prepareBuildMine()
 void MapWindow::showWorkerDialog()
 {
     //worker_dialog_ = new WorkerDialog(this, "hello");
-    if (sender() == m_ui->assignWorkerButton) {
+    if (sender() == ui->assignWorkerButton) {
         worker_dialog_->setInfoText("Choose worker type:");
     } else {
         worker_dialog_->setInfoText("Choose worker type to free:");
