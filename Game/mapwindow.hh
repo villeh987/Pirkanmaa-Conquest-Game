@@ -33,6 +33,7 @@
 #include "Game_workers/teekkari.hh"
 #include "exceptions/baseexception.h"
 #include "Game_tiles/rock.hh"
+#include "Game_tiles/lava.hh"
 
 namespace Ui {
 class MapWindow;

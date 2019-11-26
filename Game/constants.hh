@@ -9,7 +9,7 @@
 namespace Game {
 
 // Describes tiles that players cannot perform any actions on.
-const std::vector<std::string> DULL_TILES = {"Water"};
+const std::vector<std::string> DULL_TILES = {"Water", "Lava"};
 
 
 const Course::ResourceMap STARTRESOURCES = {

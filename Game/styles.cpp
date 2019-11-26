@@ -6,6 +6,11 @@ namespace Game {
 void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color)
 {
 
+    if (type == "Lava") {
+        painter.setBrush(QBrush(QColor(255, 137, 0)));
+        painter.drawRect(boundingRect);
+    }
+
     if (type == "Rock") {
         painter.setPen(QPen(Qt::black));
         painter.setBrush(QBrush(QColor(64, 64, 64)));
