@@ -6,6 +6,93 @@ namespace Game {
 void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color)
 {
 
+    if (type == "Teekkari"){
+
+
+        QPointF overall[21] = {
+            QPointF(tile_x+30, tile_y-15),
+            QPointF(tile_x+30, tile_y),
+            QPointF(tile_x+22.5, tile_y),
+            QPointF(tile_x+22.5, tile_y-20),
+            QPointF(tile_x+25, tile_y-20),
+            QPointF(tile_x+25, tile_y-25),
+            QPointF(tile_x+25, tile_y-20),
+            QPointF(tile_x+20, tile_y-20),
+            QPointF(tile_x+20, tile_y-25),
+            QPointF(tile_x+20, tile_y-30),
+            QPointF(tile_x+22.5, tile_y-35),
+            QPointF(tile_x+37.5, tile_y-35),
+            QPointF(tile_x+40, tile_y-30),
+            QPointF(tile_x+40, tile_y-20),
+            QPointF(tile_x+35, tile_y-20),
+            QPointF(tile_x+35, tile_y-25),
+            QPointF(tile_x+35, tile_y-20),
+            QPointF(tile_x+37.5, tile_y-20),
+            QPointF(tile_x+37.5, tile_y),
+            QPointF(tile_x+30, tile_y),
+            QPointF(tile_x+30, tile_y-15)
+        };
+
+        QPointF teekkari_face[8] = {
+            QPointF(tile_x+26.5, tile_y-42.5),
+            QPointF(tile_x+26.5, tile_y-37.5),
+            QPointF(tile_x+27.5, tile_y-35),
+            QPointF(tile_x+32.5, tile_y-35),
+            QPointF(tile_x+33.5, tile_y-37.5),
+            QPointF(tile_x+33.5, tile_y-42.5),
+            QPointF(tile_x+30, tile_y-41),
+            QPointF(tile_x+26.5, tile_y-42.5)
+        };
+
+        QPointF teekkari_cap_black_part[7] = {
+            QPointF(tile_x+25, tile_y-42.5),
+            QPointF(tile_x+25, tile_y-43.5),
+            QPointF(tile_x+30, tile_y-42.5),
+            QPointF(tile_x+35, tile_y-43.5),
+            QPointF(tile_x+35, tile_y-42.5),
+            QPointF(tile_x+30, tile_y-41),
+            QPointF(tile_x+25, tile_y-42.5),
+        };
+
+        QPointF teekkari_cap_white_part[7] = {
+            QPointF(tile_x+25, tile_y-43.5),
+            QPointF(tile_x+25, tile_y-45),
+            QPointF(tile_x+30, tile_y-47),
+            QPointF(tile_x+35, tile_y-45),
+            QPointF(tile_x+35, tile_y-43.5),
+            QPointF(tile_x+30, tile_y-42.5),
+            QPointF(tile_x+25, tile_y-43.5),
+        };
+
+        QPointF teekkari_cap_string[5] = {
+            QPointF(tile_x+30, tile_y-45),
+            QPointF(tile_x+25, tile_y-45),
+            QPointF(tile_x+25, tile_y-35),
+            QPointF(tile_x+25, tile_y-45),
+            QPointF(tile_x+30, tile_y-45)
+        };
+
+        QPointF teekkari_cap_tassel[4] = {
+            QPointF(tile_x+25, tile_y-35),
+            QPointF(tile_x+23, tile_y-30),
+            QPointF(tile_x+27, tile_y-30),
+            QPointF(tile_x+25, tile_y-35)
+        };
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+        painter.setPen(QPen(Qt::black));
+        painter.drawPolygon(overall, 21);
+        painter.drawPolygon(teekkari_face, 8);
+        painter.drawPolygon(teekkari_cap_black_part, 7);
+        painter.drawPolygon(teekkari_cap_white_part, 7);
+        painter.setPen(QPen(Qt::black, 0.5));
+        painter.drawPolygon(teekkari_cap_string, 5);
+        painter.setPen(QPen(Qt::black, 1));
+        painter.setBrush(QColor(Qt::black));
+        painter.drawPolygon(teekkari_cap_tassel, 4);
+
+    }
+
     if (type == "Lava") {
         painter.setBrush(QBrush(QColor(255, 137, 0)));
         painter.drawRect(boundingRect);
