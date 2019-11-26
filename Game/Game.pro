@@ -22,7 +22,8 @@ SOURCES += \
     Game_buildings/tunitower.cpp \
     Game_workers/teekkari.cpp \
     styles.cpp \
-    workerdialog.cpp
+    workerdialog.cpp \
+    Game_tiles/lava.cpp
 
 HEADERS += \
     Game_tiles/rock.hh \
@@ -43,7 +44,8 @@ HEADERS += \
     Game_buildings/tunitower.hh \
     Game_workers/teekkari.hh \
     styles.hh \
-    workerdialog.hh
+    workerdialog.hh \
+    Game_tiles/lava.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

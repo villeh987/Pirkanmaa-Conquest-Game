@@ -59,6 +59,25 @@ const Course::ResourceMap WATER_BP {
     {Course::BasicResource::ORE, 0}
 };
 
+// Tile - Rock
+
+const Course::ResourceMap ROCK_BP {
+    {Course::BasicResource::MONEY, 0},
+    {Course::BasicResource::FOOD, -1},
+    {Course::BasicResource::STONE, 10},
+    {Course::BasicResource::ORE, 10}
+};
+
+// Tile - Rock
+
+const Course::ResourceMap LAVA_BP {
+    {Course::BasicResource::MONEY, -10},
+    {Course::BasicResource::FOOD, -10},
+    {Course::BasicResource::WOOD, -10},
+    {Course::BasicResource::STONE, -10},
+    {Course::BasicResource::ORE, -10}
+};
+
 
 
 // Worker - Teekkari

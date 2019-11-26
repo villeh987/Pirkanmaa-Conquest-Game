@@ -16,7 +16,7 @@ public:
           const std::shared_ptr<Course::iObjectManager>& objectmanager,
           const unsigned int& max_build = 1,
           const unsigned int& max_work = 5,
-          const Course::ResourceMap& production = GameResourceMaps::WATER_BP
+          const Course::ResourceMap& production = GameResourceMaps::ROCK_BP
           );
 
     virtual ~Rock() = default;
