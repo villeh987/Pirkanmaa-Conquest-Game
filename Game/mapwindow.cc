@@ -154,6 +154,13 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
+
+    GEHandler->updateActionsCount();
+    if (GEHandler->isMaxActions()) {
+        disableGamePanel();
+        ui->gameInfoLabel->
+                setText(QString::fromStdString(Game::ROUND_MAX_ACTIONS_TEXT));
+    }
 }
 
 void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
@@ -175,6 +182,13 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
+    }
+
+    GEHandler->updateActionsCount();
+    if (GEHandler->isMaxActions()) {
+        disableGamePanel();
+        ui->gameInfoLabel->
+                setText(QString::fromStdString(Game::ROUND_MAX_ACTIONS_TEXT));
     }
 }
 
@@ -198,6 +212,13 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
     } catch (Course::BaseException& e) {
         qDebug() << QString::fromStdString(e.msg());
+    }
+
+    GEHandler->updateActionsCount();
+    if (GEHandler->isMaxActions()) {
+        disableGamePanel();
+        ui->gameInfoLabel->
+                setText(QString::fromStdString(Game::ROUND_MAX_ACTIONS_TEXT));
     }
 }
 
@@ -283,9 +304,11 @@ void MapWindow::changeTurn()
     GEHandler->changeTurn();
     ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn");
     ui->roundNumberLabel->setText(QString::fromStdString(std::to_string(GEHandler->getRounds())));
+    ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_START_NOCLICK_TEXT));
     updateResourceLabels();
     disableGamePanel();
     gamescene_->removeHighlight();
+    GEHandler->resetActionsCount();
     updateGraphicsView();
 
 }
@@ -346,18 +369,6 @@ void MapWindow::disableBuildIndividual()
         if (type == "SupplyChain") {
             ui->buildSupplyChainButton->setDisabled(true);
         }
-
-
-
-
-
-        /*
-        ui->buildHqButton->setDisabled(type == "HeadQuarters");
-        ui->buildTuniTowerButton->setDisabled(type == "TuniTower");
-        ui->buildMineButton->setDisabled(type == "Mine");
-        ui->buildFarmButton->setDisabled(type == "Farm");
-        ui->buildOutpostButton->setDisabled(type == "Outpost");
-        ui->buildSupplyChainButton->setDisabled(type == "SupplyChain"); */
      }
 }
 
@@ -369,27 +380,33 @@ void MapWindow::updateGraphicsView()
 
 void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 {
-    updateGraphicsView();
+    if (!GEHandler->isMaxActions()) {
+        updateGraphicsView();
 
-    /*qDebug() << qreal(GManager->getTile(tile_coords)->ID)
-             << qreal(GManager->getTile(tile_coords)->getCoordinate().x())
-             << qreal(GManager->getTile(tile_coords)->getCoordinate().y()); */
+        /*qDebug() << qreal(GManager->getTile(tile_coords)->ID)
+                 << qreal(GManager->getTile(tile_coords)->getCoordinate().x())
+                 << qreal(GManager->getTile(tile_coords)->getCoordinate().y()); */
 
-    active_tile_ = GManager->getTile(tile_coords)->ID;
+        active_tile_ = GManager->getTile(tile_coords)->ID;
+        ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_START_CLICKED_TEXT));
 
-    // If current tile is dull or owned by other player, disable game actions.
-    if (GManager->isDullTile(GManager->getTile(active_tile_)->getType()) ) {
-        disableGamePanel(true);
-    } else if (!(GEHandler->isOwnedByOtherPlayer(GManager->getTile(active_tile_)))) {
-        disableGamePanel(true);
-    } else {
-        disableGamePanel(false);
-        disableAssingWorker(GEHandler->hasMaxWorkers(GManager->getTile(active_tile_)));
-        disableBuild(GEHandler->hasMaxBuildings(GManager->getTile(active_tile_)));
-        disableBuildIndividual();
+        // If current tile is dull or owned by other player, disable game actions.
+        if (GManager->isDullTile(GManager->getTile(active_tile_)->getType()) ) {
+            disableGamePanel(true);
+            ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_DULL_TILE_CLICKED_TEXT));
+        } else if (!(GEHandler->isOwnedByOtherPlayer(GManager->getTile(active_tile_)))) {
+            disableGamePanel(true);
+            ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_WRONG_OWNER_TEXT));
+        } else {
+            disableGamePanel(false);
+            disableAssingWorker(GEHandler->hasMaxWorkers(GManager->getTile(active_tile_)));
+            disableBuild(GEHandler->hasMaxBuildings(GManager->getTile(active_tile_)));
+            disableBuildIndividual();
 
+        }
+        updateWorkerCounts();
     }
-    updateWorkerCounts();
+
 
 }
 

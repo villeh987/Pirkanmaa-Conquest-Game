@@ -121,6 +121,16 @@ int GameEventHandler::getRounds()
     return rounds_;
 }
 
+void GameEventHandler::updateActionsCount()
+{
+    ++actions_;
+}
+
+void GameEventHandler::resetActionsCount()
+{
+    actions_ = 0;
+}
+
 Course::ResourceMap GameEventHandler::convertToNegative(Course::ResourceMap to_convert)
 {
     Course::ResourceMap converted = {};
@@ -157,6 +167,14 @@ bool GameEventHandler::hasMaxWorkers(std::shared_ptr<Course::TileBase> tile)
 bool GameEventHandler::hasMaxBuildings(std::shared_ptr<Course::TileBase> tile)
 {
     if (tile->getBuildingCount() == tile->MAX_BUILDINGS) {
+        return true;
+    }
+    return false;
+}
+
+bool GameEventHandler::isMaxActions()
+{
+    if (actions_ == Game::MAX_ACTIONS) {
         return true;
     }
     return false;
