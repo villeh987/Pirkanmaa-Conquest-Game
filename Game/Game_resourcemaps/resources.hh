@@ -68,7 +68,7 @@ const Course::ResourceMap ROCK_BP {
     {Course::BasicResource::ORE, 10}
 };
 
-// Tile - Rock
+// Tile - Lava
 
 const Course::ResourceMap LAVA_BP {
     {Course::BasicResource::MONEY, -10},
@@ -111,8 +111,20 @@ const Course::ResourceMap MINER_RECRUITMENT_COST = {
     {Course::BasicResource::FOOD, 50}
 };
 
+// Penalty (if build or add worker on lava)
+const Course::ResourceMap PENALTY {
+    {Course::BasicResource::MONEY, -100},
+    {Course::BasicResource::FOOD, -100},
+    {Course::BasicResource::WOOD, -100},
+    {Course::BasicResource::STONE, -100},
+    {Course::BasicResource::ORE, -100}
+};
+
+
+
 
 }
+
 }
 
 

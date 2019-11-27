@@ -61,6 +61,8 @@ public:
 
     void drawMap();
 
+    void addPenalty(std::string info_txt);
+
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
     void addWorker(const std::shared_ptr<Course::WorkerBase>& worker);
     void removeWorker(const std::shared_ptr<Course::WorkerBase>& worker);
@@ -81,6 +83,7 @@ private:
 
     void updateResourceLabels();
     void updateWorkerCounts();
+    void updateAndCheckActions();
 
     unsigned int rnd_seed_ = 0;
 
