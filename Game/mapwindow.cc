@@ -46,7 +46,12 @@ MapWindow::MapWindow(QWidget *parent):
     connect(ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
     connect(ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
 
+    connect(ui->teekkariFightButton, &QPushButton::clicked, this, &MapWindow::showFightDialog);
+
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
+
+    // Disable buttons
+    ui->teekkariFightButton->setVisible(false);
 
 
     // Catch emitted signals from startdialog
@@ -65,6 +70,9 @@ MapWindow::MapWindow(QWidget *parent):
     connect(worker_dialog_, &WorkerDialog::sendBuildMiner, this, &MapWindow::prepareAddMiner);
     connect(worker_dialog_, &WorkerDialog::sendBuildTeekkari, this, &MapWindow::prepareAddTeekkari);
     connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
+
+    // Catch emitted signals from fightDialog
+    //connect()
 
     // Connect emitted signal from gamescene
     connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
@@ -209,6 +217,7 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
             updateWorkerCounts();
             disableAssingWorker(GEHandler->hasMaxWorkers(GManager->getTile(active_tile_)));
             updateAndCheckActions();
+            checkForTeekkariFight();
 
         } catch (Game::ResourceError& e) {
             qDebug() << QString::fromStdString(e.msg());
@@ -242,6 +251,22 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     }
 
     updateAndCheckActions();
+}
+
+void MapWindow::initTeekkariFight(bool val)
+{
+    ui->teekkariFightButton->setVisible(val);
+}
+
+void MapWindow::checkForTeekkariFight()
+{
+    if (GEHandler->containsTeekkari(GManager->getTile(active_tile_))
+            && GEHandler->isInTeekkariFightRange(
+                GManager, GManager->getTile(active_tile_))) {
+        initTeekkariFight(true);
+    } else {
+        initTeekkariFight(false);
+    }
 }
 
 void MapWindow::updateResourceLabels()
@@ -319,6 +344,7 @@ void MapWindow::printNames(QList<QString> names, QList<QColor> colors)
 void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
 {
     GEHandler->initNewGame(names, colors);
+    fight_dialog_ = new FightDialog(this, names.at(0), names.at(1));
     updateResourceLabels();
     ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 }
@@ -439,6 +465,10 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
             disableBuild(GEHandler->hasMaxBuildings(GManager->getTile(active_tile_)));
             disableBuildIndividual();
 
+            checkForTeekkariFight();
+
+
+
         }
         updateWorkerCounts();
     }
@@ -495,6 +525,11 @@ void MapWindow::showWorkerDialog()
 void MapWindow::destroyWorkerDialog()
 {
     delete worker_dialog_;
+}
+
+void MapWindow::showFightDialog()
+{
+    fight_dialog_->open();
 }
 
 void MapWindow::prepareAddBasicWorker()

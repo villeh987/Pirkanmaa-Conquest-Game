@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     Game_tiles/rock.cpp \
     Game_tiles/water.cpp \
+    fightdialog.cpp \
     gameeventhandler.cpp \
     gamescene.cpp \
     main.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     Game_tiles/rock.hh \
     Game_tiles/water.hh \
     constants.hh \
+    fightdialog.hh \
     gameeventhandler.hh \
     gamescene.hh \
     mapitem.hh \
@@ -72,6 +74,7 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 FORMS += \
+    fightdialog.ui \
     mapwindow.ui \
     startdialog.ui \
     workerdialog.ui

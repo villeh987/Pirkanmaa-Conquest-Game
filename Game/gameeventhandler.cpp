@@ -180,6 +180,28 @@ bool GameEventHandler::isMaxActions()
     return false;
 }
 
+bool GameEventHandler::isInTeekkariFightRange(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
+{
+    std::vector<Course::Coordinate> neighbours = tile->getCoordinate().neighbours();
+
+    for (auto i : neighbours) {
+        if (containsTeekkari(GManager->getTile(i)) && GManager->getTile(i)->getOwner() != player_in_turn_) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool GameEventHandler::containsTeekkari(std::shared_ptr<Course::TileBase> tile)
+{
+    for (auto& i : tile->getWorkers()) {
+        if (i->getType() == "Teekkari") {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 }

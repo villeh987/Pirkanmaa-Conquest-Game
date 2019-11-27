@@ -70,7 +70,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>1</y>
          <width>318</width>
          <height>584</height>
         </rect>
@@ -496,6 +496,19 @@
             <string>0</string>
            </property>
           </widget>
+          <widget class="QPushButton" name="teekkariFightButton">
+           <property name="geometry">
+            <rect>
+             <x>200</x>
+             <y>40</y>
+             <width>89</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Fight!</string>
+           </property>
+          </widget>
          </widget>
         </item>
         <item>
@@ -615,7 +628,7 @@
      <x>0</x>
      <y>0</y>
      <width>894</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

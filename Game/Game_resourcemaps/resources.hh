@@ -102,8 +102,8 @@ const Course::ResourceMapDouble MINER_EFFICIENCY {
     {Course::BasicResource::MONEY, 0.5},
     {Course::BasicResource::FOOD, 0.5},
     {Course::BasicResource::WOOD, 0.5},
-    {Course::BasicResource::STONE, 0.5},
-    {Course::BasicResource::ORE, 0.5}
+    {Course::BasicResource::STONE, 1.2},
+    {Course::BasicResource::ORE, 1.5}
 };
 
 const Course::ResourceMap MINER_RECRUITMENT_COST = {

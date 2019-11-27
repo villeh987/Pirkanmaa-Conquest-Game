@@ -34,6 +34,7 @@
 #include "exceptions/baseexception.h"
 #include "Game_tiles/rock.hh"
 #include "Game_tiles/lava.hh"
+#include "fightdialog.hh"
 
 namespace Ui {
 class MapWindow;
@@ -67,9 +68,14 @@ public:
     void addWorker(const std::shared_ptr<Course::WorkerBase>& worker);
     void removeWorker(const std::shared_ptr<Course::WorkerBase>& worker);
 
+    void initTeekkariFight(bool val);
+    void checkForTeekkariFight();
+
 private:
     StartDialog* dialog_ = nullptr;
     WorkerDialog* worker_dialog_ = nullptr;
+    FightDialog* fight_dialog_ = nullptr;
+
 
     Ui::MapWindow* ui;
 
@@ -119,6 +125,9 @@ private slots:
     // Worker Dialog
     void showWorkerDialog();
     void destroyWorkerDialog();
+
+    // Fight dialog
+    void showFightDialog();
 
     void prepareAddBasicWorker();
     void prepareAddMiner();

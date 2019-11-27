@@ -11,6 +11,7 @@
 #include "player.hh"
 #include "Game_errors/resourceerror.hh"
 #include "constants.hh"
+#include "objectmanager.hh"
 
 
 
@@ -72,6 +73,8 @@ public:
     bool hasMaxWorkers(std::shared_ptr<Course::TileBase> tile);
     bool hasMaxBuildings(std::shared_ptr<Course::TileBase> tile);
     bool isMaxActions();
+    bool isInTeekkariFightRange(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile);
+    bool containsTeekkari(std::shared_ptr<Course::TileBase> tile);
 
 private:
     std::vector<std::shared_ptr<Game::Player>> players_;
