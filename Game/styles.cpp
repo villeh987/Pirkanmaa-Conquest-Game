@@ -1,5 +1,6 @@
 #include "styles.hh"
 
+
 namespace Game {
 
 
@@ -304,62 +305,29 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
     if (type == "Forest") {
 
-        painter.setPen(QPen(Qt::black));
-        QPointF tree_trunk[5] = {
-            QPointF(tile_x+4.2,tile_y-37),
-            QPointF(tile_x+4.2,tile_y-40),
-            QPointF(tile_x+5.8,tile_y-40),
-            QPointF(tile_x+5.8,tile_y-37),
-            QPointF(tile_x+4.2,tile_y-37)
+        painter.setBrush(QBrush(QColor(108, 255, 0)));
 
-        };
-
-        QPointF tree_leaves_left[8] = {
-            QPointF(tile_x+5, tile_y-41),
-            QPointF(tile_x+1, tile_y-40),
-            QPointF(tile_x+5, tile_y-44),
-            QPointF(tile_x+1.5, tile_y-43),
-            QPointF(tile_x+5, tile_y-47),
-            QPointF(tile_x+3, tile_y-47),
-            QPointF(tile_x+5, tile_y-49),
-            QPointF(tile_x+5, tile_y-41)
-        };
-
-
-        QPointF tree_leaves_right[8] = {
-            QPointF(tile_x+5, tile_y-41),
-            QPointF(tile_x+9, tile_y-40),
-            QPointF(tile_x+5, tile_y-44),
-            QPointF(tile_x+8.5, tile_y-43),
-            QPointF(tile_x+5, tile_y-47),
-            QPointF(tile_x+7, tile_y-47),
-            QPointF(tile_x+5, tile_y-49),
-            QPointF(tile_x+5, tile_y-41)
-
-        };
-
-
-        QBrush tree_trunk_brush = QColor(102, 50, 0);
-        QBrush tree_leaves_brush = QColor(128, 255, 0);
-
-        QPen tree_trunk_pen = QPen(QColor(102, 50, 0));
-        QPen tree_leaves_pen = QPen(QColor(128, 255, 0));
-
-        painter.setBrush(QBrush(QColor(0, 102, 0)));
         painter.drawRect(boundingRect);
 
-        painter.setBrush(tree_leaves_brush);
-        painter.setPen(tree_leaves_pen);
 
-        painter.drawPolygon(tree_leaves_left, 8);
-        painter.drawPolygon(tree_leaves_right, 8);
+        for (int i = 0; i <= 3; i++){
+            int k = i * 11;
 
-        painter.setBrush(tree_trunk_brush);
-        painter.setPen(tree_trunk_pen);
+            if (i%2 == 0){
 
+                for (int j = 0; j <= 2; j++){
+                    int l = j * 13;
+                    drawTree(tile_x+l+7, tile_y+k, painter);
+                }
 
-        painter.drawPolygon(tree_trunk, 5);
+            } else {
 
+                for (int j = 0; j <= 3; j++){
+                    int l = j * 13;
+                      drawTree(tile_x+l, tile_y+k, painter);
+                }
+            }
+        }
     }
 
     if (type == "TuniTower") {
@@ -437,6 +405,14 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
         painter.drawPolygon(tuni_right_eye, 5);
         painter.drawPolygon(tuni_left_eye, 7);
         painter.drawPolygon(tuni_cheeck, 12);
+
+        /*
+        media_player = new *QMediaPlayer;
+
+        media_player.setMedia(QUrl::fromLocalFile("human_potential_unlimited.mp3"));
+        media_player.setVolume(50);
+        media_player.play();
+*/
 
     }
 
@@ -580,6 +556,65 @@ void setBoundingRectColor(int tile_x, int tile_y, QColor player_color, QPainter&
     QRectF color_bound_rect(tile_x, tile_y-50, boundingRect.width(), boundingRect.height());
 
     painter.drawRect(color_bound_rect);
+}
+
+void drawTree(int tile_x, int tile_y, QPainter &painter)
+{
+    painter.setPen(QPen(Qt::black));
+    QPointF tree_trunk[5] = {
+        QPointF(tile_x+4.2,tile_y-37),
+        QPointF(tile_x+4.2,tile_y-40),
+        QPointF(tile_x+5.8,tile_y-40),
+        QPointF(tile_x+5.8,tile_y-37),
+        QPointF(tile_x+4.2,tile_y-37)
+
+    };
+
+    QPointF tree_leaves_left[8] = {
+        QPointF(tile_x+5, tile_y-41),
+        QPointF(tile_x+1, tile_y-40),
+        QPointF(tile_x+5, tile_y-44),
+        QPointF(tile_x+1.5, tile_y-43),
+        QPointF(tile_x+5, tile_y-47),
+        QPointF(tile_x+3, tile_y-47),
+        QPointF(tile_x+5, tile_y-49),
+        QPointF(tile_x+5, tile_y-41)
+    };
+
+
+    QPointF tree_leaves_right[8] = {
+        QPointF(tile_x+5, tile_y-41),
+        QPointF(tile_x+9, tile_y-40),
+        QPointF(tile_x+5, tile_y-44),
+        QPointF(tile_x+8.5, tile_y-43),
+        QPointF(tile_x+5, tile_y-47),
+        QPointF(tile_x+7, tile_y-47),
+        QPointF(tile_x+5, tile_y-49),
+        QPointF(tile_x+5, tile_y-41)
+
+    };
+
+
+    QBrush tree_trunk_brush = QColor(102, 50, 0);
+    QBrush tree_leaves_brush = QColor(0, 102, 0);
+    //painter.setBrush(QBrush(QColor(0, 102, 0)));
+
+    QPen tree_trunk_pen = QPen(QColor(102, 50, 0));
+    QPen tree_leaves_pen = QPen(QColor(0, 102, 0));
+
+
+
+    painter.setBrush(tree_leaves_brush);
+    painter.setPen(tree_leaves_pen);
+
+    painter.drawPolygon(tree_leaves_left, 8);
+    painter.drawPolygon(tree_leaves_right, 8);
+
+    painter.setBrush(tree_trunk_brush);
+    painter.setPen(tree_trunk_pen);
+
+
+    painter.drawPolygon(tree_trunk, 5);
 }
 
 }
