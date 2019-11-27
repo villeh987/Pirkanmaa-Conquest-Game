@@ -6,6 +6,92 @@ namespace Game {
 void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color)
 {
 
+    if (type == "Miner") {
+
+        QPointF pickaxe_head[8] = {
+            QPointF(tile_x+10, tile_y-40),
+            QPointF(tile_x+8, tile_y-41),
+            QPointF(tile_x+3, tile_y-34),
+            QPointF(tile_x+7.5, tile_y-42.5),
+            QPointF(tile_x+15, tile_y-47),
+            QPointF(tile_x+10, tile_y-42.5),
+            QPointF(tile_x+11, tile_y-40),
+            QPointF(tile_x+10, tile_y-40)
+        };
+
+
+        QPointF pickaxe_arm[5] = {
+            QPointF(tile_x+10, tile_y-40),
+            QPointF(tile_x+24, tile_y-25),
+            QPointF(tile_x+26, tile_y-27),
+            QPointF(tile_x+11, tile_y-40),
+            QPointF(tile_x+10, tile_y-40)
+        };
+
+        QPointF showel_head[8] = {
+            QPointF(tile_x+23.5, tile_y-42),
+            QPointF(tile_x+22, tile_y-43.5),
+            QPointF(tile_x+27, tile_y-46.5),
+            QPointF(tile_x+29, tile_y-45.5),
+            QPointF(tile_x+29, tile_y-43.5),
+            QPointF(tile_x+26.5, tile_y-40),
+            QPointF(tile_x+25, tile_y-40),
+            QPointF(tile_x+23.5, tile_y-42)
+        };
+
+
+        QPointF showel_arm[5] = {
+            QPointF(tile_x+23.5, tile_y-42),
+            QPointF(tile_x+10, tile_y-28),
+            QPointF(tile_x+10.5, tile_y-27),
+            QPointF(tile_x+25, tile_y-40),
+            QPointF(tile_x+23.5, tile_y-42),
+        };
+
+        QPointF showel_grip[5] = {
+            QPointF(tile_x+10, tile_y-28),
+            QPointF(tile_x+5, tile_y-26.5),
+            QPointF(tile_x+7.5, tile_y-23),
+            QPointF(tile_x+10.5, tile_y-27),
+            QPointF(tile_x+10, tile_y-28),
+        };
+
+        QPointF miner_helmet[10] = {
+            QPointF(tile_x+9, tile_y-30),
+            QPointF(tile_x+10, tile_y-35),
+            QPointF(tile_x+15, tile_y-38),
+            QPointF(tile_x+16, tile_y-39),
+            QPointF(tile_x+17, tile_y-39),
+            QPointF(tile_x+18, tile_y-38),
+            QPointF(tile_x+20, tile_y-37),
+            QPointF(tile_x+22.5, tile_y-35),
+            QPointF(tile_x+24, tile_y-30),
+            QPointF(tile_x+9, tile_y-30)
+        };
+
+
+        setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
+        painter.setPen(QPen(Qt::black, 1));
+        painter.drawPolygon(pickaxe_arm, 5);
+        painter.drawPolygon(showel_arm, 5);
+
+
+        painter.setBrush(QColor(Qt::black));
+
+        painter.drawPolygon(pickaxe_head, 8);
+        painter.drawPolygon(showel_head, 8);
+        painter.drawPolygon(showel_grip, 5);
+        painter.drawPolygon(miner_helmet, 10);
+
+        painter.setBrush(QColor(255, 239, 0));
+        painter.drawEllipse(QPointF(QPointF(tile_x+16, tile_y-35)), 2, 2);
+
+
+    }
+
+
+
     if (type == "Teekkari"){
 
 
