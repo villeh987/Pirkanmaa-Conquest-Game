@@ -128,6 +128,7 @@ private slots:
 
     // Fight dialog
     void showFightDialog();
+    void handleFightResult(QString loser);
 
     void prepareAddBasicWorker();
     void prepareAddMiner();
