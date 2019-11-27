@@ -79,11 +79,66 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
             QPointF(tile_x+25, tile_y-35)
         };
 
+        QPointF right_eye[5] = {
+            QPointF(tile_x+27, tile_y-40),
+            QPointF(tile_x+28, tile_y-40),
+            QPointF(tile_x+28, tile_y-41),
+            QPointF(tile_x+27, tile_y-41),
+            QPointF(tile_x+27, tile_y-40)
+        };
+
+        QPointF left_eye[5] = {
+            QPointF(tile_x+32, tile_y-40),
+            QPointF(tile_x+33, tile_y-40),
+            QPointF(tile_x+33, tile_y-41),
+            QPointF(tile_x+32, tile_y-41),
+            QPointF(tile_x+32, tile_y-40)
+        };
+
+        QPointF teekkari_mouth[3] = {
+            QPointF(tile_x+27.5, tile_y-37),
+            QPointF(tile_x+31.5, tile_y-37),
+            QPointF(tile_x+27.5, tile_y-37)
+        };
+
+
+
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
         painter.setPen(QPen(Qt::black));
+        painter.setBrush(QColor(128, 128, 128));
         painter.drawPolygon(overall, 21);
+
+        painter.setBrush(QColor(Qt::red));
+        painter.drawEllipse(QPointF(QPointF(tile_x+27, tile_y-2.5)), 2, 2);
+
+        painter.setBrush(QColor(Qt::green));
+        painter.drawEllipse(QPointF(QPointF(tile_x+35.5, tile_y-10)), 2, 3);
+
+        painter.setBrush(QColor(Qt::blue));
+        painter.drawEllipse(QPointF(QPointF(tile_x+25, tile_y-13)), 3, 2);
+
+        painter.setBrush(QColor(204, 204, 0));
+        painter.drawEllipse(QPointF(QPointF(tile_x+37.5, tile_y-27)), 2, 2);
+
+        painter.setBrush(QColor(Qt::white));
+        painter.drawEllipse(QPointF(QPointF(tile_x+33, tile_y-22)), 2, 2);
+
+        painter.setBrush(QColor(255, 0, 127));
+        painter.drawEllipse(QPointF(QPointF(tile_x+31, tile_y-21)), 2, 2);
+
+        painter.setBrush(QColor(Qt::black));
+        painter.drawEllipse(QPointF(QPointF(tile_x+28, tile_y-20)), 2, 2);
+
+        painter.setBrush(QColor(255, 178, 102));
         painter.drawPolygon(teekkari_face, 8);
+        //painter.setBrush(QColor(Qt::black));
+        painter.setPen(QPen(QColor(Qt::black), 0.5));
+        painter.drawPolygon(right_eye, 5);
+        painter.drawPolygon(left_eye, 5);
+        painter.drawPolygon(teekkari_mouth, 3);
+        painter.setPen(QPen(QColor(Qt::black), 1));
         painter.drawPolygon(teekkari_cap_black_part, 7);
+        painter.setBrush(QColor(Qt::white));
         painter.drawPolygon(teekkari_cap_white_part, 7);
         painter.setPen(QPen(Qt::black, 0.5));
         painter.drawPolygon(teekkari_cap_string, 5);
