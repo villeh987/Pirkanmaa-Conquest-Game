@@ -58,7 +58,7 @@ private slots:
     void startReactionGame();
 
 signals:
-    //void sendLoser(QString loser);
+    void sendLoser(QString loser);
     void sendLoserWager(std::shared_ptr<Course::WorkerBase> wager);
 };
 

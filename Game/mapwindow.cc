@@ -73,8 +73,8 @@ MapWindow::MapWindow(QWidget *parent):
 
     fight_dialog_ = new FightDialog(this);
     // Catch emitted signals from fightDialog
-    //connect(fight_dialog_, &FightDialog::sendLoser, this, &MapWindow::handleFightResult);
-    connect(fight_dialog_, &FightDialog::sendLoserWager, this, &MapWindow::removeWorker);
+    connect(fight_dialog_, &FightDialog::sendLoser, this, &MapWindow::handleFightResult);
+    //connect(fight_dialog_, &FightDialog::sendLoserWager, this, &MapWindow::removeWorker);
 
     // Connect emitted signal from gamescene
     connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
@@ -242,7 +242,11 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
     try {
         qDebug() << "removing:";
-        GManager->getTile( active_tile_ )->removeWorker(worker);
+        std::shared_ptr<Course::TileBase> curr_tile = GManager->getTile( active_tile_ );
+        curr_tile->removeWorker(worker);
+        if ( curr_tile->getWorkerCount() == 0 && curr_tile->getBuildingCount() == 0) {
+            curr_tile->setOwner(nullptr);
+        }
         updateGraphicsView();
         updateResourceLabels();
         updateWorkerCounts();
@@ -253,18 +257,19 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     }
 
     updateAndCheckActions();
+    qDebug() << "removed";
 }
 
 void MapWindow::initTeekkariFight(bool val)
 {
-    qDebug() << "initTeekkariFight";
+    //qDebug() << "initTeekkariFight";
 
-    if (val) {
+    /*if (val) {
         std::vector<std::shared_ptr<Course::WorkerBase>> wagers  =
                 GEHandler->getWagers(GManager, GManager->getTile(active_tile_));
         fight_dialog_->setWagers(wagers.at(0), wagers.at(1));
-        qDebug() << "1st wager:" << QString::fromStdString(wagers.at(0)->getOwner()->getName()) <<  "2nd wager:" << QString::fromStdString(wagers.at(1)->getOwner()->getName());
-    }
+        //qDebug() << "1st wager:" << QString::fromStdString(wagers.at(0)->getOwner()->getName()) <<  "2nd wager:" << QString::fromStdString(wagers.at(1)->getOwner()->getName());
+    } */
     ui->teekkariFightButton->setVisible(val);
 }
 
@@ -545,11 +550,11 @@ void MapWindow::showFightDialog()
 
 void MapWindow::handleFightResult(QString loser)
 {
-    qDebug() << "Tääl";
     if (loser == QString::fromStdString(GEHandler->getPlayerInTurn()->getName())) {
-        for (auto& w : GManager->getTile(active_tile_)->getWorkers()) {
+        for (auto w : GManager->getTile(active_tile_)->getWorkers()) {
             if (w->getType() == "Teekkari") {
                 removeWorker(w);
+                break;
             }
         }
 
@@ -557,9 +562,11 @@ void MapWindow::handleFightResult(QString loser)
         std::vector<Course::Coordinate> neighbours = GManager->getTile(active_tile_)->getCoordinate().neighbours();
         for (auto i : neighbours) {
             if ( GEHandler->containsTeekkari(GManager->getTile(i)) ) {
+                active_tile_ = GManager->getTile(i)->ID;
                 for (auto& j : GManager->getTile(i)->getWorkers() ) {
                     if (j->getType() == "Teekkari") {
                         removeWorker(j);
+                        break;
                     }
                 }
             }

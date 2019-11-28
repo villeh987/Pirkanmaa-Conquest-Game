@@ -114,9 +114,9 @@ void FightDialog::startReactionGame()
             ui->startButton->setText("Close");
         }
     } else if (ui->startButton->text() == "Close") {
-        //emit sendLoser(getLoser());
-        qDebug() << "Send wager from:" << QString::fromStdString(getLoserWager()->getOwner()->getName());
-        emit sendLoserWager(getLoserWager());
+        emit sendLoser(getLoser());
+        //qDebug() << "Send wager from:" << QString::fromStdString(getLoserWager()->getOwner()->getName());
+        //emit sendLoserWager(getLoserWager());
 
         resetGame();
         FightDialog::accept();
