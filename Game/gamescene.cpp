@@ -9,44 +9,37 @@ namespace Game {
 
 GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::shared_ptr<GameEventHandler> s_GEHandler):
     QGraphicsScene(parent),
-    _mapBoundRect(nullptr),
     s_GEHandler(s_GEHandler)
 
 {
-    scene_width = width;
-    scene_height = height;
-    scene_scale = scale;
+    scene_width_ = width;
+    scene_height_ = height;
+    scene_scale_ = scale;
 
-    QRect game_rect = QRect(-1, -1, (scene_width * scene_scale)+2, (scene_height * scene_scale)+2);
+    QRect game_rect = QRect(-1, -1, (scene_width_ * scene_scale_)+2, (scene_height_ * scene_scale_)+2);
 
     addRect(game_rect, QPen(Qt::magenta, 10));
     setSceneRect(game_rect);
-    _mapBoundRect = itemAt(game_rect.topLeft(), QTransform());
-
 }
 
 
-void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> obj, QColor player_color)
+void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color)
 {
-    Game::MapItem* nItem = new Game::MapItem(obj, scene_scale, player_color);
-    addItem(nItem);
+    Game::MapItem* mapitem = new Game::MapItem(game_object, scene_scale_, player_color);
+    addItem(mapitem);
 }
 
-void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> obj)
+void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> game_object)
 {
 
-    QList<QGraphicsItem*> items_list = items();
+    QList<QGraphicsItem*> scene_items = items();
 
-    if ( items_list.size() == 1 ){
+    if ( scene_items.size() == 1 ){
         qDebug() << "Nothing to be removed at the location pointed by given obj.";
     } else {
-        for ( auto item : items_list ){
-
+        for ( auto item : scene_items ){
             Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
-            //qDebug() << "Mapitem on:" << (mapitem->getBoundObject()->getCoordinate().asQpoint());
-
-            if ( mapitem->isSameObj(obj) ){
-                //qDebug() << "poistetaan mapitem:";
+            if ( mapitem->isSameObj(game_object) ){
                 delete mapitem;
             }
         }
@@ -54,16 +47,16 @@ void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> obj)
 
 }
 
-void GameScene::updateMapItem(std::shared_ptr<Course::GameObject> obj)
+void GameScene::updateMapItem(std::shared_ptr<Course::GameObject> game_object)
 {
-    QList<QGraphicsItem*> items_list = items();
-    if ( items_list.size() == 1 ){
+    QList<QGraphicsItem*> scene_items = items();
+    if ( scene_items.size() == 1 ){
         qDebug() << "Nothing to update.";
     } else {
-        for ( auto item : items_list ){
-            Game::MapItem* mapItem = static_cast<Game::MapItem*>(item);
-            if (mapItem->isSameObj(obj)){
-                mapItem->updateLoc();
+        for ( auto item : scene_items ){
+            Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
+            if (mapitem->isSameObj(game_object)){
+                mapitem->updateLoc();
             }
         }
     }
@@ -78,7 +71,7 @@ bool GameScene::event(QEvent *event)
 
         if ( sceneRect().contains(mouse_event->scenePos())){
 
-            QPointF point = mouse_event->scenePos() / scene_scale;
+            QPointF point = mouse_event->scenePos() / scene_scale_;
 
             point.rx() = floor(point.rx());
             point.ry() = floor(point.ry());
@@ -86,14 +79,9 @@ bool GameScene::event(QEvent *event)
 
             // Paint border rect as highlight
 
-            QGraphicsItem* pressed = itemAt(point * scene_scale, QTransform());
+            QGraphicsItem* pressed = itemAt(point * scene_scale_, QTransform());
 
-
-            if ( pressed == _mapBoundRect ){
-                qDebug() << "Click on map area.";
-
-            } else if (pressed == highlight_) {
-                //qDebug() << "Klikkasit samaa!";
+            if (pressed == highlight_) {
                 return true;
 
             } else {
@@ -108,8 +96,7 @@ bool GameScene::event(QEvent *event)
                                                    pressed->boundingRect().width()-5,
                                                    pressed->boundingRect().height()-5),
                                             QPen(s_GEHandler->getPlayerInTurn()->player_color_, 7));
-
-                //qDebug() << QString::fromStdString(static_cast<Game::MapItem*>(pressed)->getBoundObject()->getType());
+;
                 emit tileClicked(static_cast<Game::MapItem*>(pressed)
                                  ->getBoundObject()->getCoordinate());  // Needed to update graphicsView widget
 
@@ -127,7 +114,6 @@ void GameScene::removeHighlight()
         delete highlight_;
         highlight_ = nullptr;
     }
-
 }
 
 

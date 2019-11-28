@@ -55,7 +55,7 @@ public:
      * @pre obj must have a valid coordinate property.
      * @post Exception guarantee: None
      */
-    void drawMapItem( std::shared_ptr<Course::GameObject> obj, QColor player_color);
+    void drawMapItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color);
 
     /**
      * @brief tries to remove drawn object at the location obj points to.
@@ -64,13 +64,13 @@ public:
      * @post Exception guarantee: None
      *
      */
-    void removeMapItem( std::shared_ptr<Course::GameObject> obj);
+    void removeMapItem(std::shared_ptr<Course::GameObject> game_object);
 
     /**
      * @brief updates the position of obj.
      * @param obj shared ptr to the obj being updated.
      */
-    void updateMapItem( std::shared_ptr<Course::GameObject> obj);
+    void updateMapItem(std::shared_ptr<Course::GameObject> game_object);
 
     /**
      * @brief simple event handler that notifies when objects or the play
@@ -85,14 +85,11 @@ public:
 
 
 private:
-    QGraphicsItem* _mapBoundRect;
     QGraphicsRectItem* highlight_ = nullptr;
 
-    int scene_width;
-    int scene_height;
-    int scene_scale;
-
-    QRectF previous_;
+    int scene_width_;
+    int scene_height_;
+    int scene_scale_;
 
     std::shared_ptr<GameEventHandler> s_GEHandler;
 
