@@ -7,6 +7,9 @@
 #include <memory>
 #include "workers/workerbase.h"
 #include "core/playerbase.h"
+#include <chrono>
+#include <thread>
+#include <QApplication>
 
 namespace Ui {
 class FightDialog;
@@ -52,6 +55,8 @@ private:
     QString getLoser();
     std::shared_ptr<Course::WorkerBase> getLoserWager();
     void resetGame();
+    void initReaction();
+    bool disableStart();
 
 
 private slots:

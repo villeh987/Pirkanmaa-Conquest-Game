@@ -86,13 +86,42 @@ void FightDialog::resetGame()
 
 }
 
+void FightDialog::initReaction()
+{
+    /*time_t start= time(NULL);
+    time_t end;
+    unsigned long long rnd_time = rand() % 10 + 1;
+    if (ui->startButton->text() == "Stop") {
+
+        while (true) {
+            end = time(NULL);
+            if (difftime(end, start) >= rnd_time) {
+                break;
+            }
+
+        }
+    } */
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 10000 + 1));
+    timer_->restart();
+}
+
 void FightDialog::startReactionGame()
 {
     if (ui->startButton->text() == "Start") {
-        timer_->restart();
         ui->startButton->setText("Stop");
+        ui->startButton->setDisabled(true);
+        //ui->startButton->blockSignals(true);
+        ui->startButton->repaint();
+        //qApp->processEvents();
+        initReaction();
+        ui->startButton->setDisabled(false);
+       // ui->startButton->blockSignals(false);
+
+
 
     } else if (ui->startButton->text() == "Stop") {
+
         if (ui->infoLabel->text() == PLAYER1_TURN_TEXT) {
             player1_result_ = timer_->elapsed();
             ui->startButton->setText("Start");
