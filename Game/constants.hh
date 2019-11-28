@@ -20,7 +20,18 @@ const Course::ResourceMap STARTRESOURCES = {
     {Course::BasicResource::ORE, 5000}
 };
 
+
+const std::map<Course::BasicResource, double> GRADING_FACTORS= {
+    {Course::BasicResource::MONEY, 1.5},
+    {Course::BasicResource::FOOD, 1.1},
+    {Course::BasicResource::WOOD, 1.3},
+    {Course::BasicResource::STONE, 1.1},
+    {Course::BasicResource::ORE, 1.3}
+};
+
 const int MAX_ACTIONS = 2;
+
+const int MAX_ROUDS = 25;
 
 const std::string ROUND_START_NOCLICK_TEXT = "Select a tile:";
 
@@ -43,6 +54,8 @@ const std::string PENALTY_ADDWORKER_TEXT =
         "Oh my, you tried to add worker on lava!";
 
 const std::string NOT_ENOUGH_RESOURCES_TEXT = "Not enough resources!";
+
+const std::string GAME_OVER_TEXT = "GAME OVER!";
 
 
 

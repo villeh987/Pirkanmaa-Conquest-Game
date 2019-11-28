@@ -27,6 +27,10 @@ MapWindow::MapWindow(QWidget *parent):
     GManager = std::make_shared<Game::ObjectManager>();
     gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, GEHandler);
 
+    // End dialog
+    end_dialog_ = new EndGameDialog(this, GEHandler, GManager);
+    connect(end_dialog_, &EndGameDialog::rejected, this, &MapWindow::close);
+
     // Random seed
     srand (std::time(NULL));
     rnd_seed_ = rand() % 10000 + 1;
@@ -365,6 +369,23 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
     ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
 }
 
+bool MapWindow::gameEnded()
+{
+    if ( GEHandler->getRounds() >= Game::MAX_ROUDS ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void MapWindow::endGame()
+{
+    disableGamePanel();
+    end_dialog_->setResults();
+    showEndDialog();
+
+}
+
 void MapWindow::changeTurn()
 {
     try {
@@ -384,6 +405,10 @@ void MapWindow::changeTurn()
     gamescene_->removeHighlight();
     GEHandler->resetActionsCount();
     updateGraphicsView();
+
+    if (gameEnded()) {
+        endGame();
+    }
 
 }
 
@@ -573,6 +598,11 @@ void MapWindow::handleFightResult(QString loser)
             }
         }
     }
+}
+
+void MapWindow::showEndDialog()
+{
+    end_dialog_->open();
 }
 
 void MapWindow::prepareAddBasicWorker()

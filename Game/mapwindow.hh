@@ -35,6 +35,7 @@
 #include "Game_tiles/rock.hh"
 #include "Game_tiles/lava.hh"
 #include "fightdialog.hh"
+#include "endgamedialog.hh"
 
 namespace Ui {
 class MapWindow;
@@ -73,6 +74,7 @@ public:
 
 private:
     StartDialog* dialog_ = nullptr;
+    EndGameDialog* end_dialog_ = nullptr;
     WorkerDialog* worker_dialog_ = nullptr;
     FightDialog* fight_dialog_ = nullptr;
 
@@ -102,6 +104,9 @@ private slots:
     // Init brand new game
     void initNewGame(QList<QString> names, QList<QColor> colors);
 
+    bool gameEnded();
+    void endGame();
+
     void changeTurn();
     void disableGamePanel(bool disable = true);
     void disableAssingWorker(bool disable = true);
@@ -129,6 +134,10 @@ private slots:
     // Fight dialog
     void showFightDialog();
     void handleFightResult(QString loser);
+
+    // End dialog
+
+    void showEndDialog();
 
     void prepareAddBasicWorker();
     void prepareAddMiner();
