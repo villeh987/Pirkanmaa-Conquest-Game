@@ -10,6 +10,7 @@
 #include <map>
 
 #include "core/gameobject.h"
+#include "gameeventhandler.hh"
 
 namespace Game {
 
@@ -27,7 +28,7 @@ public:
      * @param size of the created item in pixels.
      * @pre obj must have a valid Coordinate.
      */
-    MapItem(const std::shared_ptr<Course::GameObject> &obj, int size, QColor player_color);
+    MapItem(const std::shared_ptr<Course::GameObject> &obj, int size, QColor player_color, std::shared_ptr<ObjectManager> GManager);
 
     /**
      * @brief boundingRect
@@ -92,6 +93,7 @@ private:
     static std::map<std::string, QColor> c_mapcolors;
     static std::vector<std::pair<std::string, QColor>> g_vectorcolors;
     static void addNewColor(std::string type);
+    std::shared_ptr<ObjectManager> GManager;
 
 };
 

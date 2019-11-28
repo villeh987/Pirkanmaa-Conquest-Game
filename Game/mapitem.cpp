@@ -6,8 +6,8 @@ namespace Game {
 std::map<std::string, QColor> MapItem::c_mapcolors = {};
 //std::vector<std::pair<std::string, QColor>> g_vectorcolors = [];
 
-MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj, int size , QColor player_color):
-    m_gameobject(obj), m_scenelocation(m_gameobject->getCoordinatePtr()->asQpoint()), m_size(size), m_player_color(player_color)
+MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj, int size , QColor player_color, std::shared_ptr<ObjectManager> GManager):
+    m_gameobject(obj), m_scenelocation(m_gameobject->getCoordinatePtr()->asQpoint()), m_size(size), m_player_color(player_color), GManager(GManager)
 {
     addNewColor(m_gameobject->getType());
 }
@@ -21,9 +21,25 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
 
+    std::vector<std::shared_ptr<Course::TileBase>> tiles = GManager->returnTiles();
+    //int worker_count;
     int tile_x = (m_scenelocation * m_size).x();
     int tile_y = (m_scenelocation * m_size + QPoint(m_size, m_size)).y();
-    getStyle(tile_x, tile_y, m_gameobject->getType(), *painter, boundingRect(), m_player_color);
+    std::vector<std::shared_ptr<Course::WorkerBase>> workers;
+
+    // alla oleva ei toimi. Täytyy katsoa yhdessä tuota
+
+    for (auto& tile : tiles) {
+        if (tile_x == tile->getCoordinate().x() && tile_y == tile->getCoordinate().y()) {
+            qDebug() << "Sama tile";
+
+            //worker_count = tile->getWorkerCount();
+        }
+    }
+
+    //qDebug() << "wörrkicount" << worker_count;
+
+    getStyle(tile_x, tile_y, m_gameobject->getType(), *painter, boundingRect(), m_player_color, workers);
 
 
 }

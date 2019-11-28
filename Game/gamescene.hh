@@ -40,10 +40,11 @@ public:
               int width = 10,
               int height = 10,
               int scale = 50,
-              std::shared_ptr<GameEventHandler> s_GEHandler = nullptr
+              std::shared_ptr<GameEventHandler> s_GEHandler = nullptr,
+              std::shared_ptr<ObjectManager> GManager = nullptr
               );
 
-    /**
+    /**z
      * @brief Default destructor of the class.
      */
 
@@ -92,7 +93,7 @@ private:
     int scene_scale_;
 
     std::shared_ptr<GameEventHandler> s_GEHandler;
-
+    std::shared_ptr<ObjectManager> GManager;
 signals:
     void tileClicked(Course::Coordinate tile_coords);
 

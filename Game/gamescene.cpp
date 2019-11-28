@@ -7,9 +7,10 @@
 
 namespace Game {
 
-GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::shared_ptr<GameEventHandler> s_GEHandler):
+GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::shared_ptr<GameEventHandler> s_GEHandler, std::shared_ptr<ObjectManager> GManager):
     QGraphicsScene(parent),
-    s_GEHandler(s_GEHandler)
+    s_GEHandler(s_GEHandler),
+    GManager(GManager)
 
 {
     scene_width_ = width;
@@ -25,7 +26,7 @@ GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::sha
 
 void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color)
 {
-    Game::MapItem* mapitem = new Game::MapItem(game_object, scene_scale_, player_color);
+    Game::MapItem* mapitem = new Game::MapItem(game_object, scene_scale_, player_color, GManager);
     addItem(mapitem);
 }
 

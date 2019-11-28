@@ -18,14 +18,14 @@ MapWindow::MapWindow(QWidget *parent):
 {
     ui->setupUi(this);
 
-    // Startdialog
+    // Startdialogqdebu
 
     dialog_ = new StartDialog(this);
 
     // Manager and handler
     GEHandler = std::make_shared<Game::GameEventHandler>();
     GManager = std::make_shared<Game::ObjectManager>();
-    gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, GEHandler);
+    gamescene_ = std::make_shared<Game::GameScene>(this, 10, 10, 50, GEHandler, GManager);
 
     // End dialog
     end_dialog_ = new EndGameDialog(this, GEHandler, GManager);
