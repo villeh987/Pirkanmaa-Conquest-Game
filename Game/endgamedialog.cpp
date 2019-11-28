@@ -8,6 +8,8 @@ EndGameDialog::EndGameDialog(QWidget *parent, std::shared_ptr<Game::GameEventHan
     Objectmanager_(Objectmanager)
 {
     ui->setupUi(this);
+    ui->p1Score->setPalette(Qt::black);
+    ui->p2Score->setPalette(Qt::black);
 
     connect(ui->closeButton, &QPushButton::clicked, this, &EndGameDialog::reject);
 
