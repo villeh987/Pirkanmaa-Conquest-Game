@@ -462,6 +462,7 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
                  << qreal(GManager->getTile(tile_coords)->getCoordinate().y()); */
 
         active_tile_ = GManager->getTile(tile_coords)->ID;
+        ui->currentTileTypeLabel->setText(QString::fromStdString(GManager->getTile(tile_coords)->getType()));
         ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_START_CLICKED_TEXT));
 
         if (GManager->getTile(active_tile_)->getType() == "Lava") {

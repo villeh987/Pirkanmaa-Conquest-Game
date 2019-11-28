@@ -179,6 +179,19 @@
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
+          <widget class="QLabel" name="currentTileTypeLabel">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>0</y>
+             <width>67</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
         </item>
         <item>
