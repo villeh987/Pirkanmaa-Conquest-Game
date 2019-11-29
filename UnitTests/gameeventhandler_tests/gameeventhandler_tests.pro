@@ -9,6 +9,7 @@ CONFIG += c++14
 TEMPLATE = app
 
 HEADERS += ../../Game/gameeventhandler.hh \
+           ../../Game/objectmanager.hh \
            ../../Game/player.hh \
            ../../Course/CourseLib/core/*.h \
            ../../Course/CourseLib/tiles/tilebase.h \
@@ -20,6 +21,7 @@ HEADERS += ../../Game/gameeventhandler.hh \
 
 SOURCES +=  tst_gameeventhandler.cpp \
             ../../Game/gameeventhandler.cpp \
+            ../../Game/objectmanager.cpp \
             ../../Game/player.cpp \
             ../../Course/CourseLib/core/*.cpp \
             ../../Course/CourseLib/tiles/tilebase.cpp \
