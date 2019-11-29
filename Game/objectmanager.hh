@@ -4,12 +4,11 @@
 #include <memory>
 #include <vector>
 
-#include <interfaces/iobjectmanager.h>
+#include "buildings/farm.h"
 #include "buildings/buildingbase.h"
 #include "core/coordinate.h"
+#include "interfaces/iobjectmanager.h"
 #include "tiles/tilebase.h"
-
-#include "buildings/farm.h"
 #include "Game_tiles/water.hh"
 #include "constants.hh"
 
@@ -73,7 +72,8 @@ private:
     std::vector<std::shared_ptr<Course::TileBase>> tiles_;
 };
 
-}
+
+} // Namespace Game
 
 
 #endif // OBJECTMANAGER_HH

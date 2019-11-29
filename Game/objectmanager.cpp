@@ -1,4 +1,5 @@
 #include "objectmanager.hh"
+
 namespace Game {
 
 
@@ -60,8 +61,6 @@ bool ObjectManager::isDullTile(std::string tile_type)
     }
     return false;
 }
-
-
 
 
 
