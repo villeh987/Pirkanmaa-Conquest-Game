@@ -93,9 +93,19 @@ void MapWindow::showStartDialog()
     dialog_->open();
 }
 
-void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
+void MapWindow::drawItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color)
 {
-    gamescene_->updateMapItem(obj);
+    gamescene_->drawMapItem(game_object, player_color);
+}
+
+void MapWindow::removeItem(std::shared_ptr<Course::GameObject> game_object)
+{
+    gamescene_->removeMapItem(game_object);
+}
+
+void MapWindow::updateItem(std::shared_ptr<Course::GameObject> game_object)
+{
+    gamescene_->updateMapItem(game_object);
 }
 
 void MapWindow::generateMap()
@@ -589,14 +599,3 @@ void MapWindow::prepareRemoveWorker(std::string worker_type)
         }
     }
 }
-
-void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
-{
-    gamescene_->removeMapItem(obj);
-}
-
-void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj, QColor player_color)
-{
-    gamescene_->drawMapItem(obj, player_color);
-}
-
