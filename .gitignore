@@ -42,6 +42,7 @@ Thumbs.db
 moc_*.h
 target_wrapper.sh
 UnitTests/interface_tests/interface_tests
+UnitTests/gameeventhandler_tests/gameeventhandler_tests
 UnitTests/objectmanager_tests/objectmanager_tests
 Course
 
