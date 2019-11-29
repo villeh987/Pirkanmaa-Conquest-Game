@@ -1,15 +1,16 @@
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
 
+#include <math.h>
+#include <memory>
+#include <exception>
 
 #include "graphics/simplemapitem.h"
 #include "gamescene.hh"
 #include "exceptions/baseexception.h"
 
 
-#include <math.h>
-#include <memory>
-#include <exception>
+
 
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
@@ -18,7 +19,7 @@ MapWindow::MapWindow(QWidget *parent):
 {
     ui->setupUi(this);
 
-    // Startdialogqdebu
+    // Startdialog
 
     dialog_ = new StartDialog(this);
 
@@ -40,26 +41,22 @@ MapWindow::MapWindow(QWidget *parent):
     generateMap();
 
     // Connect game buttons
-
     connect(ui->buildHqButton, &QPushButton::clicked, this, &MapWindow::prepareBuildHq);
     connect(ui->buildFarmButton, &QPushButton::clicked, this, &MapWindow::prepareBuildFarm);
     connect(ui->buildOutpostButton, &QPushButton::clicked, this, &MapWindow::prepareBuildOutpost);
     connect(ui->buildTuniTowerButton, &QPushButton::clicked, this, &MapWindow::prepareBuildTuniTower);
     connect(ui->buildMineButton, &QPushButton::clicked, this, &MapWindow::prepareBuildMine);
-
     connect(ui->assignWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
     connect(ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
-
     connect(ui->teekkariFightButton, &QPushButton::clicked, this, &MapWindow::showFightDialog);
 
+    // Connect GameWindow signals
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
 
     // Disable buttons
     ui->teekkariFightButton->setVisible(false);
 
-
     // Catch emitted signals from startdialog
-
     connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::printNames);
     connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
@@ -67,7 +64,6 @@ MapWindow::MapWindow(QWidget *parent):
     connect(ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
     // Catch emitted signals from workerDialog
-
     worker_dialog_ = new WorkerDialog(this, "Choose worker type:");
 
     connect(worker_dialog_, &WorkerDialog::sendBuildBasicWorker, this, &MapWindow::prepareAddBasicWorker);
@@ -83,13 +79,8 @@ MapWindow::MapWindow(QWidget *parent):
     // Connect emitted signal from gamescene
     connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
 
-
-    //Course::SimpleGameScene* sgs_rawptr = gamescene_.get();
     Game::GameScene* sgs_rawptr = gamescene_.get();
-
     ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
-
-
 }
 
 MapWindow::~MapWindow()
@@ -102,27 +93,6 @@ void MapWindow::showStartDialog()
     dialog_->open();
 }
 
-/*void MapWindow::setGEHandler(
-        std::shared_ptr<Course::iGameEventHandler> nHandler)
-{
-    GEHandler = nHandler;
-} */
-/*
-void MapWindow::setSize(int width, int height)
-{
-    gamescene_->setSize(width, height);
-}
-
-void MapWindow::setScale(int scale)
-{
-    gamescene_->setScale(scale);
-}
-
-void MapWindow::resize()
-{
-    gamescene_->resize();
-}
-*/
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
     gamescene_->updateMapItem(obj);
@@ -138,7 +108,6 @@ void MapWindow::generateMap()
     worldGen.addConstructor<Game::Lava>(1);
     worldGen.generateMap(10, 10, rnd_seed_, GManager, GEHandler);
     drawMap();
-
 }
 
 void MapWindow::drawMap()
@@ -279,7 +248,6 @@ void MapWindow::initTeekkariFight(bool val)
 
 void MapWindow::checkForTeekkariFight()
 {
-
     if (GEHandler->containsTeekkari(GManager->getTile(active_tile_))
             && GEHandler->isInTeekkariFightRange(
                 GManager, GManager->getTile(active_tile_))) {
@@ -320,8 +288,6 @@ void MapWindow::updateWorkerCounts()
     int miner_amount = 0;
     int teekkari_amount = 0;
 
-
-
     for (auto& worker: tile_workers) {
         if (worker->getType() == "BasicWorker") {
            ++basic_worker_amount;
@@ -335,8 +301,6 @@ void MapWindow::updateWorkerCounts()
      ui->workerValLabel->setText(QString::fromStdString(std::to_string(basic_worker_amount)));
      ui->teekkariValLabel->setText(QString::fromStdString(std::to_string(teekkari_amount)));
      ui->minerValLabel->setText(QString::fromStdString(std::to_string(miner_amount)));
-
-
 }
 
 void MapWindow::updateAndCheckActions()
@@ -383,7 +347,6 @@ void MapWindow::endGame()
     disableGamePanel();
     end_dialog_->setResults();
     showEndDialog();
-
 }
 
 void MapWindow::changeTurn()
@@ -409,7 +372,6 @@ void MapWindow::changeTurn()
     if (gameEnded()) {
         endGame();
     }
-
 }
 
 void MapWindow::disableGamePanel(bool disable)
@@ -417,7 +379,6 @@ void MapWindow::disableGamePanel(bool disable)
     ui->resourceWidget->setDisabled(disable);
     ui->workerWidget->setDisabled(disable);
     ui->buildWidget->setDisabled(disable);
-
 }
 
 void MapWindow::disableAssingWorker(bool disable)
@@ -433,8 +394,6 @@ void MapWindow::disableBuild(bool disable)
     ui->buildFarmButton->setDisabled(disable);
     ui->buildOutpostButton->setDisabled(disable);
     ui->buildSupplyChainButton->setDisabled(disable);
-
-    //ui->buildWidget->setDisabled(disable);
 }
 
 void MapWindow::disableBuildIndividual()
@@ -468,23 +427,18 @@ void MapWindow::disableBuildIndividual()
         if (type == "SupplyChain") {
             ui->buildSupplyChainButton->setDisabled(true);
         }
-     }
+    }
 }
 
 void MapWindow::updateGraphicsView()
 {
     ui->graphicsView->viewport()->update();
-
 }
 
 void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 {
     if (!GEHandler->isMaxActions()) {
         updateGraphicsView();
-
-        /*qDebug() << qreal(GManager->getTile(tile_coords)->ID)
-                 << qreal(GManager->getTile(tile_coords)->getCoordinate().x())
-                 << qreal(GManager->getTile(tile_coords)->getCoordinate().y()); */
 
         active_tile_ = GManager->getTile(tile_coords)->ID;
         ui->currentTileTypeLabel->setText(QString::fromStdString(GManager->getTile(tile_coords)->getType()));
@@ -509,13 +463,9 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 
             checkForTeekkariFight();
 
-
-
         }
         updateWorkerCounts();
     }
-
-
 }
 
 void MapWindow::prepareBuildHq()
