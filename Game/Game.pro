@@ -8,8 +8,8 @@ CONFIG += c++14
 SOURCES += \
     Game_tiles/rock.cpp \
     Game_tiles/water.cpp \
-    endgamedialog.cpp \
-    fightdialog.cpp \
+    Game_dialogs/endgamedialog.cpp \
+    Game_dialogs/fightdialog.cpp \
     gameeventhandler.cpp \
     gamescene.cpp \
     main.cpp \
@@ -19,20 +19,20 @@ SOURCES += \
     Game_workers/miner.cpp \
     objectmanager.cpp \
     player.cpp \
-    startdialog.cpp \
+    Game_dialogs/startdialog.cpp \
     Game_buildings/supplychain.cpp \
     Game_buildings/tunitower.cpp \
     Game_workers/teekkari.cpp \
     styles.cpp \
-    workerdialog.cpp \
+    Game_dialogs/workerdialog.cpp \
     Game_tiles/lava.cpp
 
 HEADERS += \
     Game_tiles/rock.hh \
     Game_tiles/water.hh \
     constants.hh \
-    endgamedialog.hh \
-    fightdialog.hh \
+    Game_dialogs/endgamedialog.hh \
+    Game_dialogs/fightdialog.hh \
     gameeventhandler.hh \
     gamescene.hh \
     mapitem.hh \
@@ -43,12 +43,12 @@ HEADERS += \
     player.hh \
     Game_errors/resourceerror.hh \
     Game_resourcemaps/resources.hh \
-    startdialog.hh \
+    Game_dialogs/startdialog.hh \
     Game_buildings/supplychain.hh \
     Game_buildings/tunitower.hh \
     Game_workers/teekkari.hh \
     styles.hh \
-    workerdialog.hh \
+    Game_dialogs/workerdialog.hh \
     Game_tiles/lava.hh
 
 win32:CONFIG(release, debug|release): LIBS += \

@@ -12,8 +12,8 @@
 
 #include "interfaces/igameeventhandler.h"
 #include "graphics/simplegamescene.h"
-#include "startdialog.hh"
-#include "workerdialog.hh"
+#include "Game_dialogs/startdialog.hh"
+#include "Game_dialogs/workerdialog.hh"
 #include "gameeventhandler.hh"
 #include "objectmanager.hh"
 #include "core/worldgenerator.h"
@@ -34,8 +34,8 @@
 #include "exceptions/baseexception.h"
 #include "Game_tiles/rock.hh"
 #include "Game_tiles/lava.hh"
-#include "fightdialog.hh"
-#include "endgamedialog.hh"
+#include "Game_dialogs/fightdialog.hh"
+#include "Game_dialogs/endgamedialog.hh"
 
 namespace Ui {
 class MapWindow;
