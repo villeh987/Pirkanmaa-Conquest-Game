@@ -208,6 +208,36 @@ bool GameEventHandler::containsTeekkari(std::shared_ptr<Course::TileBase> tile)
     return false;
 }
 
+bool GameEventHandler::canRemoveBuilding(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
+{
+    std::vector<Course::Coordinate> neighbours = tile->getCoordinate().neighbours();
+    for (auto i : neighbours) {
+        if (GManager->getTile(i) != nullptr) {
+            if (containsTeekkari(GManager->getTile(i)) &&
+                    GManager->getTile(i)->getOwner() == player_in_turn_ &&
+                    tile->getBuildingCount() > 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int GameEventHandler::getPlayersWorkerCount(std::shared_ptr<ObjectManager> GManager, std::string worker_type)
+{
+    int count = 0;
+    for (auto tile : GManager->returnTiles()) {
+        if (tile->getOwner() == player_in_turn_) {
+            for (auto worker : tile->getWorkers()) {
+                if (worker->getType() == worker_type) {
+                    ++count;
+                }
+            }
+        }
+    }
+    return count;
+}
+
 
 std::vector<std::shared_ptr<Course::WorkerBase> > GameEventHandler::getWagers(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
 {

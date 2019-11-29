@@ -33,6 +33,8 @@ const int MAX_ACTIONS = 2;
 
 const int MAX_ROUDS = 25;
 
+const int MAX_TEEKKARIS_PER_PLAYER = 1;
+
 const std::string ROUND_START_NOCLICK_TEXT = "Select a tile:";
 
 const std::string ROUND_START_CLICKED_TEXT = "Choose action:";
@@ -54,6 +56,8 @@ const std::string PENALTY_ADDWORKER_TEXT =
         "Oh my, you tried to add worker on lava!";
 
 const std::string NOT_ENOUGH_RESOURCES_TEXT = "Not enough resources!";
+
+const std::string MAX_TEEKKARIS_TEXT = "Only" + std::to_string(MAX_TEEKKARIS_PER_PLAYER) + "Teekkari(s) allowed per player!";
 
 const std::string GAME_OVER_TEXT = "GAME OVER!";
 

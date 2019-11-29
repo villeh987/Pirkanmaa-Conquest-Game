@@ -10,6 +10,7 @@ SOURCES += \
     Game_tiles/water.cpp \
     Game_dialogs/endgamedialog.cpp \
     Game_dialogs/fightdialog.cpp \
+    Game_dialogs/buildingdialog.cpp \
     gameeventhandler.cpp \
     gamescene.cpp \
     main.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
 HEADERS += \
     Game_tiles/rock.hh \
     Game_tiles/water.hh \
+    Game_dialogs/buildingdialog.hh \
     constants.hh \
     Game_dialogs/endgamedialog.hh \
     Game_dialogs/fightdialog.hh \
@@ -76,6 +78,7 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 FORMS += \
+    buildingdialog.ui \
     endgamedialog.ui \
     fightdialog.ui \
     mapwindow.ui \

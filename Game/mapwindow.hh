@@ -37,6 +37,7 @@
 #include "Game_dialogs/endgamedialog.hh"
 #include "Game_dialogs/startdialog.hh"
 #include "Game_dialogs/workerdialog.hh"
+#include "Game_dialogs/buildingdialog.hh"
 
 namespace Ui {
 class MapWindow;
@@ -117,6 +118,10 @@ public:
      */
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
+
+
+    void removeBuilding(const std::shared_ptr<Course::BuildingBase>& building);
+
     /**
      * @brief Adds the given worker to current active tile.
      * Adds penalty in case Player tries to add on Lava.
@@ -163,6 +168,7 @@ private:
     EndGameDialog* end_dialog_ = nullptr;
     WorkerDialog* worker_dialog_ = nullptr;
     FightDialog* fight_dialog_ = nullptr;
+    BuildingDialog* building_dialog_ = nullptr;
 
     Ui::MapWindow* ui;
 
@@ -194,6 +200,7 @@ private slots:
     void disableAssingWorker(bool disable = true);
     void disableBuild(bool disable = true);
     void disableBuildIndividual();
+    void disableAllButRemoveBuilding(bool disable = true);
 
     // Init loaded game
     //void initLoadedGame(QString data);
@@ -218,8 +225,11 @@ private slots:
     void handleFightResult(QString loser);
 
     // End dialog
-
     void showEndDialog();
+
+    // Building dialog
+    bool checkRemoveBuilding();
+    void showBuildingDialog();
 
     void prepareAddBasicWorker();
     void prepareAddMiner();
