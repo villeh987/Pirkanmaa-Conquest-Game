@@ -89,13 +89,15 @@ private:
      */
     void removeItem( std::shared_ptr<Course::GameObject> game_object);
 
+    /*
     /**
      * @brief Calls gamescene's updateMapItem.
      * @param game_object A shared pointer to object that is updated.
      * @post Exception guarantee:
-     */
-    void updateItem( std::shared_ptr<Course::GameObject> game_object);
 
+
+    void updateItem( std::shared_ptr<Course::GameObject> game_object);
+    */
     /**
      * @brief Generates tiles using wordGenerator based on rnd_seed_.
      * Creates instance of worldGenerator, adds constructors by tile type and

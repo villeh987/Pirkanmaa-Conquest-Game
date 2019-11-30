@@ -107,12 +107,13 @@ void MapWindow::removeItem(std::shared_ptr<Course::GameObject> game_object)
 {
     gamescene_->removeMapItem(game_object);
 }
-
+/*
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> game_object)
 {
-    gamescene_->updateMapItem(game_object);
-}
 
+    //gamescene_->updateMapItem(game_object);
+}
+*/
 void MapWindow::generateMap()
 {
     Course::WorldGenerator& worldGen = Course::WorldGenerator::getInstance();
