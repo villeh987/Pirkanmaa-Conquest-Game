@@ -13,18 +13,13 @@ FightDialog::FightDialog(QWidget *parent,
 
     timer_ = new QElapsedTimer;
 
-    connect(ui->startButton, &QPushButton::clicked, this, &FightDialog::startReactionGame);
+    connect(ui->startButton, &QPushButton::clicked, this,
+            &FightDialog::startReactionGame);
 }
 
 FightDialog::~FightDialog()
 {
     delete ui;
-}
-
-void FightDialog::setWagers(std::shared_ptr<Course::WorkerBase> &worker1, std::shared_ptr<Course::WorkerBase> &worker2)
-{
-    player1_wager_ = worker1;
-    player2_wager_ = worker2;
 }
 
 void FightDialog::setNames(QString player1_name, QString player2_name)
@@ -56,25 +51,6 @@ QString FightDialog::getLoser()
     }
 }
 
-std::shared_ptr<Course::WorkerBase> FightDialog::getLoserWager()
-{
-    if (player1_result_ < player2_result_) {
-        if (player1_name_ == QString::fromStdString(player1_wager_->getOwner()->getName())) {
-            return player2_wager_;
-        } else {
-            return player1_wager_;
-        }
-
-    } else {
-        if (player1_name_ == QString::fromStdString(player1_wager_->getOwner()->getName())) {
-            return player1_wager_;
-        } else {
-            return player2_wager_;
-        }
-    }
-    return nullptr;
-}
-
 void FightDialog::resetGame()
 {
     ui->infoLabel->setText(START_TEXT);
@@ -88,20 +64,6 @@ void FightDialog::resetGame()
 
 void FightDialog::initReaction()
 {
-    /*time_t start= time(NULL);
-    time_t end;
-    unsigned long long rnd_time = rand() % 10 + 1;
-    if (ui->startButton->text() == "Stop") {
-
-        while (true) {
-            end = time(NULL);
-            if (difftime(end, start) >= rnd_time) {
-                break;
-            }
-
-        }
-    } */
-
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 10000 + 1));
     timer_->restart();
 }
@@ -111,13 +73,9 @@ void FightDialog::startReactionGame()
     if (ui->startButton->text() == "Start") {
         ui->startButton->setText("Stop");
         ui->startButton->setDisabled(true);
-        //ui->startButton->blockSignals(true);
         ui->startButton->repaint();
-        //qApp->processEvents();
         initReaction();
         ui->startButton->setDisabled(false);
-       // ui->startButton->blockSignals(false);
-
 
 
     } else if (ui->startButton->text() == "Stop") {
@@ -144,8 +102,6 @@ void FightDialog::startReactionGame()
         }
     } else if (ui->startButton->text() == "Close") {
         emit sendLoser(getLoser());
-        //qDebug() << "Send wager from:" << QString::fromStdString(getLoserWager()->getOwner()->getName());
-        //emit sendLoserWager(getLoserWager());
 
         resetGame();
         FightDialog::accept();

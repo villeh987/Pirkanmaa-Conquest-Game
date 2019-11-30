@@ -9,7 +9,8 @@ WorkerDialog::WorkerDialog(QWidget *parent, QString infotext) :
 
     ui->infoLabel->setText(infotext);
 
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &WorkerDialog::getWorkerType);
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
+            &WorkerDialog::getWorkerType);
 
 }
 

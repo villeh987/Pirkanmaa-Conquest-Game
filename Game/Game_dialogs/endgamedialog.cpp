@@ -1,7 +1,9 @@
 #include "endgamedialog.hh"
 #include "ui_endgamedialog.h"
 
-EndGameDialog::EndGameDialog(QWidget *parent, std::shared_ptr<Game::GameEventHandler> GEHandler, std::shared_ptr<Game::ObjectManager> Objectmanager) :
+EndGameDialog::EndGameDialog(QWidget *parent,
+                             std::shared_ptr<Game::GameEventHandler> GEHandler,
+                             std::shared_ptr<Game::ObjectManager> Objectmanager) :
     QDialog(parent),
     ui(new Ui::EndGameDialog),
     GEHandler_(GEHandler),
@@ -13,7 +15,7 @@ EndGameDialog::EndGameDialog(QWidget *parent, std::shared_ptr<Game::GameEventHan
     ui->p1Score->setPalette(pal);
     ui->p2Score->setPalette(pal);
 
-    connect(ui->closeButton, &QPushButton::clicked, this, &EndGameDialog::reject);
+    connect(ui->closeButton, &QPushButton::clicked, this,&EndGameDialog::reject);
 
     p1_labels_ = {
         ui->p1MoneyVal,
@@ -77,8 +79,6 @@ void EndGameDialog::calculateWinner()
 
     ui->p1Score->setText(QString::number(player1score));
     ui->p2Score->setText(QString::number(player2score));
-    //ui->p1Score->display(player1score);
-    //ui->p2Score->display(player2score);
 
 
     QString winner;

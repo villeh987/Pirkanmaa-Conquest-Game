@@ -194,8 +194,6 @@ public:
     int getPlayersWorkerCount(std::shared_ptr<ObjectManager> GManager,
                               std::string worker_type);
 
-private:
-
     /**
      * @brief Creates Player objects with given names. Players are stored in
      * players_.
@@ -203,6 +201,8 @@ private:
      * @post Exception guarantee:
      */
     void addPlayers(QList<QString> names);
+
+private:
 
     /**
      * @brief Sets Player colors. Colors are stored in Player object.
