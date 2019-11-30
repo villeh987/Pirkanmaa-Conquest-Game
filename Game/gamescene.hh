@@ -33,6 +33,8 @@ public:
      * @param width in tiles for the game map.
      * @param height in tiles for the game map.
      * @param scale is the size in pixels of a single square tile.
+     * @param s_GEHandler shared ptr to the event handler
+     * @param GManager shared ptr to the object manager
      *
      */
 
@@ -44,7 +46,7 @@ public:
               std::shared_ptr<ObjectManager> GManager = nullptr
               );
 
-    /**z
+    /**
      * @brief Default destructor of the class.
      */
 
@@ -52,35 +54,34 @@ public:
 
     /**
      * @brief draw a new item to the map.
-     * @param obj shared ptr to the object
-     * @pre obj must have a valid coordinate property.
+     * @param game_object shared ptr to the object.
+     * @param player_color the color of the player.
+     * @pre game_object must have a valid coordinate property.
      * @post Exception guarantee: None
      */
     void drawMapItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color);
 
     /**
-     * @brief tries to remove drawn object at the location obj points to.
-     * If there's multiple objects, will remove the one that matches obj.
-     * @param obj shared ptr to the object being deleted.
+     * @brief tries to remove drawn object at the location game_object points to.
+     * If there's multiple objects, will remove the one that matches game_object.
+     * @param game_object shared ptr to the object being deleted.
      * @post Exception guarantee: None
      *
      */
     void removeMapItem(std::shared_ptr<Course::GameObject> game_object);
 
-    /**
-     * @brief updates the position of obj.
-     * @param obj shared ptr to the obj being updated.
-     */
-    void updateMapItem(std::shared_ptr<Course::GameObject> game_object);
 
     /**
-     * @brief simple event handler that notifies when objects or the play
-     * area is clicked.
+     * @brief event handler that draws highlight on tile clicked by the player.
      * @param event that has happened.
      * @return True: if event was  handled in the handler.
      * False: if the event handling was passed over.
      */
     virtual bool event(QEvent* event) override;
+
+    /**
+     * @brief removeHighlight remove the highlight of the tile
+     */
 
     void removeHighlight();
 
@@ -95,6 +96,12 @@ private:
     std::shared_ptr<GameEventHandler> s_GEHandler;
     std::shared_ptr<ObjectManager> GManager;
 signals:
+
+    /**
+     * @brief tileClicked emit signal to handleTileclick in mapwindow class
+     * @param tile_coords coordinates of the tile clicked
+     */
+
     void tileClicked(Course::Coordinate tile_coords);
 
 

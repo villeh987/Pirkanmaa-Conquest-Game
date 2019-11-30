@@ -17,6 +17,8 @@ GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::sha
     scene_height_ = height;
     scene_scale_ = scale;
 
+    // set and draw rect to the games scene
+
     QRect game_rect = QRect(-1, -1, (scene_width_ * scene_scale_)+2, (scene_height_ * scene_scale_)+2);
 
     addRect(game_rect, QPen(Qt::magenta, 10));
@@ -26,6 +28,7 @@ GameScene::GameScene(QWidget* parent, int width, int height, int scale, std::sha
 
 void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color)
 {
+    // draw item to the map
     Game::MapItem* mapitem = new Game::MapItem(game_object, scene_scale_, player_color, GManager);
     addItem(mapitem);
 }
@@ -33,14 +36,16 @@ void GameScene::drawMapItem(std::shared_ptr<Course::GameObject> game_object, QCo
 void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> game_object)
 {
 
+    // get the items of the scene
     QList<QGraphicsItem*> scene_items = items();
 
     if ( scene_items.size() == 1 ){
-        qDebug() << "Nothing to be removed at the location pointed by given obj.";
+        qDebug() << "Nothing to be removed at the location pointed by given game_object.";
     } else {
         for ( auto item : scene_items ){
+            // remove item
             Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
-            if ( mapitem->isSameObj(game_object) ){
+            if ( mapitem->isSameGameObj(game_object) ){
                 delete mapitem;
             }
         }
@@ -48,23 +53,10 @@ void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> game_object)
 
 }
 
-void GameScene::updateMapItem(std::shared_ptr<Course::GameObject> game_object)
-{
-    QList<QGraphicsItem*> scene_items = items();
-    if ( scene_items.size() == 1 ){
-        qDebug() << "Nothing to update.";
-    } else {
-        for ( auto item : scene_items ){
-            Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);
-            if (mapitem->isSameObj(game_object)){
-                mapitem->updateLoc();
-            }
-        }
-    }
-}
 
 bool GameScene::event(QEvent *event)
 {
+    // get the mouse click event
     if(event->type() == QEvent::GraphicsSceneMousePress)
     {
         QGraphicsSceneMouseEvent* mouse_event =
@@ -72,6 +64,7 @@ bool GameScene::event(QEvent *event)
 
         if ( sceneRect().contains(mouse_event->scenePos())){
 
+            // get the coordinates of the tile clicked
             QPointF point = mouse_event->scenePos() / scene_scale_;
 
             point.rx() = floor(point.rx());
@@ -110,6 +103,7 @@ bool GameScene::event(QEvent *event)
 
 void GameScene::removeHighlight()
 {
+
     if (highlight_ != nullptr) {
         QGraphicsScene::removeItem(highlight_);
         delete highlight_;
