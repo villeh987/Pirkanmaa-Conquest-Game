@@ -14,7 +14,8 @@ GameEventHandler::GameEventHandler()
 
 }
 
-bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player, Course::BasicResource resource, int amount)
+bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player,
+                                      Course::BasicResource resource, int amount)
 {
 
     for (auto i : players_) {
@@ -29,7 +30,6 @@ bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player
                         k.second += amount;
                     }
 
-
                     return true;
                 }
             }
@@ -37,10 +37,10 @@ bool GameEventHandler::modifyResource(std::shared_ptr<Course::PlayerBase> player
     }
 
     return false;
-
 }
 
-bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player, Course::ResourceMap resources)
+bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player,
+                                       Course::ResourceMap resources)
 {
     for (auto j : resources) {
         if ( !modifyResource(player, j.first, j.second) ) {
@@ -55,13 +55,6 @@ void GameEventHandler::initNewGame(QList<QString> names, QList<QColor> colors)
     addPlayers(names);
     addColors(colors);
     startGame();
-
-    qDebug() << "Players added:" << QString::fromStdString(players_.at(0)->getName()) << QString::fromStdString(players_.at(1)->getName());
-}
-
-void GameEventHandler::startGame()
-{
-    player_in_turn_ = players_.at(0);
 }
 
 void GameEventHandler::changeTurn()
@@ -82,28 +75,6 @@ void GameEventHandler::handleGenerateResources(std::vector<std::shared_ptr<Cours
             i->generateResources();
         }
     }
-}
-
-void GameEventHandler::addPlayers(QList<QString> names)
-
-{
-    std::string name1 = names.at(0).toStdString();
-    std::string name2 = names.at(1).toStdString();
-
-    auto player1 = std::make_shared<Game::Player>(name1);
-    auto player2 = std::make_shared<Game::Player>(name2);
-
-    players_.push_back(player1);
-    players_.push_back(player2);
-}
-
-void GameEventHandler::addColors(QList<QColor> colors)
-{
-    if (!colors.empty()) {
-        players_.at(0)->setColor(colors.at(0));
-        players_.at(1)->setColor(colors.at(1));
-    }
-
 }
 
 std::shared_ptr<Player> GameEventHandler::getPlayerInTurn()
@@ -180,7 +151,8 @@ bool GameEventHandler::isMaxActions()
     return false;
 }
 
-bool GameEventHandler::isInTeekkariFightRange(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
+bool GameEventHandler::isInTeekkariFightRange(std::shared_ptr<ObjectManager> GManager,
+                                              std::shared_ptr<Course::TileBase> tile)
 {
     std::vector<Course::Coordinate> neighbours = tile->getCoordinate().neighbours();
 
@@ -190,7 +162,8 @@ bool GameEventHandler::isInTeekkariFightRange(std::shared_ptr<ObjectManager> GMa
 
     for (auto i : neighbours) {
         if (GManager->getTile(i) != nullptr) {
-            if (containsTeekkari(GManager->getTile(i)) && GManager->getTile(i)->getOwner() != player_in_turn_) {
+            if (containsTeekkari(GManager->getTile(i)) &&
+                    GManager->getTile(i)->getOwner() != player_in_turn_) {
                 return true;
             }
         }
@@ -208,9 +181,12 @@ bool GameEventHandler::containsTeekkari(std::shared_ptr<Course::TileBase> tile)
     return false;
 }
 
-bool GameEventHandler::canRemoveBuilding(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
+bool GameEventHandler::canRemoveBuilding(std::shared_ptr<ObjectManager> GManager,
+                                         std::shared_ptr<Course::TileBase> tile)
 {
-    std::vector<Course::Coordinate> neighbours = tile->getCoordinate().neighbours();
+    std::vector<Course::Coordinate> neighbours =
+            tile->getCoordinate().neighbours();
+
     for (auto i : neighbours) {
         if (GManager->getTile(i) != nullptr) {
             if (containsTeekkari(GManager->getTile(i)) &&
@@ -223,7 +199,8 @@ bool GameEventHandler::canRemoveBuilding(std::shared_ptr<ObjectManager> GManager
     return false;
 }
 
-int GameEventHandler::getPlayersWorkerCount(std::shared_ptr<ObjectManager> GManager, std::string worker_type)
+int GameEventHandler::getPlayersWorkerCount(std::shared_ptr<ObjectManager> GManager,
+                                            std::string worker_type)
 {
     int count = 0;
     for (auto tile : GManager->returnTiles()) {
@@ -237,6 +214,33 @@ int GameEventHandler::getPlayersWorkerCount(std::shared_ptr<ObjectManager> GMana
     }
     return count;
 }
+
+void GameEventHandler::addPlayers(QList<QString> names)
+
+{
+    std::string name1 = names.at(0).toStdString();
+    std::string name2 = names.at(1).toStdString();
+
+    auto player1 = std::make_shared<Game::Player>(name1);
+    auto player2 = std::make_shared<Game::Player>(name2);
+
+    players_.push_back(player1);
+    players_.push_back(player2);
+}
+
+void GameEventHandler::addColors(QList<QColor> colors)
+{
+    if (!colors.empty()) {
+        players_.at(0)->setColor(colors.at(0));
+        players_.at(1)->setColor(colors.at(1));
+    }
+}
+
+void GameEventHandler::startGame()
+{
+    player_in_turn_ = players_.at(0);
+}
+
 
 
 
