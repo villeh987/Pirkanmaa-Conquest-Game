@@ -20,9 +20,20 @@ class PlayerBase;
 class GameObject;
 class Coordinate;
 
+
+/**
+ * @class ObjectManager
+ * @brief The ObjectManager class is a class which stores Game tiles.
+ * This class inherits Course side iObjectManager.
+ * ObjectManager class handles all tile related requests needed by MapWindow.
+ *
+ */
 class ObjectManager : public Course::iObjectManager
 {
 public:
+    /**
+     * @brief Constructor for the class.
+     */
     ObjectManager();
 
     /**

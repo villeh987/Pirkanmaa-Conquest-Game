@@ -22,11 +22,27 @@ class PlayerBase;
 class GameObject;
 class Coordinate;
 
+/**
+ * @class GameEventHandler
+ * @brief The GameEventHandler class is a class that handles main game events.
+ * The class inherits Course side iGameEventHandler interface class.
+ * The class mainly consists of logic needed by MapWindow.
+ * GameEventHandler handes such events as:
+ * - Resource modification
+ * - Game initialization
+ * - Changing turns and updating round count
+ * - Updating actions_ count
+ *
+ */
+
 class GameEventHandler : public Course::iGameEventHandler
 {
 
 
 public:
+    /**
+     * @brief Constructor for the class.
+     */
     GameEventHandler();
 
     /**
