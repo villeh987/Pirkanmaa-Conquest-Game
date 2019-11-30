@@ -40,6 +40,16 @@
 #include "Game_dialogs/buildingdialog.hh"
 
 namespace Ui {
+
+/**
+ * @class MapWindow
+ * @brief The MapWindow class is a class for the Game window.
+ *
+ * The class makes requests to GameEventHandler and ObjectManager in order to
+ * perform actions when Player's make Game actions, such as button presses or
+ * tile clicks.
+ *
+ */
 class MapWindow;
 }
 
@@ -48,6 +58,10 @@ class MapWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructor for the class.
+     * @param parent
+     */
     explicit MapWindow(QWidget *parent = 0);
     ~MapWindow();
 
