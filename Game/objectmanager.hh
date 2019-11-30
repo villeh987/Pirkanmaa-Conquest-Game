@@ -64,8 +64,22 @@ public:
     std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
+
+    /**
+     * @brief Returns a vector of shared pointers to all Tiles.
+     * @return Vector that contains pointers to all Tiles.
+     * @post Exception Guarantee: No-throw.
+     */
     std::vector<std::shared_ptr<Course::TileBase>> returnTiles();
 
+
+    /**
+     * @brief Checks whether given tile_type is dull
+     * (cannot perform any actions on).
+     * @param tile_type Tile type to check.
+     * @return True, if given type is dull. Else, false.
+     * @post Exception Guarantee: No-throw.
+     */
     bool isDullTile(std::string tile_type);
 
 private:
