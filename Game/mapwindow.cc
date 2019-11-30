@@ -369,6 +369,7 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
     fight_dialog_->setNames(names.at(0), names.at(1));
     updateResourceLabels();
     ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
+    disableGamePanel();
 }
 
 bool MapWindow::gameEnded()
