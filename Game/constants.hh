@@ -23,11 +23,11 @@ const std::vector<std::string> DULL_TILES = {"Water"};
  * @brief Describes resources that Player's start with.
  */
 const Course::ResourceMap STARTRESOURCES = {
-    {Course::BasicResource::MONEY, 5000},
-    {Course::BasicResource::FOOD, 5000},
-    {Course::BasicResource::WOOD, 5000},
-    {Course::BasicResource::STONE, 5000},
-    {Course::BasicResource::ORE, 5000}
+    {Course::BasicResource::MONEY, 1500},
+    {Course::BasicResource::FOOD, 2000},
+    {Course::BasicResource::WOOD, 2000},
+    {Course::BasicResource::STONE, 500},
+    {Course::BasicResource::ORE, 400}
 };
 
 /**
@@ -49,7 +49,7 @@ const int MAX_ACTIONS = 2;
 /**
  * @brief Maximum amount of rounds after which the Game ends.
  */
-const int MAX_ROUDS = 25;
+const int MAX_ROUDS = 100;
 
 /**
  * @brief How many Teekkaris a Player may have at a time.
