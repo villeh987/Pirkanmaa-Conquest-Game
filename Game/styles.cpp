@@ -4,7 +4,14 @@
 namespace Game {
 
 
-void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color, int worker_count, int building_count, std::vector<std::shared_ptr<Course::WorkerBase> > workers)
+void getStyle(int tile_x,
+              int tile_y,
+              std::string type,
+              QPainter& painter,
+              QRectF boundingRect,
+              QColor player_color,
+              std::vector<std::shared_ptr<Course::WorkerBase> > workers,
+              std::vector<std::shared_ptr<Course::BuildingBase> > buildings)
 {
 
     if (type == "Miner") {
@@ -106,7 +113,10 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
     if (type == "TuniTower") {
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
-        drawTuniTower(tile_x, tile_y, painter);
+
+        //draw the buildings in the upper part of the tile
+        tile_y -= 10;
+        drawTuniTower(tile_x+12, tile_y, painter);
 
     }
 
@@ -122,6 +132,8 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
         int miners = 0;
 
+        // get the amount of each worker type
+
         for (auto worker : workers) {
             if (worker->getType() == "BasicWorker"){
                 basic_workers += 1;
@@ -130,6 +142,7 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
             }
         }
 
+        // draw the workers next to each other
 
         for (int i = 0; i < basic_workers; i++){
             if (i == 0){
@@ -140,12 +153,10 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
             if (i == 1){
                 int moving_factor_x = 0;
 
-
                 drawBasicWorker(tile_x, tile_y, painter, boundingRect, moving_factor_x, moving_factor_y);
             }
             if (i == 2){
                 int moving_factor_x = 15;
-
 
                 drawBasicWorker(tile_x, tile_y, painter, boundingRect, moving_factor_x, moving_factor_y);
             }
@@ -156,9 +167,11 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
     if (type == "HeadQuarters") {
 
+        // draw headquarters on the scene
+
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        QRectF source(-100, 0, 500, 500);
+        QRectF source(-200, 50, 700, 700);
         QPixmap pixmap("headquarters.png");
         painter.drawPixmap(boundingRect, pixmap, source);
     }
@@ -166,18 +179,54 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        QRectF source(-100, 0, 700, 700);
-        QPixmap pixmap("farm.png");
-        painter.drawPixmap(boundingRect, pixmap, source);
+        bool is_tuni_tower_on_tile = false;
+        bool is_outpost_on_tile = false;
+        bool is_headquarter_on_tile = false;
+
+        // loop trough buildings and check if these spaces are taken already
+        for (auto building : buildings){
+            if (building->getType() == "TuniTower"){
+                is_tuni_tower_on_tile = true;
+            } else if (building->getType() == "Outpost"){
+                is_outpost_on_tile = true;
+            } else if (building->getType() == "HeadQuarters"){
+                is_headquarter_on_tile = true;
+            }
+        }
+
+        //if there is no TuniTower, put the farm on its place
+
+        if(!is_tuni_tower_on_tile){
+            QRectF source(-700, 50, 1100, 1100);
+            QPixmap pixmap("farm.png");
+            painter.drawPixmap(boundingRect, pixmap, source);
+        } else {
+
+            // if there is TuniTower but no outpost, put the farm on outposts place
+            if(!is_outpost_on_tile){
+                QRectF source(-30, 0, 1100, 1100);
+                QPixmap pixmap("farm.png");
+                painter.drawPixmap(boundingRect, pixmap, source);
+            } else {
+                //if there is TuniTower and outpost but no HeadQuarters, put the farm on HQ's place
+                if (!is_headquarter_on_tile){
+                    QRectF source(-200, 50, 1100, 1100);
+                    QPixmap pixmap("farm.png");
+                    painter.drawPixmap(boundingRect, pixmap, source);
+                }
+            }
+        }
 
     }
 
 
     if (type == "Outpost") {
 
+
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        QRectF source(-100, 0, 700, 700);
+        // draw Outpost on the scene
+        QRectF source(-30, 0, 1200, 1200);
         QPixmap pixmap("outpost.png");
         painter.drawPixmap(boundingRect, pixmap, source);
 
@@ -185,9 +234,10 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
     if (type == "Mine") {
 
+        // draw Mine on the scene
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        QRectF source(-100, 0, 500, 500);
+        QRectF source(-100, 0, 700, 700);
         QPixmap pixmap("mine.png");
         painter.drawPixmap(boundingRect, pixmap, source);
     }
@@ -253,7 +303,7 @@ void drawTree(int tile_x, int tile_y, QPainter &painter)
 
     QBrush tree_trunk_brush = QColor(102, 50, 0);
     QBrush tree_leaves_brush = QColor(0, 102, 0);
-    //painter.setBrush(QBrush(QColor(0, 102, 0)));
+
 
     QPen tree_trunk_pen = QPen(QColor(102, 50, 0));
     QPen tree_leaves_pen = QPen(QColor(0, 102, 0));
@@ -369,7 +419,7 @@ void drawTeekkari(int tile_x, int tile_y, QPainter &painter)
 
 
 
-    //setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+
     painter.setPen(QPen(Qt::black));
     painter.setBrush(QColor(128, 128, 128));
     painter.drawPolygon(overall, 21);
@@ -398,7 +448,7 @@ void drawTeekkari(int tile_x, int tile_y, QPainter &painter)
 
     painter.setBrush(QColor(255, 178, 102));
     painter.drawPolygon(teekkari_face, 8);
-    //painter.setBrush(QColor(Qt::black));
+
     painter.setPen(QPen(QColor(Qt::black), 0.5));
     painter.drawPolygon(right_eye, 5);
     painter.drawPolygon(left_eye, 5);
@@ -561,15 +611,14 @@ void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingR
     qDebug() << "tile_x:" <<qreal(tile_x);
     qDebug() << "tile_y:" <<qreal(tile_y);
 
-    //QRectF source(-300, 10, 1100, 1100);
-    //QRectF source(-100, -250, 1100, 1100);
+
+    // adjust the location of the worker helmet
     QRectF source(-300 + moving_factor_x * (-20), 10 + moving_factor_y * (-26), 1100, 1100);
 
-    //QRectF source(QPointF(tile_x, tile_y), QSize(-10000, 10000));
     QPixmap pixmap("workerhelmet.png");
     painter.drawPixmap(boundingRect, pixmap, source);
 
-    //QRectF source2(-200 + moving_factor_x * (-10), -400 + moving_factor_y * (-17.5), 800, 800);
+    // adjust the location of the cigarette
     if (moving_factor_x == 15) {
         QRectF source2(-200 + moving_factor_x * (-16), -400 + moving_factor_y * (-17.5), 800, 800);
         QPixmap pixmap2("cigarette.png");

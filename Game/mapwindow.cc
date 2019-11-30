@@ -442,6 +442,10 @@ void MapWindow::disableBuildIndividual()
     if (GManager->getTile(active_tile_)->getBuildings().empty()) {
         disableBuild(false);
     }
+    // make building Mine possible only on tiles Rock and Lava
+    if (GManager->getTile(active_tile_)->getType() != "Rock" && GManager->getTile(active_tile_)->getType() != "Lava"){
+        ui->buildMineButton->setDisabled(true);
+    }
 
     for (auto& i : GManager->getTile(active_tile_)->getBuildings()) {
         std::string type = i->getType();
