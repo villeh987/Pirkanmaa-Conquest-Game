@@ -4,7 +4,7 @@
 namespace Game {
 
 
-void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color, std::vector<std::shared_ptr<Course::WorkerBase> > workers)
+void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRectF boundingRect, QColor player_color, int worker_count, int building_count, std::vector<std::shared_ptr<Course::WorkerBase> > workers)
 {
 
     if (type == "Miner") {
@@ -12,36 +12,49 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        drawMiner(tile_x, tile_y, painter);
+        int basic_workers = 0;
+        int moving_factor_y = 20;
+        int miners = 0;
 
+        // get the worker types
+        for (auto worker : workers) {
+            if (worker->getType() == "BasicWorker"){
+                basic_workers += 1;
+            } else if (worker->getType() == "Miner") {
+                miners += 1;
+            }
+        }
+
+        // loop trough workers and check if workers already exist on the tile
+        // if, then make some room for the new worker
+        for (int i = 0; i < miners; i++){
+            if (i == 0 && basic_workers == 0){
+                int moving_factor_x = -2;
+
+                drawMiner(tile_x+ moving_factor_x, tile_y+moving_factor_y, painter);
+
+            }  else if ((i == 0 && basic_workers == 2) || (i == 2 && basic_workers == 0)) {
+                int moving_factor_x = 20;
+
+                drawMiner(tile_x+ moving_factor_x, tile_y+moving_factor_y, painter);
+            }
+            if ((i == 1 && basic_workers == 0) || (i == 0 && basic_workers == 1)){
+                int moving_factor_x = 10;
+
+                drawMiner(tile_x+ moving_factor_x, tile_y+moving_factor_y, painter);
+            } else if (i == 1 && basic_workers == 1) {
+                int moving_factor_x = 20;
+
+                drawMiner(tile_x+ moving_factor_x, tile_y+moving_factor_y, painter);
+            }
+        }
     }
 
 
     if (type == "Teekkari"){
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
-
-        int teekkari_count = 0;
-
-        for (auto worker : workers){
-
-            if (worker->getType() == "Teekkari") {
-                teekkari_count += 1;
-                //qDebug() << teekkari_count;
-            }
-        }
-
-        // ei toimi. Täytyy korjata vielä
-        if (teekkari_count == 0){
-            drawTeekkari(tile_x, tile_y, painter);
-            qDebug() << teekkari_count;
-        } else if (teekkari_count == 1) {
-            drawTeekkari(tile_x+ 10, tile_y, painter);
-        }
-
-
-
-
+        drawTeekkari(tile_x+12, tile_y, painter);
 
     }
 
@@ -99,9 +112,45 @@ void getStyle(int tile_x, int tile_y, std::string type, QPainter& painter, QRect
 
     if (type == "BasicWorker") {
 
+
+
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        drawBasicWorker(tile_x, tile_y, painter, boundingRect);
+        int moving_factor_y = 10;
+
+        int basic_workers = 0;
+
+        int miners = 0;
+
+        for (auto worker : workers) {
+            if (worker->getType() == "BasicWorker"){
+                basic_workers += 1;
+            } else if (worker->getType() == "Miner") {
+                miners += 1;
+            }
+        }
+
+
+        for (int i = 0; i < basic_workers; i++){
+            if (i == 0){
+                int moving_factor_x = -15;
+
+                drawBasicWorker(tile_x, tile_y, painter, boundingRect, moving_factor_x, moving_factor_y);
+            }
+            if (i == 1){
+                int moving_factor_x = 0;
+
+
+                drawBasicWorker(tile_x, tile_y, painter, boundingRect, moving_factor_x, moving_factor_y);
+            }
+            if (i == 2){
+                int moving_factor_x = 15;
+
+
+                drawBasicWorker(tile_x, tile_y, painter, boundingRect, moving_factor_x, moving_factor_y);
+            }
+        }
+
 
     }
 
@@ -441,8 +490,11 @@ void drawTuniTower(int tile_x, int tile_y, QPainter &painter)
 
 }
 
-void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingRect)
+void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingRect, int moving_factor_x, int moving_factor_y)
 {
+
+    tile_x += moving_factor_x;
+    tile_y += moving_factor_y;
     QPointF tuni_forehead[9] = {
         QPointF(tile_x+17, tile_y-25),
         QPointF(tile_x+17, tile_y-30),
@@ -506,14 +558,30 @@ void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingR
     painter.drawPolygon(tuni_left_eye, 7);
     painter.drawPolygon(tuni_cheeck, 12);
 
+    qDebug() << "tile_x:" <<qreal(tile_x);
+    qDebug() << "tile_y:" <<qreal(tile_y);
 
-    QRectF source(-300, 10, 1100, 1100);
+    //QRectF source(-300, 10, 1100, 1100);
+    //QRectF source(-100, -250, 1100, 1100);
+    QRectF source(-300 + moving_factor_x * (-20), 10 + moving_factor_y * (-26), 1100, 1100);
+
+    //QRectF source(QPointF(tile_x, tile_y), QSize(-10000, 10000));
     QPixmap pixmap("workerhelmet.png");
     painter.drawPixmap(boundingRect, pixmap, source);
 
-    QRectF source2(-200, -400, 800, 800);
-    QPixmap pixmap2("cigarette.png");
-    painter.drawPixmap(boundingRect, pixmap2, source2);
+    //QRectF source2(-200 + moving_factor_x * (-10), -400 + moving_factor_y * (-17.5), 800, 800);
+    if (moving_factor_x == 15) {
+        QRectF source2(-200 + moving_factor_x * (-16), -400 + moving_factor_y * (-17.5), 800, 800);
+        QPixmap pixmap2("cigarette.png");
+        painter.drawPixmap(boundingRect, pixmap2, source2);
+
+    } else {
+        QRectF source2(-200 + moving_factor_x * (-10), -400 + moving_factor_y * (-17.5), 800, 800);
+        QPixmap pixmap2("cigarette.png");
+        painter.drawPixmap(boundingRect, pixmap2, source2);
+
+    }
+
 }
 
 void drawMiner(int tile_x, int tile_y, QPainter &painter)
@@ -581,6 +649,7 @@ void drawMiner(int tile_x, int tile_y, QPainter &painter)
 
 
     painter.setPen(QPen(Qt::black, 1));
+    painter.setBrush(QColor(153, 76, 0));
     painter.drawPolygon(pickaxe_arm, 5);
     painter.drawPolygon(showel_arm, 5);
 
@@ -594,6 +663,8 @@ void drawMiner(int tile_x, int tile_y, QPainter &painter)
 
     painter.setBrush(QColor(255, 239, 0));
     painter.drawEllipse(QPointF(QPointF(tile_x+16, tile_y-35)), 2, 2);
+
+
 
 }
 
