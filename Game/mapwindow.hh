@@ -56,9 +56,8 @@ public:
      */
     void showStartDialog();
 
-    //void setSize(int width, int height);
-    //void setScale(int scale);
-    //void resize();
+
+private:
 
     /**
      * @brief Calls gamescene's drawMapItem.
@@ -66,7 +65,8 @@ public:
      * @param player_color Color with which the object will be highlighted.
      * @post Exception guarantee:
      */
-    void drawItem( std::shared_ptr<Course::GameObject> game_object, QColor player_color = QColor(Qt::black));
+    void drawItem( std::shared_ptr<Course::GameObject> game_object,
+                   QColor player_color = QColor(Qt::black));
 
     /**
      * @brief Calls gamescene's removeMapItem.
@@ -119,7 +119,16 @@ public:
     void addBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
 
-
+    /**
+     * @brief Removes the given building from current active tile.
+     * If tile contains no buildings and workers,
+     * removes ownership of current tile from current Player.
+     * Calls drawItem to remove building from gamescene.
+     * Updates UI resource and worker labels.
+     * @param building A shared pointer to building to be removed.
+     * @post Exception guarantee:
+     * @exception
+     */
     void removeBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
     /**
@@ -163,7 +172,24 @@ public:
      */
     void checkForTeekkariFight();
 
-private:
+    /**
+     * @brief Updates UI resource labels according to
+     * player_in_turn_(In GEHandler).
+     */
+    void updateResourceLabels();
+
+    /**
+     * @brief Updates UI worker counts according to current active_tile_.
+     */
+    void updateWorkerCounts();
+
+    /**
+     * @brief Updates actions count (In GEHandler) and checks
+     * whether max allowrd amount of actions per round has been reached.
+     * Updates game info label accordingly.
+     */
+    void updateAndCheckActions();
+
     StartDialog* dialog_ = nullptr;
     EndGameDialog* end_dialog_ = nullptr;
     WorkerDialog* worker_dialog_ = nullptr;
@@ -177,66 +203,213 @@ private:
     std::shared_ptr<Game::GameScene> gamescene_ = nullptr;
 
     unsigned int active_tile_;
-
-    void updateResourceLabels();
-    void updateWorkerCounts();
-    void updateAndCheckActions();
-
     unsigned int rnd_seed_ = 0;
 
 
 private slots:
-    void printData(QString data);
-    void printNames(QList<QString> names, QList<QColor> colors);
 
     // Init brand new game
+    /**
+     * @brief Receives Player names and colors from StartDialog and
+     * sends them to GEHandler. Also sets Player names in fight_dialog_.
+     * Updates resource labels and sets first Player to be first in turn.
+     * @param names List of Player names.
+     * @param colors List of Player colors.
+     */
     void initNewGame(QList<QString> names, QList<QColor> colors);
 
+    /**
+     * @brief Checks if MAX_ROUNDS has been reached.
+     * @return Return true if MAX_ROUNDS has been reached.
+     * Else, return false.
+     */
     bool gameEnded();
+
+    /**
+     * @brief Disables game actions, sets final results in end_dialog_
+     * and displays end_dialog_.
+     */
     void endGame();
 
+    /**
+     * @brief Handles all events that happen when Player clicks "End Turn".
+     * - Calls GEHandlers method to generate resources based on tile- and
+     * workeractions.
+     * - Calls GEHanders changeTurn.
+     * - Updates current Player name to be shown in UI.
+     * - Updates current round to be shown in UI.
+     * - Updates UI resourcelabels to show current player resources.
+     * - Disables game actions until tile is clicked.
+     * - Removes highlight from gamescene until tile is clicked.
+     * - Resets actions count.
+     * - Calls gameEnded
+     */
     void changeTurn();
+
+    /**
+     * @brief Disables game actions.
+     * @param disable If true, disable. If false, enable.
+     */
     void disableGamePanel(bool disable = true);
+
+    /**
+     * @brief Disables worker assignment.
+     * @param disable If true, disable. If false, enable.
+     */
     void disableAssingWorker(bool disable = true);
+
+    /**
+     * @brief Disables build.
+     * @param disable If true, disable. If false, enable.
+     */
     void disableBuild(bool disable = true);
+
+    /**
+     * @brief Makes sure that only one bulding of the same type
+     * may exist on one tile.
+     * Disables build option, if building already exists on tile.
+     */
     void disableBuildIndividual();
+
+    /**
+     * @brief Disables all game actions, but Destroy button.
+     * Needed, when Player clicks opposing Player's tile while having
+     * own Teekkari next to it.
+     * @param disable If true, disable. If false, enable.
+     */
     void disableAllButRemoveBuilding(bool disable = true);
 
     // Init loaded game
     //void initLoadedGame(QString data);
 
-    // Update GraphicsView
+    /**
+     * @brief Updates graphicsView widget's viewport.
+     */
     void updateGraphicsView();
 
+    /**
+     * @brief Handles all actions when a tile is clicked.
+     * - Check if max actions is reached (GEHandler).
+     * - Sets clicked tile as active_tile_
+     * - Updates tile type label in UI.
+     * - Update game info text, which varies depending on tile type
+     * and tile ownership.
+     * - Check if tile is dull (cannot perform any actions).
+     * - Enable Destroy button if Player has Teekkari next to
+     * opposing Player's building.
+     * -Enable Teekkarifight, if Player has Teekkari next to
+     * opposing Player's Teekkari.
+     * @param tile_coords Coordinates of clicked tile.
+     */
     void handleTileclick(Course::Coordinate tile_coords);
 
+    /**
+     * @brief Prepare to build HeadQuarters.
+     * Creates new HeadQuarters shared_ptr and emits signal to build it.
+     * Called when build Headquarters button is clicked.
+     */
     void prepareBuildHq();
+
+    /**
+     * @brief Prepare to build Farm.
+     * Creates new Farm shared_ptr and emits signal to build it.
+     * Called when build Farm button is clicked.
+     */
     void prepareBuildFarm();
+
+    /**
+     * @brief Prepare to build Outpost.
+     * Creates new Outpost shared_ptr and emits signal to build it.
+     * Called when build Outpost button is clicked.
+     */
     void prepareBuildOutpost();
+
+    /**
+     * @brief Prepare to build TuniTower.
+     * Creates new TuniTower shared_ptr and emits signal to build it.
+     * Called when build TuniTower button is clicked.
+     */
     void prepareBuildTuniTower();
+
+    /**
+     * @brief Prepare to build Mine.
+     * Creates new Mine shared_ptr and emits signal to build it.
+     * Called when build Mine button is clicked.
+     */
     void prepareBuildMine();
 
-    // Worker Dialog
-    void showWorkerDialog();
-    void destroyWorkerDialog();
 
-    // Fight dialog
+    /**
+     * @brief Opens worker_dialog_.
+     */
+    void showWorkerDialog();
+
+
+
+    /**
+     * @brief Opens fight_dialog_.
+     */
     void showFightDialog();
+
+    /**
+     * @brief Removes Teekkari from the Player that lost the Teekkarifight.
+     * @param loser Name of Player that lost the fight.
+     */
     void handleFightResult(QString loser);
 
-    // End dialog
+    /**
+     * @brief Opens end_dialog_.
+     */
     void showEndDialog();
 
-    // Building dialog
+    /**
+     * @brief Check from GEHandler whether building can be removed.
+     * If it can be removed, enable Destroy button in UI.
+     * @return True, if building can be removed. Else, false.
+     */
     bool checkRemoveBuilding();
+
+    /**
+     * @brief Opens building_dialog_. Called when Destroy button is clicked.
+     */
     void showBuildingDialog();
 
+    /**
+     * @brief Prepare to add BasicWorker.
+     * Creates new BasicWorker shared_ptr and calls addWorker.
+     * Called by signal from worker_dialog_.
+     */
     void prepareAddBasicWorker();
+
+    /**
+     * @brief Prepare to add Miner.
+     * Creates new Miner shared_ptr and calls addWorker.
+     * Called by signal from worker_dialog_.
+     */
     void prepareAddMiner();
+
+    /**
+     * @brief Prepare to add Teekkari.
+     * Creates new Teekkari shared_ptr and calls addWorker.
+     * Called by signal from worker_dialog_.
+     */
     void prepareAddTeekkari();
+
+    /**
+     * @brief Prepare to remove any worker.
+     * Calls removeWorker.
+     * Called by signal from worker_dialog_.
+     * @param worker_type Type of worker to be removed.
+     */
     void prepareRemoveWorker(std::string worker_type);
 
 signals:
+
+    /**
+     * @brief Signal for addBuilding
+     * Emitted from prepare building methods.
+     * @param building Building to be added.
+     */
     void SbuildBuilding(const std::shared_ptr<Course::BuildingBase>& building);
 
 

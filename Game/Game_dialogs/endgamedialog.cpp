@@ -8,8 +8,10 @@ EndGameDialog::EndGameDialog(QWidget *parent, std::shared_ptr<Game::GameEventHan
     Objectmanager_(Objectmanager)
 {
     ui->setupUi(this);
-    ui->p1Score->setPalette(Qt::black);
-    ui->p2Score->setPalette(Qt::black);
+    QPalette pal;
+    pal.setColor(QPalette::WindowText, Qt::black);
+    ui->p1Score->setPalette(pal);
+    ui->p2Score->setPalette(pal);
 
     connect(ui->closeButton, &QPushButton::clicked, this, &EndGameDialog::reject);
 
@@ -61,8 +63,8 @@ void EndGameDialog::setResults()
 
 void EndGameDialog::calculateWinner()
 {
-    double player1score = 0;
-    double player2score = 0;
+    int player1score = 0;
+    int player2score = 0;
 
     for (auto i : GEHandler_->getPlayers().at(0)->getResources()) {
         for (auto j : GEHandler_->getPlayers().at(1)->getResources()) {
@@ -73,8 +75,10 @@ void EndGameDialog::calculateWinner()
         }
     }
 
-    ui->p1Score->display(player1score);
-    ui->p2Score->display(player2score);
+    ui->p1Score->setText(QString::number(player1score));
+    ui->p2Score->setText(QString::number(player2score));
+    //ui->p1Score->display(player1score);
+    //ui->p2Score->display(player2score);
 
 
     QString winner;

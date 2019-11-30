@@ -513,26 +513,13 @@
            <property name="geometry">
             <rect>
              <x>200</x>
-             <y>30</y>
+             <y>40</y>
              <width>89</width>
              <height>25</height>
             </rect>
            </property>
            <property name="text">
             <string>Fight!</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="removeBuildingButton">
-           <property name="geometry">
-            <rect>
-             <x>200</x>
-             <y>60</y>
-             <width>89</width>
-             <height>25</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Destroy</string>
            </property>
           </widget>
          </widget>
@@ -638,6 +625,19 @@
            </property>
            <property name="text">
             <string>SupplyChain</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="removeBuildingButton">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>0</y>
+             <width>89</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Destroy</string>
            </property>
           </widget>
          </widget>

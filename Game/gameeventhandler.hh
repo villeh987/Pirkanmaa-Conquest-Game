@@ -77,7 +77,6 @@ public:
     bool containsTeekkari(std::shared_ptr<Course::TileBase> tile);
     bool canRemoveBuilding(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile);
     int getPlayersWorkerCount(std::shared_ptr<ObjectManager> GManager, std::string worker_type);
-    std::vector<std::shared_ptr<Course::WorkerBase>> getWagers(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile);
 
 private:
     std::vector<std::shared_ptr<Game::Player>> players_;

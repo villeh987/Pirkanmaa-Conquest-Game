@@ -20,7 +20,6 @@ MapWindow::MapWindow(QWidget *parent):
     ui->setupUi(this);
 
     // Startdialog
-
     dialog_ = new StartDialog(this);
 
     // Manager and handler
@@ -59,8 +58,6 @@ MapWindow::MapWindow(QWidget *parent):
     ui->removeBuildingButton->setVisible(false);
 
     // Catch emitted signals from startdialog
-    connect(dialog_, &StartDialog::sendLoadData, this, &MapWindow::printData);
-    connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::printNames);
     connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::initNewGame);
     connect(ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
@@ -73,17 +70,17 @@ MapWindow::MapWindow(QWidget *parent):
     connect(worker_dialog_, &WorkerDialog::sendBuildTeekkari, this, &MapWindow::prepareAddTeekkari);
     connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
 
-    fight_dialog_ = new FightDialog(this);
     // Catch emitted signals from fightDialog
-    connect(fight_dialog_, &FightDialog::sendLoser, this, &MapWindow::handleFightResult);
-    //connect(fight_dialog_, &FightDialog::sendLoserWager, this, &MapWindow::removeWorker);
+    fight_dialog_ = new FightDialog(this);
 
-    building_dialog_ = new BuildingDialog(this);
+    connect(fight_dialog_, &FightDialog::sendLoser, this, &MapWindow::handleFightResult);
+
     // Catch emitted signals from buildingDialog
+    building_dialog_ = new BuildingDialog(this);
+
     connect(building_dialog_, &BuildingDialog::sendRemoveBuilding, this, &MapWindow::removeBuilding);
 
-
-    // Connect emitted signal from gamescene
+    // Catch emitted signal from gamescene
     connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
 
     Game::GameScene* sgs_rawptr = gamescene_.get();
@@ -100,7 +97,8 @@ void MapWindow::showStartDialog()
     dialog_->open();
 }
 
-void MapWindow::drawItem(std::shared_ptr<Course::GameObject> game_object, QColor player_color)
+void MapWindow::drawItem(std::shared_ptr<Course::GameObject> game_object,
+                         QColor player_color)
 {
     gamescene_->drawMapItem(game_object, player_color);
 }
@@ -136,7 +134,8 @@ void MapWindow::drawMap()
 
 void MapWindow::addPenalty(std::string info_txt)
 {
-    GEHandler->modifyResources( GEHandler->getPlayerInTurn(), Game::GameResourceMaps::PENALTY);
+    GEHandler->modifyResources( GEHandler->getPlayerInTurn(),
+                                Game::GameResourceMaps::PENALTY);
     ui->gameInfoLabel->setText(QString::fromStdString(info_txt));
 }
 
@@ -161,7 +160,8 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
         }
 
         try {
-            Course::ResourceMap BUILDING_BUILD_COST = GEHandler->convertToNegative(building->BUILD_COST);
+            Course::ResourceMap BUILDING_BUILD_COST =
+                    GEHandler->convertToNegative(building->BUILD_COST);
 
             GEHandler->modifyResources(building->getOwner(), BUILDING_BUILD_COST);
             drawItem(building, GEHandler->getPlayerInTurn()->player_color_);
@@ -175,7 +175,9 @@ void MapWindow::addBuilding(const std::shared_ptr<Course::BuildingBase>& buildin
             qDebug() << QString::fromStdString(e.msg());
             GManager->getTile( active_tile_ )->removeBuilding(building);
             GManager->getTile( active_tile_ )->setOwner(nullptr);
-            ui->gameInfoLabel->setText(QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT));
+            ui->gameInfoLabel->setText(
+                        QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT)
+                        );
         }
     }
 }
@@ -191,10 +193,12 @@ void MapWindow::removeBuilding(const std::shared_ptr<Course::BuildingBase> &buil
     }
 
     try {
-        qDebug() << "removing building:";
-        std::shared_ptr<Course::TileBase> curr_tile = GManager->getTile( active_tile_ );
+        std::shared_ptr<Course::TileBase> curr_tile =
+                GManager->getTile( active_tile_ );
+
         curr_tile->removeBuilding(building);
-        if ( curr_tile->getWorkerCount() == 0 && curr_tile->getBuildingCount() == 0) {
+        if ( curr_tile->getWorkerCount() == 0
+             && curr_tile->getBuildingCount() == 0) {
             curr_tile->setOwner(nullptr);
         }
         updateGraphicsView();
@@ -206,7 +210,6 @@ void MapWindow::removeBuilding(const std::shared_ptr<Course::BuildingBase> &buil
     }
 
     updateAndCheckActions();
-    qDebug() << "removed building";
 }
 
 void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
@@ -217,7 +220,9 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
             updateResourceLabels();
         } catch (Game::ResourceError& e) {
             qDebug() << QString::fromStdString(e.msg());
-            ui->gameInfoLabel->setText(QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT));
+            ui->gameInfoLabel->setText(
+                        QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT)
+                        );
         }
 
 
@@ -229,7 +234,8 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
             qDebug() << QString::fromStdString(e.msg());
         }
 
-        Course::ResourceMap WORKER_RECRUITMENT_COST = GEHandler->convertToNegative(worker->RECRUITMENT_COST);
+        Course::ResourceMap WORKER_RECRUITMENT_COST =
+                GEHandler->convertToNegative(worker->RECRUITMENT_COST);
         try {
             GEHandler->modifyResources(worker->getOwner(), WORKER_RECRUITMENT_COST);
             drawItem(worker, GEHandler->getPlayerInTurn()->player_color_);
@@ -244,7 +250,9 @@ void MapWindow::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
             qDebug() << QString::fromStdString(e.msg());
             GManager->getTile( active_tile_ )->removeWorker(worker);
             GManager->getTile( active_tile_ )->setOwner(nullptr);
-            ui->gameInfoLabel->setText(QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT));
+            ui->gameInfoLabel->setText(
+                        QString::fromStdString(Game::NOT_ENOUGH_RESOURCES_TEXT)
+                        );
         }
     }
 }
@@ -261,7 +269,9 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
     try {
         qDebug() << "removing:";
-        std::shared_ptr<Course::TileBase> curr_tile = GManager->getTile( active_tile_ );
+        std::shared_ptr<Course::TileBase> curr_tile =
+                GManager->getTile( active_tile_ );
+
         curr_tile->removeWorker(worker);
         if ( curr_tile->getWorkerCount() == 0 && curr_tile->getBuildingCount() == 0) {
             curr_tile->setOwner(nullptr);
@@ -281,14 +291,6 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
 
 void MapWindow::initTeekkariFight(bool val)
 {
-    //qDebug() << "initTeekkariFight";
-
-    /*if (val) {
-        std::vector<std::shared_ptr<Course::WorkerBase>> wagers  =
-                GEHandler->getWagers(GManager, GManager->getTile(active_tile_));
-        fight_dialog_->setWagers(wagers.at(0), wagers.at(1));
-        //qDebug() << "1st wager:" << QString::fromStdString(wagers.at(0)->getOwner()->getName()) <<  "2nd wager:" << QString::fromStdString(wagers.at(1)->getOwner()->getName());
-    } */
     ui->teekkariFightButton->setVisible(val);
 }
 
@@ -329,7 +331,9 @@ void MapWindow::updateResourceLabels()
 
 void MapWindow::updateWorkerCounts()
 {
-    std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers = GManager->getTile(active_tile_)->getWorkers();
+    std::vector<std::shared_ptr<Course::WorkerBase>> tile_workers
+            = GManager->getTile(active_tile_)->getWorkers();
+
     int basic_worker_amount = 0;
     int miner_amount = 0;
     int teekkari_amount = 0;
@@ -357,18 +361,6 @@ void MapWindow::updateAndCheckActions()
         ui->gameInfoLabel->
                 setText(QString::fromStdString(Game::ROUND_MAX_ACTIONS_TEXT));
     }
-}
-
-void MapWindow::printData(QString data)
-{
-    qDebug() << data;
-}
-
-void MapWindow::printNames(QList<QString> names, QList<QColor> colors)
-{
-    qDebug() << names;
-    qDebug() << "Player1 color:" << colors.at(0);
-    qDebug() << "Player1 color:" << colors.at(1);
 }
 
 void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
@@ -400,7 +392,8 @@ void MapWindow::changeTurn()
     try {
         GEHandler->handleGenerateResources(GManager->returnTiles());
 
-      // If this error is thrown, it means that player doesn't have enough resources to proceed the game
+      // If this error is thrown, it means that player doesn't have enough
+      //  resources to proceed the game
     } catch (Game::ResourceError& e) {
         qDebug() << QString::fromStdString(e.msg());
     }
@@ -487,7 +480,7 @@ void MapWindow::disableAllButRemoveBuilding(bool disable)
     ui->minerValLabel->setDisabled(disable);
     ui->teekkariLabel->setDisabled(disable);
     ui->teekkariValLabel->setDisabled(disable);
-    ui->buildWidget->setDisabled(disable);
+    disableBuild(disable);
     ui->resourceWidget->setDisabled(disable);
 }
 
@@ -513,16 +506,20 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
         if (GManager->isDullTile(GManager->getTile(active_tile_)->getType()) ) {
             disableGamePanel(true);
             ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_DULL_TILE_CLICKED_TEXT));
+
         } else if (!(GEHandler->isOwnedByOtherPlayer(GManager->getTile(active_tile_)))) {
+
             if (checkRemoveBuilding()) {
                 initTeekkariFight(false);
                 disableGamePanel(false);
                 disableAllButRemoveBuilding(true);
+
             } else {
                 disableGamePanel(true);
             }
 
             ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_WRONG_OWNER_TEXT));
+
         } else {
             disableAllButRemoveBuilding(false);
             disableGamePanel(false);
@@ -540,52 +537,41 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 void MapWindow::prepareBuildHq()
 {
     auto hq = std::make_shared<Course::HeadQuarters>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(hq);
 }
 
 void MapWindow::prepareBuildFarm()
 {
     auto farm = std::make_shared<Course::Farm>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(farm);
 }
 
 void MapWindow::prepareBuildOutpost()
 {
     auto outpost = std::make_shared<Course::Outpost>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(outpost);
 }
 
 void MapWindow::prepareBuildTuniTower()
 {
     auto tower = std::make_shared<Game::TuniTower>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(tower);
 }
 
 void MapWindow::prepareBuildMine()
 {
     auto mine = std::make_shared<Game::Mine>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     emit SbuildBuilding(mine);
 }
 
 void MapWindow::showWorkerDialog()
 {
-    //worker_dialog_ = new WorkerDialog(this, "hello");
     if (sender() == ui->assignWorkerButton) {
         worker_dialog_->setInfoText("Choose worker type:");
     } else {
         worker_dialog_->setInfoText("Choose worker type to free:");
     }
     worker_dialog_->open();
-}
-
-void MapWindow::destroyWorkerDialog()
-{
-    delete worker_dialog_;
 }
 
 void MapWindow::showFightDialog()
@@ -604,7 +590,9 @@ void MapWindow::handleFightResult(QString loser)
         }
 
     } else {
-        std::vector<Course::Coordinate> neighbours = GManager->getTile(active_tile_)->getCoordinate().neighbours();
+        std::vector<Course::Coordinate> neighbours =
+                GManager->getTile(active_tile_)->getCoordinate().neighbours();
+
         for (auto i : neighbours) {
             if ( GEHandler->containsTeekkari(GManager->getTile(i)) ) {
                 active_tile_ = GManager->getTile(i)->ID;
@@ -643,35 +631,30 @@ void MapWindow::showBuildingDialog()
 
 void MapWindow::prepareAddBasicWorker()
 {
-    qDebug() << "prepare to add BasicWorker";
     auto basic_worker = std::make_shared<Course::BasicWorker>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
     addWorker(basic_worker);
 }
 
 void MapWindow::prepareAddMiner()
 {
-    qDebug() << "prepare to add Miner";
-    auto miner = std::make_shared<Game::Miner>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
+    auto miner = std::make_shared<Game::Miner>(GEHandler,GManager, GEHandler->getPlayerInTurn());
     addWorker(miner);
 }
 
 void MapWindow::prepareAddTeekkari()
 {
-    qDebug() << "prepare to add Teekkari";
-    if ( GEHandler->getPlayersWorkerCount(GManager, "Teekkari") == Game::MAX_TEEKKARIS_PER_PLAYER) {
+    if ( GEHandler->getPlayersWorkerCount(GManager, "Teekkari")
+         == Game::MAX_TEEKKARIS_PER_PLAYER) {
+
         ui->gameInfoLabel->setText(QString::fromStdString(Game::MAX_TEEKKARIS_TEXT));
     } else {
         auto teekkari = std::make_shared<Game::Teekkari>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-        //GManager->getTile( active_tile_ )->setOwner( GEHandler->getPlayerInTurn() );
         addWorker(teekkari);
     }
 }
 
 void MapWindow::prepareRemoveWorker(std::string worker_type)
 {
-    qDebug() << "prepare to remove BasicWorker";
     for (auto& worker : GManager->getTile( active_tile_ )->getWorkers()) {
         if (worker->getType() == worker_type) {
             removeWorker(worker);

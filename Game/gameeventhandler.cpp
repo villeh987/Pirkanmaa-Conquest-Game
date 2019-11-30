@@ -239,33 +239,7 @@ int GameEventHandler::getPlayersWorkerCount(std::shared_ptr<ObjectManager> GMana
 }
 
 
-std::vector<std::shared_ptr<Course::WorkerBase> > GameEventHandler::getWagers(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
-{
-    std::vector<Course::Coordinate> neighbours = tile->getCoordinate().neighbours();
-    std::vector<std::shared_ptr<Course::WorkerBase>> wagers = {};
-
-    for (auto w : tile->getWorkers()) {
-        if (w->getType() == "Teekkari") {
-            wagers.push_back(w);
-            break;
-        }
-    }
-
-    for (auto i : neighbours) {
-        if ( containsTeekkari(GManager->getTile(i)) ) {
-            for (auto j : GManager->getTile(i)->getWorkers() ) {
-                if (j->getType() == "Teekkari") {
-                    wagers.push_back(j);
-                    break;
-                }
-            }
-        }
-    }
-
-    return wagers;
-}
 
 
-
-}
+} // Namespace Game
 
