@@ -7,7 +7,6 @@ Player::Player(const std::string &name, const std::vector<std::shared_ptr<Course
     :PlayerBase(name, objects),
       resources_(STARTRESOURCES)
 {
-
 }
 
 Course::ResourceMap &Player::getResources()
@@ -21,8 +20,6 @@ void Player::setColor(QColor color)
 }
 
 
-
-
-}
+} // Namespace Game
 
 
