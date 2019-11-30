@@ -370,6 +370,7 @@ void MapWindow::initNewGame(QList<QString> names, QList<QColor> colors)
     fight_dialog_->setNames(names.at(0), names.at(1));
     updateResourceLabels();
     ui->turnNameLabel->setText( QString::fromStdString(GEHandler->getPlayerInTurn()->getName()) + "'s turn" );
+    disableGamePanel();
 }
 
 bool MapWindow::gameEnded()
@@ -433,7 +434,6 @@ void MapWindow::disableBuild(bool disable)
     ui->buildMineButton->setDisabled(disable);
     ui->buildFarmButton->setDisabled(disable);
     ui->buildOutpostButton->setDisabled(disable);
-    ui->buildSupplyChainButton->setDisabled(disable);
 }
 
 void MapWindow::disableBuildIndividual()
@@ -466,10 +466,6 @@ void MapWindow::disableBuildIndividual()
 
         if (type == "Farm") {
             ui->buildFarmButton->setDisabled(true);
-        }
-
-        if (type == "SupplyChain") {
-            ui->buildSupplyChainButton->setDisabled(true);
         }
     }
 }

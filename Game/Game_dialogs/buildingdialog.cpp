@@ -14,8 +14,7 @@ BuildingDialog::BuildingDialog(QWidget *parent) :
         ui->outpostRadioButton,
         ui->farmRadioButton,
         ui->mineRadioButton,
-        ui->tuniTowerRadioButton,
-        ui->supplyChainRadioButton
+        ui->tuniTowerRadioButton
     };
 }
 

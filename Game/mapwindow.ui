@@ -614,19 +614,6 @@
             <string>Farm</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="buildSupplyChainButton">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>100</y>
-             <width>91</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>SupplyChain</string>
-           </property>
-          </widget>
           <widget class="QPushButton" name="removeBuildingButton">
            <property name="geometry">
             <rect>

@@ -12,14 +12,19 @@ namespace GameResourceMaps {
 
 // Bulding - TuniTower
 const Course::ResourceMap TUNITOWER_BUILD_COST {
-    {Course::BasicResource::MONEY, 101},
-    {Course::BasicResource::FOOD, 102},
-    {Course::BasicResource::WOOD, 103}
+    {Course::BasicResource::MONEY, 500},
+    {Course::BasicResource::WOOD, 100},
+    {Course::BasicResource::STONE, 500},
+    {Course::BasicResource::ORE, 500}
+
 };
 
 const Course::ResourceMap TUNITOWER_PRODUCTION {
     {Course::BasicResource::MONEY, 6},
-    {Course::BasicResource::FOOD, 9}
+    {Course::BasicResource::FOOD, 9},
+    {Course::BasicResource::WOOD, 6},
+    {Course::BasicResource::STONE, 6},
+    {Course::BasicResource::ORE, 9}
 };
 
 
@@ -38,14 +43,15 @@ const Course::ResourceMap SUPPLYCHAIN_PRODUCTION {
 
 // Bulding - Mine
 const Course::ResourceMap MINE_BUILD_COST {
-    {Course::BasicResource::MONEY, 42},
-    {Course::BasicResource::FOOD, 42},
-    {Course::BasicResource::WOOD, 42}
+    {Course::BasicResource::MONEY, 400},
+    {Course::BasicResource::FOOD, 400},
+    {Course::BasicResource::WOOD, 500}
 };
 
 const Course::ResourceMap MINE_PRODUCTION {
     {Course::BasicResource::MONEY, 110},
-    {Course::BasicResource::ORE, 150}
+    {Course::BasicResource::STONE, 50},
+    {Course::BasicResource::ORE, 100}
 };
 
 
@@ -62,8 +68,9 @@ const Course::ResourceMap WATER_BP {
 // Tile - Rock
 
 const Course::ResourceMap ROCK_BP {
-    {Course::BasicResource::MONEY, 0},
+    {Course::BasicResource::MONEY, 2},
     {Course::BasicResource::FOOD, -1},
+    {Course::BasicResource::WOOD, -1},
     {Course::BasicResource::STONE, 10},
     {Course::BasicResource::ORE, 10}
 };
@@ -99,9 +106,9 @@ const Course::ResourceMap TEEKKARI_RECRUITMENT_COST = {
 // Worker - Miner
 
 const Course::ResourceMapDouble MINER_EFFICIENCY {
-    {Course::BasicResource::MONEY, 0.5},
-    {Course::BasicResource::FOOD, 0.5},
-    {Course::BasicResource::WOOD, 0.5},
+    {Course::BasicResource::MONEY, 1},
+    {Course::BasicResource::FOOD, 1},
+    {Course::BasicResource::WOOD, 1},
     {Course::BasicResource::STONE, 1.2},
     {Course::BasicResource::ORE, 1.5}
 };
