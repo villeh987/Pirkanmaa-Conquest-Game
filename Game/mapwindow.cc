@@ -433,7 +433,6 @@ void MapWindow::disableBuild(bool disable)
     ui->buildMineButton->setDisabled(disable);
     ui->buildFarmButton->setDisabled(disable);
     ui->buildOutpostButton->setDisabled(disable);
-    ui->buildSupplyChainButton->setDisabled(disable);
 }
 
 void MapWindow::disableBuildIndividual()
@@ -462,10 +461,6 @@ void MapWindow::disableBuildIndividual()
 
         if (type == "Farm") {
             ui->buildFarmButton->setDisabled(true);
-        }
-
-        if (type == "SupplyChain") {
-            ui->buildSupplyChainButton->setDisabled(true);
         }
     }
 }

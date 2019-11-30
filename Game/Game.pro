@@ -21,7 +21,6 @@ SOURCES += \
     objectmanager.cpp \
     player.cpp \
     Game_dialogs/startdialog.cpp \
-    Game_buildings/supplychain.cpp \
     Game_buildings/tunitower.cpp \
     Game_workers/teekkari.cpp \
     styles.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
     Game_errors/resourceerror.hh \
     Game_resourcemaps/resources.hh \
     Game_dialogs/startdialog.hh \
-    Game_buildings/supplychain.hh \
     Game_buildings/tunitower.hh \
     Game_workers/teekkari.hh \
     styles.hh \
