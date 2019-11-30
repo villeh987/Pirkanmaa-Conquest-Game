@@ -8,10 +8,20 @@
 
 namespace Game {
 
-// Describes tiles that players cannot perform any actions on.
+
+/**
+ * @brief Game constans are defined here.
+ */
+
+
+/**
+ * @brief Describes tiles that players cannot perform any actions on.
+ */
 const std::vector<std::string> DULL_TILES = {"Water"};
 
-
+/**
+ * @brief Describes resources that Player's start with.
+ */
 const Course::ResourceMap STARTRESOURCES = {
     {Course::BasicResource::MONEY, 5000},
     {Course::BasicResource::FOOD, 5000},
@@ -20,7 +30,9 @@ const Course::ResourceMap STARTRESOURCES = {
     {Course::BasicResource::ORE, 5000}
 };
 
-
+/**
+ * @brief These factors are used when final points are calculated.
+ */
 const std::map<Course::BasicResource, double> GRADING_FACTORS= {
     {Course::BasicResource::MONEY, 1.5},
     {Course::BasicResource::FOOD, 1.1},
@@ -29,10 +41,19 @@ const std::map<Course::BasicResource, double> GRADING_FACTORS= {
     {Course::BasicResource::ORE, 1.3}
 };
 
+/**
+ * @brief Maximum amoun of actions per round.
+ */
 const int MAX_ACTIONS = 2;
 
+/**
+ * @brief Maximum amount of rounds after which the Game ends.
+ */
 const int MAX_ROUDS = 25;
 
+/**
+ * @brief How many Teekkaris a Player may have at a time.
+ */
 const int MAX_TEEKKARIS_PER_PLAYER = 1;
 
 const std::string ROUND_START_NOCLICK_TEXT = "Select a tile:";
@@ -62,11 +83,6 @@ const std::string MAX_TEEKKARIS_TEXT = "Only" + std::to_string(MAX_TEEKKARIS_PER
 const std::string GAME_OVER_TEXT = "GAME OVER!";
 
 
+} // Namespace Game
 
-
-
-
-
-
-}
 #endif // CONSTANTS_HH
