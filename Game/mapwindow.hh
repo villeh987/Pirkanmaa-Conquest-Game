@@ -38,6 +38,7 @@
 #include "Game_dialogs/startdialog.hh"
 #include "Game_dialogs/workerdialog.hh"
 #include "Game_dialogs/buildingdialog.hh"
+#include "Game_dialogs/confirmdialog.hh"
 
 namespace Ui {
 
@@ -226,6 +227,7 @@ private:
     WorkerDialog* worker_dialog_ = nullptr;
     FightDialog* fight_dialog_ = nullptr;
     BuildingDialog* building_dialog_ = nullptr;
+    ConfirmDialog* confirm_dialog_ = nullptr;
 
     Ui::MapWindow* ui;
 
@@ -404,6 +406,11 @@ private slots:
      * @brief Opens building_dialog_. Called when Destroy button is clicked.
      */
     void showBuildingDialog();
+
+    /**
+     * @brief Opens confirm_dialog_. Called when Build buttons are clicked.
+     */
+    void showConfirmDialog(std::shared_ptr<Course::BuildingBase> building);
 
     /**
      * @brief Prepare to add BasicWorker.

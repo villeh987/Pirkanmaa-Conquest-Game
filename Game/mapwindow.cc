@@ -64,7 +64,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(dialog_, &StartDialog::sendNamesAndColors, this, &MapWindow::initNewGame);
     connect(ui->endTurnButton, &QPushButton::clicked, this, &MapWindow::changeTurn);
 
-    // Catch emitted signals from workerDialog
+    // Catch emitted signals from WorkerDialog
     worker_dialog_ = new WorkerDialog(this, "Choose worker type:");
 
     connect(worker_dialog_, &WorkerDialog::sendBuildBasicWorker, this, &MapWindow::prepareAddBasicWorker);
@@ -72,15 +72,20 @@ MapWindow::MapWindow(QWidget *parent):
     connect(worker_dialog_, &WorkerDialog::sendBuildTeekkari, this, &MapWindow::prepareAddTeekkari);
     connect(worker_dialog_, &WorkerDialog::sendFreeWorker, this, &MapWindow::prepareRemoveWorker);
 
-    // Catch emitted signals from fightDialog
+    // Catch emitted signals from FightDialog
     fight_dialog_ = new FightDialog(this);
 
     connect(fight_dialog_, &FightDialog::sendLoser, this, &MapWindow::handleFightResult);
 
-    // Catch emitted signals from buildingDialog
+    // Catch emitted signals from BuildingDialog
     building_dialog_ = new BuildingDialog(this);
 
     connect(building_dialog_, &BuildingDialog::sendRemoveBuilding, this, &MapWindow::removeBuilding);
+
+    // Catch emitted signal from ConfirmDialog
+    confirm_dialog_ = new ConfirmDialog();
+
+    connect(confirm_dialog_, &ConfirmDialog::sendBuilding, this, &MapWindow::addBuilding);
 
     // Catch emitted signal from gamescene
     connect(gamescene_.get(), &Game::GameScene::tileClicked, this, &MapWindow::handleTileclick);
@@ -559,31 +564,31 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
 void MapWindow::prepareBuildHq()
 {
     auto hq = std::make_shared<Course::HeadQuarters>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    emit SbuildBuilding(hq);
+    showConfirmDialog(hq);
 }
 
 void MapWindow::prepareBuildFarm()
 {
     auto farm = std::make_shared<Course::Farm>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    emit SbuildBuilding(farm);
+    showConfirmDialog(farm);
 }
 
 void MapWindow::prepareBuildOutpost()
 {
     auto outpost = std::make_shared<Course::Outpost>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    emit SbuildBuilding(outpost);
+    showConfirmDialog(outpost);
 }
 
 void MapWindow::prepareBuildTuniTower()
 {
     auto tower = std::make_shared<Game::TuniTower>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    emit SbuildBuilding(tower);
+    showConfirmDialog(tower);
 }
 
 void MapWindow::prepareBuildMine()
 {
     auto mine = std::make_shared<Game::Mine>(GEHandler, GManager, GEHandler->getPlayerInTurn());
-    emit SbuildBuilding(mine);
+    showConfirmDialog(mine);
 }
 
 void MapWindow::showWorkerDialog()
@@ -649,6 +654,12 @@ bool MapWindow::checkRemoveBuilding()
 void MapWindow::showBuildingDialog()
 {
     building_dialog_->open();
+}
+
+void MapWindow::showConfirmDialog(std::shared_ptr<Course::BuildingBase> building)
+{
+    confirm_dialog_->setBuildingToBuild(building);
+    confirm_dialog_->open();
 }
 
 void MapWindow::prepareAddBasicWorker()
