@@ -17,7 +17,7 @@ namespace Game {
  * @brief The Player class is a class used to describe
  * a player in the Game.
  *
- * The class can be used to store and access GameObjects.
+ * The class can be used to store and access Player's resources.
  * Expired weak pointers are automatically removed when requesting or removing
  * objects.
  *
