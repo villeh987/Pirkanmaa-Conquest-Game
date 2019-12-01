@@ -188,6 +188,10 @@ private:
      */
     void checkForTeekkariFight();
 
+    void initWorship(bool val);
+
+    void worship();
+
     /**
      * @brief Updates UI resource labels according to
      * player_in_turn_(In GEHandler).

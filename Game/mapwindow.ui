@@ -627,6 +627,19 @@
             <string>Destroy</string>
            </property>
           </widget>
+          <widget class="QPushButton" name="worshipButton">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>0</y>
+             <width>71</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Worship</string>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>

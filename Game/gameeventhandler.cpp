@@ -228,6 +228,30 @@ void GameEventHandler::addPlayers(QList<QString> names)
     players_.push_back(player2);
 }
 
+bool GameEventHandler::checkWorship(std::shared_ptr<ObjectManager> GManager, std::shared_ptr<Course::TileBase> tile)
+{
+
+    std::vector<Course::Coordinate> neighbours =
+            tile->getCoordinate().neighbours();
+
+    for (auto i : tile->getBuildings()) {
+        if (i->getType() == "TuniTower" && i->getOwner() == player_in_turn_) {
+
+            for (auto i : neighbours) {
+
+                if (GManager->getTile(i) != nullptr) {
+
+                    if (containsTeekkari(GManager->getTile(i)) &&
+                            GManager->getTile(i)->getOwner() == player_in_turn_) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void GameEventHandler::addColors(QList<QColor> colors)
 {
     if (!colors.empty()) {
