@@ -203,6 +203,13 @@ public:
     void addPlayers(QList<QString> names);
 
 
+    /**
+     * @brief Checks whether TuniTower can be worshipped.
+     * @param GManager Objectmanager
+     * @param tile Tile to check.
+     * @return True, if can be worshipped, else false.
+     * @post Exception guarantee: None
+     */
     bool checkWorship(std::shared_ptr<ObjectManager> GManager,
                       std::shared_ptr<Course::TileBase> tile);
 

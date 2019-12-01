@@ -188,8 +188,19 @@ private:
      */
     void checkForTeekkariFight();
 
+
+    /**
+     * @brief Sets worshipButton visibility according to val.
+     * @param val If true, sets button visible, if false, sets invisible.
+     */
     void initWorship(bool val);
 
+    /**
+     * @brief Called when Worship button is clicked. Adds resources to
+     * current Player. Updates resource labels and game info text.
+     * Updates actions count.
+     * @post Exception guarantee: No-throw.
+     */
     void worship();
 
     /**
