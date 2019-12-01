@@ -39,9 +39,7 @@ void GameScene::removeMapItem(std::shared_ptr<Course::GameObject> game_object)
     // get the items of the scene
     QList<QGraphicsItem*> scene_items = items();
 
-    if ( scene_items.size() == 1 ){
-        qDebug() << "Nothing to be removed at the location pointed by given game_object.";
-    } else {
+    if (scene_items.size() > 1) {
         for ( auto item : scene_items ){
             // remove item
             Game::MapItem* mapitem = static_cast<Game::MapItem*>(item);

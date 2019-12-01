@@ -4,6 +4,7 @@
 namespace Game {
 
 
+
 void getStyle(int tile_x,
               int tile_y,
               std::string type,
@@ -13,6 +14,7 @@ void getStyle(int tile_x,
               std::vector<std::shared_ptr<Course::WorkerBase> > workers,
               std::vector<std::shared_ptr<Course::BuildingBase> > buildings)
 {
+
 
     if (type == "Miner") {
 
@@ -118,6 +120,7 @@ void getStyle(int tile_x,
         //draw the tower in the upper part of the tile
         tile_y -= 10;
         drawTuniTower(tile_x+12, tile_y, painter);
+
 
     }
 

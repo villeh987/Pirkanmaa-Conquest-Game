@@ -64,33 +64,12 @@ public:
      */
     bool isSameGameObj(std::shared_ptr<Course::GameObject> obj);
 
-    /*
-    /**
-     * @brief getSize
-     * @return size of the object in pixels.
-     * @post Exception guarantee: No-throw
-
-    int getObjectSize() const;
-    */
-
-    /*
-    /**
-     * @brief setSize
-     * @param size of the object in pixels.
-     * @post Exception guarantee: No-throw
-
-    void setObjectSize(int size);
-    */
-
 
 private:
     const std::shared_ptr<Course::GameObject> m_gameobject;
     QPoint m_scenelocation;
     int m_size;
     QColor m_player_color;
-
-    //static std::map<std::string, QColor> c_mapcolors;
-    //static std::vector<std::pair<std::string, QColor>> g_vectorcolors;
 
     std::shared_ptr<ObjectManager> GManager;
 
