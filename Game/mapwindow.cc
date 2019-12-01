@@ -317,6 +317,8 @@ void MapWindow::worship()
 {
     GEHandler->modifyResources(GEHandler->getPlayerInTurn(), Game::GameResourceMaps::WORSHIP);
     updateResourceLabels();
+    updateAndCheckActions();
+    ui->gameInfoLabel->setText(QString::fromStdString(Game::WORSHIP_TEXT));
 }
 void MapWindow::updateResourceLabels()
 {

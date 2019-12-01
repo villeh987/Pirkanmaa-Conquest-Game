@@ -82,6 +82,8 @@ const std::string MAX_TEEKKARIS_TEXT = "Only" + std::to_string(MAX_TEEKKARIS_PER
 
 const std::string GAME_OVER_TEXT = "GAME OVER!";
 
+const std::string WORSHIP_TEXT = "You feel like your potential is unlimited!";
+
 
 } // Namespace Game
 
