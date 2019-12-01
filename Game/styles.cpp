@@ -61,6 +61,7 @@ void getStyle(int tile_x,
     if (type == "Teekkari"){
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
+        // draw the teekkari to the right side of the tile
         drawTeekkari(tile_x+12, tile_y, painter);
 
     }
@@ -89,7 +90,7 @@ void getStyle(int tile_x,
 
         painter.drawRect(boundingRect);
 
-        // draw the wood in to the forest
+        // draw the wood in to the forest via drawTree()
         for (int i = 0; i <= 3; i++){
             int k = i * 11;
 
@@ -114,7 +115,7 @@ void getStyle(int tile_x,
 
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
-        //draw the buildings in the upper part of the tile
+        //draw the tower in the upper part of the tile
         tile_y -= 10;
         drawTuniTower(tile_x+12, tile_y, painter);
 
@@ -123,13 +124,10 @@ void getStyle(int tile_x,
     if (type == "BasicWorker") {
 
 
-
         setBoundingRectColor(tile_x, tile_y, player_color, painter, boundingRect);
 
         int moving_factor_y = 10;
-
         int basic_workers = 0;
-
         int miners = 0;
 
         // get the amount of each worker type
@@ -183,7 +181,7 @@ void getStyle(int tile_x,
         bool is_outpost_on_tile = false;
         bool is_headquarter_on_tile = false;
 
-        // loop trough buildings and check if these spaces are taken already
+        // loop trough buildings and check if these locations are taken already
         for (auto building : buildings){
             if (building->getType() == "TuniTower"){
                 is_tuni_tower_on_tile = true;
@@ -202,7 +200,7 @@ void getStyle(int tile_x,
             painter.drawPixmap(boundingRect, pixmap, source);
         } else {
 
-            // if there is TuniTower but no outpost, put the farm on outposts place
+            // if there is TuniTower but no Outpost, put the farm on outposts place
             if(!is_outpost_on_tile){
                 QRectF source(-30, 0, 1100, 1100);
                 QPixmap pixmap("farm.png");
@@ -246,6 +244,7 @@ void getStyle(int tile_x,
 
     if (type == "Grassland") {
 
+        // draw the Grassland on the scene
         painter.setPen(QPen(Qt::black));
         painter.setBrush(QBrush(QColor(108, 255, 0)));
         painter.drawRect(boundingRect);
@@ -256,11 +255,8 @@ void getStyle(int tile_x,
 void setBoundingRectColor(int tile_x, int tile_y, QColor player_color, QPainter& painter, QRectF boundingRect)
 {
     QPen color_bound(player_color, 2);
-
     painter.setPen(color_bound);
-
     QRectF color_bound_rect(tile_x, tile_y-50, boundingRect.width(), boundingRect.height());
-
     painter.drawRect(color_bound_rect);
 }
 
@@ -300,16 +296,15 @@ void drawTree(int tile_x, int tile_y, QPainter &painter)
 
     };
 
-
+    // set the color of the tree parts
     QBrush tree_trunk_brush = QColor(102, 50, 0);
     QBrush tree_leaves_brush = QColor(0, 102, 0);
-
 
     QPen tree_trunk_pen = QPen(QColor(102, 50, 0));
     QPen tree_leaves_pen = QPen(QColor(0, 102, 0));
 
 
-
+    // draw the tree
     painter.setBrush(tree_leaves_brush);
     painter.setPen(tree_leaves_pen);
 
@@ -318,7 +313,6 @@ void drawTree(int tile_x, int tile_y, QPainter &painter)
 
     painter.setBrush(tree_trunk_brush);
     painter.setPen(tree_trunk_pen);
-
 
     painter.drawPolygon(tree_trunk, 5);
 }
@@ -419,7 +413,7 @@ void drawTeekkari(int tile_x, int tile_y, QPainter &painter)
 
 
 
-
+    // draw the overalls
     painter.setPen(QPen(Qt::black));
     painter.setBrush(QColor(128, 128, 128));
     painter.drawPolygon(overall, 21);
@@ -446,13 +440,15 @@ void drawTeekkari(int tile_x, int tile_y, QPainter &painter)
     painter.setBrush(QColor(Qt::black));
     painter.drawEllipse(QPointF(QPointF(tile_x+28, tile_y-20)), 2, 2);
 
+    // draw the face of the teekkari
     painter.setBrush(QColor(255, 178, 102));
     painter.drawPolygon(teekkari_face, 8);
-
     painter.setPen(QPen(QColor(Qt::black), 0.5));
     painter.drawPolygon(right_eye, 5);
     painter.drawPolygon(left_eye, 5);
     painter.drawPolygon(teekkari_mouth, 3);
+
+    // draw the teekkari cap
     painter.setPen(QPen(QColor(Qt::black), 1));
     painter.drawPolygon(teekkari_cap_black_part, 7);
     painter.setBrush(QColor(Qt::white));
@@ -520,17 +516,17 @@ void drawTuniTower(int tile_x, int tile_y, QPainter &painter)
 
     };
 
+    // set the right colors
     QBrush tuni_face_brush;
     tuni_face_brush.setColor(QColor(Qt::white));
     tuni_face_brush.setStyle(Qt::SolidPattern);
-
 
     const QPen tuni_pen(Qt::black, 1, Qt::SolidLine);
 
     painter.setBrush(QBrush(QColor(204, 102, 0)));
 
     painter.setPen(tuni_pen);
-
+    // draw the tower and the face
     painter.drawPolygon(tuni_tower, 4);
     painter.setBrush(tuni_face_brush);
     painter.drawPolygon(tuni_forehead, 9);
@@ -543,6 +539,7 @@ void drawTuniTower(int tile_x, int tile_y, QPainter &painter)
 void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingRect, int moving_factor_x, int moving_factor_y)
 {
 
+    // adjust the workers location
     tile_x += moving_factor_x;
     tile_y += moving_factor_y;
     QPointF tuni_forehead[9] = {
@@ -592,10 +589,10 @@ void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingR
 
     };
 
+
     QBrush tuni_face_brush;
     tuni_face_brush.setColor(QColor(Qt::blue));
     tuni_face_brush.setStyle(Qt::SolidPattern);
-
 
     const QPen tuni_pen(Qt::white, 0.7, Qt::SolidLine);
 
@@ -603,14 +600,11 @@ void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingR
 
     painter.setBrush(tuni_face_brush);
 
+    // draw the ugly face
     painter.drawPolygon(tuni_forehead, 9);
     painter.drawPolygon(tuni_right_eye, 5);
     painter.drawPolygon(tuni_left_eye, 7);
     painter.drawPolygon(tuni_cheeck, 12);
-
-    qDebug() << "tile_x:" <<qreal(tile_x);
-    qDebug() << "tile_y:" <<qreal(tile_y);
-
 
     // adjust the location of the worker helmet
     QRectF source(-300 + moving_factor_x * (-20), 10 + moving_factor_y * (-26), 1100, 1100);
@@ -628,9 +622,7 @@ void drawBasicWorker(int tile_x, int tile_y, QPainter &painter, QRectF boundingR
         QRectF source2(-200 + moving_factor_x * (-10), -400 + moving_factor_y * (-17.5), 800, 800);
         QPixmap pixmap2("cigarette.png");
         painter.drawPixmap(boundingRect, pixmap2, source2);
-
     }
-
 }
 
 void drawMiner(int tile_x, int tile_y, QPainter &painter)
@@ -696,29 +688,29 @@ void drawMiner(int tile_x, int tile_y, QPainter &painter)
         QPointF(tile_x+9, tile_y-30)
     };
 
-
+    // draw the pickaxe arm and showel arm
     painter.setPen(QPen(Qt::black, 1));
     painter.setBrush(QColor(153, 76, 0));
     painter.drawPolygon(pickaxe_arm, 5);
     painter.drawPolygon(showel_arm, 5);
 
-
+    // draw the pickaxe head and showel head
     painter.setBrush(QColor(Qt::black));
-
     painter.drawPolygon(pickaxe_head, 8);
     painter.drawPolygon(showel_head, 8);
     painter.drawPolygon(showel_grip, 5);
-    painter.drawPolygon(miner_helmet, 10);
 
+    // draw the helmet and the light
+    painter.drawPolygon(miner_helmet, 10);
     painter.setBrush(QColor(255, 239, 0));
     painter.drawEllipse(QPointF(QPointF(tile_x+16, tile_y-35)), 2, 2);
-
 
 
 }
 
 void drawRock(int tile_x, int tile_y, QPainter &painter, QRectF boundingRect)
 {
+    // draw the rect
     painter.setPen(QPen(Qt::black));
     painter.setBrush(QBrush(QColor(64, 64, 64)));
     painter.drawRect(boundingRect);
@@ -764,8 +756,9 @@ void drawRock(int tile_x, int tile_y, QPainter &painter, QRectF boundingRect)
         QPointF(tile_x+27.5, tile_y-17.5)
     };
 
-    QPen mountain_pen = QPen(QColor(Qt::black), 1);
+    // draw the mountains and the snow top
 
+    QPen mountain_pen = QPen(QColor(Qt::black), 1);
     painter.setPen(mountain_pen);
     painter.drawPolygon(small_mountain, 10);
     painter.drawPolygon(large_mountain, 11);
