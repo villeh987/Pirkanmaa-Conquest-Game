@@ -41,7 +41,6 @@ void StartDialog::startGame()
         ui->startDialogNewButton->setText("New Game");
         ui->startDialogInfoLabel->setText("Start/Load game:");
         game_loaded_ = false;
-        qDebug() << "Game_loaded set to:" << game_loaded_;
 
     } else if (game_loaded_) {
         // Send save file data to mainwindow
@@ -154,7 +153,6 @@ void StartDialog::getFileData()
            ui->startDialogNewButton->setText("Start Game");
            ui->startDialogLoadButton->setText("Load Game");
            game_loaded_ = true;
-           qDebug() << "Game_loaded set to:" << game_loaded_;
 
 
            file.close();

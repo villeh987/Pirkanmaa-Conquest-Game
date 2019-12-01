@@ -34,7 +34,6 @@ MapWindow::MapWindow(QWidget *parent):
     // Random seed
     srand (std::time(NULL));
     rnd_seed_ = rand() % 10000 + 1;
-    qDebug() << "Seed:" << qreal(rnd_seed_);
 
     // Generate map
     generateMap();
@@ -276,7 +275,6 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     }
 
     try {
-        qDebug() << "removing:";
         std::shared_ptr<Course::TileBase> curr_tile =
                 GManager->getTile( active_tile_ );
 
@@ -294,7 +292,6 @@ void MapWindow::removeWorker(const std::shared_ptr<Course::WorkerBase> &worker)
     }
 
     updateAndCheckActions();
-    qDebug() << "removed";
 }
 
 void MapWindow::initTeekkariFight(bool val)
