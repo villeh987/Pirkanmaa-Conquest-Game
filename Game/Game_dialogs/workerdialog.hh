@@ -4,6 +4,10 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QDebug>
+#include <QLabel>
+
+#include "core/resourcemaps.h"
+#include "Game_resourcemaps/resources.hh"
 
 
 namespace Ui {
@@ -47,8 +51,17 @@ public:
      */
     void setInfoText(QString text);
 
+    /**
+     * @brief Show cost according to given val.
+     * @param val If true, set visible, else hide.
+     * @post Exception guarantee: No-throw.
+     */
+    void showCost(bool val = true);
+
 private:
     Ui::WorkerDialog *ui;
+
+    std::vector<QLabel*> cost_labels_ = {};
 
 private slots:
 
@@ -64,6 +77,24 @@ private slots:
      * @post Exception guarantee: No-throw.
      */
     void disableAccept(bool action = true);
+
+    /**
+     * @brief Sets cost to display Basic Worker cost
+     * @post Exception guarantee: No-throw.
+     */
+    void setBasicWorkerCost();
+
+    /**
+     * @brief Sets cost to display Miner cost
+     * @post Exception guarantee: No-throw.
+     */
+    void setMinerCost();
+
+    /**
+     * @brief Sets cost to display Teekkari cost
+     * @post Exception guarantee: No-throw.
+     */
+    void setTeekkariCost();
 
 signals:
 

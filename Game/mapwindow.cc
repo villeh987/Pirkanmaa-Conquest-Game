@@ -595,8 +595,10 @@ void MapWindow::showWorkerDialog()
 {
     if (sender() == ui->assignWorkerButton) {
         worker_dialog_->setInfoText("Choose worker type:");
+        worker_dialog_->showCost(true);
     } else {
         worker_dialog_->setInfoText("Choose worker type to free:");
+        worker_dialog_->showCost(false);
     }
     worker_dialog_->open();
 }
