@@ -23,11 +23,11 @@ const std::vector<std::string> DULL_TILES = {"Water"};
  * @brief Describes resources that Player's start with.
  */
 const Course::ResourceMap STARTRESOURCES = {
-    {Course::BasicResource::MONEY, 2000},
+    {Course::BasicResource::MONEY, 1500},
     {Course::BasicResource::FOOD, 2000},
     {Course::BasicResource::WOOD, 2000},
-    {Course::BasicResource::STONE, 2000},
-    {Course::BasicResource::ORE, 2000}
+    {Course::BasicResource::STONE, 500},
+    {Course::BasicResource::ORE, 400}
 };
 
 /**
