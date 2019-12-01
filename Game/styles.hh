@@ -3,7 +3,6 @@
 
 #include "mapitem.hh"
 #include <QPainter>
-#include <QtMultimedia/QMediaPlayer>
 
 
 
