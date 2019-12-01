@@ -202,6 +202,10 @@ public:
      */
     void addPlayers(QList<QString> names);
 
+
+    bool checkWorship(std::shared_ptr<ObjectManager> GManager,
+                      std::shared_ptr<Course::TileBase> tile);
+
 private:
 
     /**

@@ -49,6 +49,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(ui->freeWorkerButton, &QPushButton::clicked, this, &MapWindow::showWorkerDialog);
     connect(ui->teekkariFightButton, &QPushButton::clicked, this, &MapWindow::showFightDialog);
     connect(ui->removeBuildingButton, &QPushButton::clicked, this, &MapWindow::showBuildingDialog);
+    connect(ui->worshipButton, &QPushButton::clicked, this, &MapWindow::worship);
 
     // Connect GameWindow signals
     connect(this, &MapWindow::SbuildBuilding, this, &MapWindow::addBuilding);
@@ -56,6 +57,7 @@ MapWindow::MapWindow(QWidget *parent):
     // Disable buttons
     ui->teekkariFightButton->setVisible(false);
     ui->removeBuildingButton->setVisible(false);
+    ui->worshipButton->setVisible(false);
 
     // Catch emitted signals from startdialog
     connect(dialog_, &StartDialog::rejected, this, &MapWindow::close);
@@ -306,6 +308,16 @@ void MapWindow::checkForTeekkariFight()
     }
 }
 
+void MapWindow::initWorship(bool val)
+{
+    ui->worshipButton->setVisible(val);
+}
+
+void MapWindow::worship()
+{
+    GEHandler->modifyResources(GEHandler->getPlayerInTurn(), Game::GameResourceMaps::WORSHIP);
+    updateResourceLabels();
+}
 void MapWindow::updateResourceLabels()
 {
     ui->moneyValLabel->setText( QString::fromStdString(
@@ -522,6 +534,13 @@ void MapWindow::handleTileclick(Course::Coordinate tile_coords)
             ui->gameInfoLabel->setText(QString::fromStdString(Game::ROUND_WRONG_OWNER_TEXT));
 
         } else {
+
+            if (GEHandler->checkWorship(GManager, GManager->getTile(active_tile_))) {
+                initWorship(true);
+            } else {
+                initWorship(false);
+            }
+
             disableAllButRemoveBuilding(false);
             disableGamePanel(false);
             disableAssingWorker(GEHandler->hasMaxWorkers(GManager->getTile(active_tile_)));

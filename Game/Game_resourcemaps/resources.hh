@@ -127,6 +127,14 @@ const Course::ResourceMap PENALTY {
     {Course::BasicResource::ORE, -100}
 };
 
+const Course::ResourceMap WORSHIP {
+    {Course::BasicResource::MONEY, 250},
+    {Course::BasicResource::FOOD, 250},
+    {Course::BasicResource::WOOD, 250},
+    {Course::BasicResource::STONE, 250},
+    {Course::BasicResource::ORE, 250}
+};
+
 
 
 
